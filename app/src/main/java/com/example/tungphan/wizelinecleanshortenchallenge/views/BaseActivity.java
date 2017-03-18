@@ -1,4 +1,4 @@
-package com.example.tungphan.wizelinecleanshortenchallenge;
+package com.example.tungphan.wizelinecleanshortenchallenge.views;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,25 +12,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.tungphan.wizelinecleanshortenchallenge.databinding.ActivityBaseBinding;
+import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.app.WizelineApp;
+import com.example.tungphan.wizelinecleanshortenchallenge.dagger2.components.AppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.iviewlistener.IBaseActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.BaseActivityViewModel;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private ActivityBaseBinding baseActivityBinding;
+    protected BaseActivityBinding baseActivityBinding;
     private BaseActivityViewModel baseActivityViewModel;
     private IBaseActivityListener iBaseActivityListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //init databinding, base view model and set up IBaseActivity Listener.
-        baseActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_base);
+        baseActivityBinding = DataBindingUtil.setContentView(this, R.layout.base_activity);
         baseActivityViewModel = new BaseActivityViewModel(this,baseActivityBinding);
         baseActivityBinding.setViewModel(baseActivityViewModel);
         iBaseActivityListener = baseActivityViewModel.getIBaseActivityListener();
         initToolbarAndNavigationDrawer();
     }
+
 
     private void initToolbarAndNavigationDrawer(){
         setSupportActionBar(baseActivityBinding.appBarBase.toolbar);

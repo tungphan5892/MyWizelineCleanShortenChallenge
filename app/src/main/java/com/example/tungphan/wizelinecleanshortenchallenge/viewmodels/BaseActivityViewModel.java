@@ -3,7 +3,7 @@ package com.example.tungphan.wizelinecleanshortenchallenge.viewmodels;
 import android.content.Context;
 import android.databinding.BaseObservable;
 
-import com.example.tungphan.wizelinecleanshortenchallenge.databinding.ActivityBaseBinding;
+import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.iviewlistener.IBaseActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.models.BaseActivityModel;
 
@@ -18,7 +18,7 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         return this;
     }
 
-    public BaseActivityViewModel(Context context, ActivityBaseBinding baseActivityBinding){
+    public BaseActivityViewModel(Context context, BaseActivityBinding baseActivityBinding){
 
     }
 }
