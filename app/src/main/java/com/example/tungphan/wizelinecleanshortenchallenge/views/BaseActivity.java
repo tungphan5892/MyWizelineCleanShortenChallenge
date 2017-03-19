@@ -11,22 +11,30 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.app.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.dagger2.components.AppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.dagger2.components.DaggerAppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.dagger2.modules.NetworkModule;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.iviewlistener.IBaseActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.BaseActivityViewModel;
+import com.squareup.picasso.Picasso;
 
-public class BaseActivity extends AppCompatActivity
+import java.util.ArrayList;
+
+public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     protected BaseActivityBinding baseActivityBinding;
     private BaseActivityViewModel baseActivityViewModel;
     private IBaseActivityListener iBaseActivityListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         //init databinding, base view model and set up IBaseActivity Listener.
         baseActivityBinding = DataBindingUtil.setContentView(this, R.layout.base_activity);
         baseActivityViewModel = new BaseActivityViewModel(this,baseActivityBinding);
@@ -35,6 +43,7 @@ public class BaseActivity extends AppCompatActivity
         initToolbarAndNavigationDrawer();
     }
 
+    protected abstract void injectDagger(AppComponent appComponent);
 
     private void initToolbarAndNavigationDrawer(){
         setSupportActionBar(baseActivityBinding.appBarBase.toolbar);
@@ -107,5 +116,22 @@ public class BaseActivity extends AppCompatActivity
         DrawerLayout drawer = baseActivityBinding.drawerLayout;
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    protected void setUserProfileImageIntoNavigateUp(String userProfileImageUrl){
+        Picasso.with(this)
+                .load(userProfileImageUrl)
+                .placeholder(R.drawable.face)
+                .into(getNavigateUp());
+    }
+
+    private ImageButton getNavigateUp(){
+        final ArrayList<View> outViews = new ArrayList<>();
+        String contentDesc = getResources().getString(R.string.navigate_up);
+        baseActivityBinding.appBarBase.toolbar.findViewsWithText(outViews, contentDesc
+                , View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+        return (ImageButton) outViews.get(0);
     }
 }

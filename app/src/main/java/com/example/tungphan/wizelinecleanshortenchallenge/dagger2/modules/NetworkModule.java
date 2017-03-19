@@ -1,21 +1,25 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.dagger2.modules;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.app.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkService;
+import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.*;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -30,10 +34,10 @@ public class NetworkModule {
     private static final String CACHE_CONTROL = "cache_control";
     private static final int CACHE_SIZE = 10 * 1024 * 1024;
     private static final String HTTP_CACHE = "wizeline_http_cache";
-    private Application application;
+    private Context context;
 
-    public NetworkModule(Application application) {
-        this.application = application;
+    public NetworkModule(Context context) {
+        this.context = context;
     }
 
     @Provides
@@ -43,6 +47,7 @@ public class NetworkModule {
                 .baseUrl(ROOT_URL)
                 .client(provideOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
 
@@ -61,16 +66,12 @@ public class NetworkModule {
     Cache provideCache() {
         Cache cache = null;
         try {
-            cache = new Cache(new File(WizelineApp.getInstance().getCacheDir(), HTTP_CACHE),
+            cache = new Cache(new File(context.getCacheDir(), HTTP_CACHE),
                     CACHE_SIZE); // 10 MB
         } catch (Exception e) {
             Log.e(TAG, "Could not create Cache!");
         }
         return cache;
-    }
-
-    public NetworkService getNetworkService() {
-        return getRetrofitInstance().create(NetworkService.class);
     }
 
     public static Interceptor provideCacheInterceptor() {
@@ -88,12 +89,12 @@ public class NetworkModule {
         };
     }
 
-    public static Interceptor provideOfflineCacheInterceptor() {
+    public Interceptor provideOfflineCacheInterceptor() {
         return new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
-                if (!WizelineApp.isConnectToNetwork()) {
+                if (!WizelineApp.getInstance().isConnectToNetwork()) {
                     CacheControl cacheControl = new CacheControl.Builder()
                             .maxStale(OFFLINE_EXPIRE_TIME_DAY, TimeUnit.DAYS)
                             .build();
@@ -106,5 +107,17 @@ public class NetworkModule {
         };
     }
 
+    @Provides
+    @Singleton
+    public Service providesService(NetworkService networkService) {
+        return new Service(networkService);
+    }
 
+    @Provides
+    @Singleton
+    @SuppressWarnings("unused")
+    public NetworkService providesNetworkService(
+            Retrofit retrofit) {
+        return getRetrofitInstance().create(NetworkService.class);
+    }
 }

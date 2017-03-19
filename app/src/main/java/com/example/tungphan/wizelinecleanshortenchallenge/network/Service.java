@@ -5,9 +5,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.datamodels.User;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 
-import dagger.Provides;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
@@ -64,7 +62,6 @@ public class Service {
     }
 
     public Subscription getUserTimelineFromService(final GetTimelineCallback callback) {
-
         return networkService.getUserTimelineJson()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -133,13 +130,5 @@ public class Service {
         void onSuccess(ResponseBody responseBody);
 
         void onError(NetworkError networkError);
-    }
-
-    @Provides
-    @Singleton
-    @SuppressWarnings("unused")
-    public Service providesService(
-            NetworkService networkService) {
-        return new Service(networkService);
     }
 }

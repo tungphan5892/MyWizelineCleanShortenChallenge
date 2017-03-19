@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.NewTweetActivityViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/new_tweet_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/tweet_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/single_tweet_child_view_margin"
+            android:layout_marginLeft="@dimen/single_tweet_child_view_margin"
+            android:layout_marginRight="@dimen/single_tweet_child_view_margin"
+            android:layout_marginStart="@dimen/single_tweet_child_view_margin"
+            android:background="@android:color/transparent"
+            android:gravity="top|left"
+            android:hint="@string/hint_tweet_text"
+            android:imeOptions="actionDone"
+            android:maxLength="@integer/maximum_tweet" />
+
+        <FrameLayout
+            android:id="@+id/under_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tweet_description"
+            android:background="@android:color/darker_gray">
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_control"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@id/under_line">
+
+            <Button
+                android:id="@+id/btn_tweet"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/single_tweet_share_btn_height"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/single_tweet_child_view_margin"
+                android:layout_marginRight="@dimen/single_tweet_share_btn_marginright"
+                android:background="@drawable/button_search_shape"
+                android:text="@string/text_tweet_button"
+                android:textSize="@dimen/share_button_text_size"
+                android:textStyle="bold"
+                android:onClick="@{viewModel.clickNewTweetButton}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/normal_margin_between_btns"
+                android:layout_marginRight="@dimen/normal_margin_between_btns"
+                android:layout_toLeftOf="@id/btn_tweet"
+                android:text="@{viewModel.tweetCountText}" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layout_control">
+
+            <GridView
+                android:id="@+id/gridview_category"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnWidth="90dp"
+                android:horizontalSpacing="10dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

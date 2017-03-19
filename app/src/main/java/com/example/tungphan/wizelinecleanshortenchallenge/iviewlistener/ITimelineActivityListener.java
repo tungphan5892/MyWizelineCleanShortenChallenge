@@ -1,5 +1,7 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.iviewlistener;
 
+import android.content.Intent;
+
 /**
  * Created by tungphan on 3/17/17.
  */
@@ -7,4 +9,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.iviewlistener;
 public interface ITimelineActivityListener {
 
     void onCreate();
+
+    void onActivityResult(int requestCode, int resultCode, Intent data);
 }

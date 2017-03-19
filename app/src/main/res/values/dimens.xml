@@ -5,4 +5,27 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="tweet_image_size">50dp</dimen>
+    <dimen name="single_tweet_child_view_margin">20dp</dimen>
+    <dimen name="single_tweet_share_btn_height">25dp</dimen>
+    <dimen name="single_tweet_share_btn_marginright">3dp</dimen>
+    <dimen name="share_button_text_size">12sp</dimen>
+    <dimen name="normal_margin_between_btns">16dp</dimen>
+    <dimen name="default_tweet_description_height">200dp</dimen>
+    <dimen name="tweet_media_height">150dp</dimen>
+    <dimen name="normal_view_view_margin">16dp</dimen>
+    <dimen name="normal_footer_height">56dp</dimen>
+    <dimen name="single_tweet_reply_margin">5dp</dimen>
+    <dimen name="tweet_recycler_image_size">50dp</dimen>
+    <dimen name="profile_image_size">70dp</dimen>
+    <dimen name="tweet_recycler_image_margin">3dp</dimen>
+    <dimen name="tweet_recycler_image_padding">4dp</dimen>
+    <dimen name="tweet_recycler_child_view_marginright">3dp</dimen>
+    <dimen name="tweet_recycler_child_view_margintop">5dp</dimen>
+    <dimen name="tweet_recycler_child_view_marginbottom">5dp</dimen>
+    <dimen name="new_tweet_description_height_keyboard_shown">150dp</dimen>
+    <dimen name="image_grid_view_size">70dp</dimen>
+    <dimen name="image_grid_view_padding">4dp</dimen>
+    <dimen name="default_new_tweet_description_height">300dp</dimen>
+
 </resources>
