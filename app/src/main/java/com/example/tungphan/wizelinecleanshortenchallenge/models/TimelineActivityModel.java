@@ -5,4 +5,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.models;
  */
 
 public class TimelineActivityModel {
+
+
 }

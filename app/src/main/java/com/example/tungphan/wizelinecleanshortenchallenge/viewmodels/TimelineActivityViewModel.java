@@ -3,35 +3,40 @@ package com.example.tungphan.wizelinecleanshortenchallenge.viewmodels;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.databinding.Observable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.adapters.TweetsListRecyclerAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.contants.ActivityRequestCode;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.datamodels.Tweet;
+import com.example.tungphan.wizelinecleanshortenchallenge.datamodels.User;
 import com.example.tungphan.wizelinecleanshortenchallenge.iviewlistener.ITimelineActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.models.TimelineActivityModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkError;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 
 /**
  * Created by tungphan on 3/17/17.
  */
 
-public class TimelineActivityViewModel implements ITimelineActivityListener {
+public class TimelineActivityViewModel extends BaseObservable implements ITimelineActivityListener {
 
     private final Service service;
     private Context context;
     private TimelineActivityBinding timelineActivityBinding;
+    private final TimelineActivityModel timelineActivityModel = new TimelineActivityModel();
 
     public TimelineActivityViewModel(Context context, TimelineActivityBinding timelineActivityBinding, Service service) {
         this.context = context;
