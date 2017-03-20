@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.TimelineActivityViewModel" />
+            type="com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.TimelineActivityViewModel" />
     </data>
 
     <RelativeLayout
@@ -17,10 +17,12 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/empty_background_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/empty_data_image" />
+            android:src="@drawable/empty_data_image"
+            android:visibility="@{viewModel.visibleEmptyBackground ? View.VISIBLE : View.GONE}" />
 
         <FrameLayout
             android:id="@+id/under_line"
@@ -39,7 +41,7 @@
                 android:id="@+id/tweets_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white">
+                android:background="@android:color/transparent">
 
             </android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
@@ -49,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 </layout>

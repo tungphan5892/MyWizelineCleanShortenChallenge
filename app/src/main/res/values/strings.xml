@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Wizeline Clean Shorten Challenge</string>
     <string name="home">Home</string>
+    <string name="empty_string"></string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -9,6 +10,7 @@
     <string name="error_data_in_response">There\'s something wrong when loading data.</string>
     <string name="tweet_successfully">Your Tweet is posted.</string>
     <string name="tweet_fail">Failed to post tweet.</string>
+    <string name="tweet_cancel">Cancel post.</string>
     <string name="search_hint">&#160;&#160;&#160;&#160;Search</string>
     <string name="hint_tweet_text">What\'s happening?</string>
     <integer name="maximum_tweet">140</integer>
@@ -22,6 +24,7 @@
     <string name="text_share_tweet">Share Tweet</string>
     <string name="text_share_tweet_successful">Share Tweet Successfully!</string>
     <string name="text_share_tweet_fail">Share Tweet failed :(</string>
+    <string name="share_tweet_cancel">Cancel Share Tweet</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="navigate_up">Navigate up</string>
     <string name="drawer_close">Close navigation drawer</string>

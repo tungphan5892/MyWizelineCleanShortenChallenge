@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.SingleTweetActivityViewModel" />
+            type="com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.SingleTweetActivityViewModel" />
     </data>
 
     <ScrollView

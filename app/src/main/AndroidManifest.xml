@@ -2,12 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tungphan.wizelinecleanshortenchallenge">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
     <application
-        android:name="com.example.tungphan.wizelinecleanshortenchallenge.app.WizelineApp"
+        android:name="com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.tungphan.wizelinecleanshortenchallenge.views.TimelineActivity"
+            android:name=".ui.view.TimelineActivity"
             android:label="@string/home"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,6 +25,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.view.NewTweetActivity"
+            android:label="@string/empty_string"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.view.SingleTweetActivity"
+            android:label="@string/empty_string"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

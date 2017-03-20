@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.SearchActivityViewModel" />
+            type="com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.SearchActivityViewModel" />
     </data>
 
     <RelativeLayout

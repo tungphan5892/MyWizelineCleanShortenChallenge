@@ -1,8 +1,8 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.network;
 
 
-import com.example.tungphan.wizelinecleanshortenchallenge.datamodels.Tweet;
-import com.example.tungphan.wizelinecleanshortenchallenge.datamodels.User;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 
 import java.util.List;
 

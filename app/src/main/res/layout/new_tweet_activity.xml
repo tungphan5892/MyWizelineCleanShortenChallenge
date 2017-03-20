@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.NewTweetActivityViewModel" />
+            type="com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.NewTweetActivityViewModel" />
     </data>
 
     <RelativeLayout

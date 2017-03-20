@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.tungphan.wizelinecleanshortenchallenge.viewmodels.BaseActivityViewModel" />
+            type="com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.BaseActivityViewModel" />
     </data>
 
     <android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.example.tungphan.wizelinecleanshortenchallenge.views.MyNavigationView
+        <com.example.tungphan.wizelinecleanshortenchallenge.ui.view.MyNavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
