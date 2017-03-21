@@ -7,7 +7,8 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener;
 public interface IBaseActivityListener {
 
     void onCreate();
-
     void onStop();
+    void onResume();
+    void onPause();
 
 }

@@ -32,44 +32,38 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
-public abstract class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class BaseActivity extends AppCompatActivity {
     protected BaseActivityBinding baseActivityBinding;
     private BaseActivityViewModel baseActivityViewModel;
     private IBaseActivityListener iBaseActivityListener;
-    private static String userImageUrl;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         injectDagger(WizelineApp.getInstance().getAppComponent());
+        initViews();
+        iBaseActivityListener.onCreate();
+    }
+
+    private void initViews(){
         //init databinding, base view model and set up IBaseActivity Listener.
         baseActivityBinding = DataBindingUtil.setContentView(this, R.layout.base_activity);
         baseActivityViewModel = new BaseActivityViewModel(this, baseActivityBinding);
         baseActivityBinding.setViewModel(baseActivityViewModel);
         iBaseActivityListener = baseActivityViewModel.getIBaseActivityListener();
-        iBaseActivityListener.onCreate();
-        initToolbarAndNavigationDrawer();
     }
 
     protected abstract void injectDagger(AppComponent appComponent);
-
-    private void initToolbarAndNavigationDrawer() {
-        setSupportActionBar(baseActivityBinding.appBarBase.toolbar);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this, baseActivityBinding.drawerLayout, baseActivityBinding.appBarBase.toolbar
-                , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        baseActivityBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        actionBarDrawerToggle.syncState();
-        baseActivityBinding.navView.setNavigationItemSelectedListener(this);
-    }
 
     @Override
     public void onBackPressed() {
         this.setResult(ActivityResult.CANCELED);
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -82,63 +76,16 @@ public abstract class BaseActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        return true;
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent) {
-        if (finishLoadingUserInfoEvent.getResultCode() == EventBusConstant.OK) {
-            userImageUrl = finishLoadingUserInfoEvent.getUserProfileImageUrl();
-            setBackgroundForToggleMenuButton();
-        }
-    }
-
-    protected void setBackgroundForToggleMenuButton() {
-        if (userImageUrl != null && !userImageUrl.equalsIgnoreCase(""))
-            Picasso.with(this)
-                    .load(userImageUrl)
-                    .placeholder(R.drawable.face)
-                    .into(getToggleMenu());
-    }
-
-    private ImageButton getToggleMenu() {
-        final ArrayList<View> outViews = new ArrayList<>();
-        String contentDesc = getResources().getString(R.string.drawer_open);
-        baseActivityBinding.appBarBase.toolbar.findViewsWithText(outViews, contentDesc
-                , View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
-        return (ImageButton) outViews.get(0);
-    }
-
-    protected void setBackButtonClickListener(){
-        getBackButtonInNavigationDrawer().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-    }
-
-    private ImageButton getBackButtonInNavigationDrawer(){
-        final ArrayList<View> outViews = new ArrayList<>();
-        String contentDesc = getResources().getString(R.string.navigate_up);
-        baseActivityBinding.appBarBase.toolbar.findViewsWithText(outViews, contentDesc
-                , View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
-        return (ImageButton) outViews.get(0);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        iBaseActivityListener.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
+        iBaseActivityListener.onPause();
     }
 
     @Override
@@ -148,13 +95,11 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     protected void enableShowNavDrawer() {
-        baseActivityBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        actionBarDrawerToggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
+        baseActivityViewModel.enableShowNavDrawer();
     }
 
     protected void disableShowNavDrawer() {
-        baseActivityBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        actionBarDrawerToggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        baseActivityViewModel.disableShowNavDrawer();
     }
 
     protected void enableShowHomeAsUp() {
@@ -167,5 +112,13 @@ public abstract class BaseActivity extends AppCompatActivity
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
+    }
+
+    protected void setBackButtonClickListener(){
+        baseActivityViewModel.setBackButtonClickListener();
+    }
+
+    protected void setBackgroundForToggleMenuButton(){
+        baseActivityViewModel.setBackgroundForToggleMenuButton();
     }
 }

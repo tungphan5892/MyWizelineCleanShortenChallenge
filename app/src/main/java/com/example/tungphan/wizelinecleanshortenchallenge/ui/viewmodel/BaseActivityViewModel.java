@@ -6,33 +6,41 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.BaseObservable;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.EventBusConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.BaseActivityModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstants.PREFS_NAME;
@@ -42,20 +50,18 @@ import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefCo
  * Created by tungphan on 3/17/17.
  */
 
-public class BaseActivityViewModel extends BaseObservable implements IBaseActivityListener {
+public class BaseActivityViewModel extends BaseObservable implements IBaseActivityListener,
+        NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = BaseActivityViewModel.class.getSimpleName();
     private BaseActivityModel baseActivityModel = new BaseActivityModel();
     private Context context;
     private BaseActivityBinding baseActivityBinding;
     private SharedPreferences sharedPreferences;
     private Set<String> history;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private static String userImageUrl;
 
-    private View.OnClickListener fabClickListenter = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            clickAddTweetButton();
-        }
-    };
+    private View.OnClickListener fabClickListenter = v -> clickAddTweetButton();
 
     private View.OnClickListener closeBtnClickListener = new View.OnClickListener() {
         @Override
@@ -78,11 +84,7 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 callStartSearch(view.getText().toString());
-                new Handler().post(new Runnable() {
-                    public void run() {
-                        baseActivityBinding.appBarBase.searchEdittext.dismissDropDown();
-                    }
-                });
+                new Handler().post(() -> baseActivityBinding.appBarBase.searchEdittext.dismissDropDown());
             }
             return false;
         }
@@ -93,13 +95,10 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         EventBus.getDefault().post(new StartSearchTweetEvent(query));
     }
 
-    private AdapterView.OnItemClickListener searchItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String query = "";
-            query = parent.getItemAtPosition(position).toString();
-            callStartSearch(query);
-        }
+    private AdapterView.OnItemClickListener searchItemClickListener = (parent, view, position, id) -> {
+        String query = "";
+        query = parent.getItemAtPosition(position).toString();
+        callStartSearch(query);
     };
 
     public IBaseActivityListener getIBaseActivityListener() {
@@ -127,7 +126,7 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
 
     private void setAutoCompleteSource() {
         String[] autoComplete = history.toArray(new String[history.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context
                 , android.R.layout.simple_list_item_1, autoComplete);
         baseActivityBinding.appBarBase.searchEdittext.setAdapter(adapter);
     }
@@ -148,12 +147,34 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
 
     @Override
     public void onCreate() {
+        initToolbarAndNavigationDrawer();
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, 0);
         history = sharedPreferences.getStringSet(PREFS_SEARCH_HISTORY, new HashSet<String>());
         if (history.size() == 0) {
             history = new HashSet<String>(Arrays.asList(getAutoCompleteFromString()));
         }
         setAutoCompleteSource();
+    }
+
+    private void initToolbarAndNavigationDrawer() {
+        ((AppCompatActivity)context).setSupportActionBar(baseActivityBinding.appBarBase.toolbar);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(
+                (Activity)context, baseActivityBinding.drawerLayout, baseActivityBinding.appBarBase.toolbar
+                , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        baseActivityBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        ((AppCompatActivity)context).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        actionBarDrawerToggle.syncState();
+        baseActivityBinding.navView.setNavigationItemSelectedListener(this);
+    }
+
+    public void enableShowNavDrawer() {
+        baseActivityBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        actionBarDrawerToggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    public void disableShowNavDrawer() {
+        baseActivityBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        actionBarDrawerToggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     private String getAutoCompleteResources() {
@@ -192,5 +213,59 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     @Override
     public void onStop() {
         savePrefs();
+    }
+
+    @Override
+    public void onResume() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent) {
+        if (finishLoadingUserInfoEvent.getResultCode() == EventBusConstant.OK) {
+            userImageUrl = finishLoadingUserInfoEvent.getUserProfileImageUrl();
+            setBackgroundForToggleMenuButton();
+        }
+    }
+
+    public void setBackgroundForToggleMenuButton() {
+        if (userImageUrl != null && !userImageUrl.equalsIgnoreCase(""))
+            Picasso.with(context)
+                    .load(userImageUrl)
+                    .placeholder(R.drawable.face)
+                    .into(getToggleMenu());
+    }
+
+    private ImageButton getToggleMenu() {
+        final ArrayList<View> outViews = new ArrayList<>();
+        String contentDesc = context.getResources().getString(R.string.drawer_open);
+        baseActivityBinding.appBarBase.toolbar.findViewsWithText(outViews, contentDesc
+                , View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+        return (ImageButton) outViews.get(0);
+    }
+
+    public void setBackButtonClickListener(){
+        getBackButtonInNavigationDrawer().setOnClickListener(v -> {
+            ((Activity)context).setResult(ActivityResult.CANCELED);
+            ((Activity)context).finish();
+        });
+    }
+
+    private ImageButton getBackButtonInNavigationDrawer(){
+        final ArrayList<View> outViews = new ArrayList<>();
+        String contentDesc = context.getResources().getString(R.string.navigate_up);
+        baseActivityBinding.appBarBase.toolbar.findViewsWithText(outViews, contentDesc
+                , View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+        return (ImageButton) outViews.get(0);
     }
 }

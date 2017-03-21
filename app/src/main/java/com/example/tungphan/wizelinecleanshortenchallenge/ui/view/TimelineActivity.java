@@ -27,7 +27,7 @@ public class TimelineActivity extends BaseActivity {
     private TimelineActivityViewModel timelineActivityViewModel;
     private ITimelineActivityListener iTimelineActivityListener;
     private MyNavViewHeaderViewModel myNavViewHeaderViewModel;
-    private NavHeaderBaseBinding navHeaderBaseBinding;
+    private NavHeaderBaseBinding myNavHeaderBaseBinding;
     private IMyNavViewHeaderListener iMyNavViewHeaderListener;
     @Inject
     Service service;
@@ -38,18 +38,22 @@ public class TimelineActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         enableShowNavDrawer();
         disableShowHomAsUp();
-        timelineActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
-                , R.layout.timeline_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        navHeaderBaseBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_base
-                , baseActivityBinding.navView, true);
-        timelineActivityViewModel = new TimelineActivityViewModel(this, timelineActivityBinding, service);
-        myNavViewHeaderViewModel = new MyNavViewHeaderViewModel(this, navHeaderBaseBinding, service);
-        timelineActivityBinding.setViewModel(timelineActivityViewModel);
-        navHeaderBaseBinding.setViewModel(myNavViewHeaderViewModel);
-        iTimelineActivityListener = timelineActivityViewModel.getITimelineActivityListener();
-        iMyNavViewHeaderListener = myNavViewHeaderViewModel.getIMyNavViewHeaderListener();
+        initViews();
         iTimelineActivityListener.onCreate();
         iMyNavViewHeaderListener.onCreate();
+    }
+
+    private void initViews(){
+        timelineActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
+                , R.layout.timeline_activity, baseActivityBinding.appBarBase.contentLayout, true);
+        timelineActivityViewModel = new TimelineActivityViewModel(this, timelineActivityBinding, service);
+        timelineActivityBinding.setViewModel(timelineActivityViewModel);
+        iTimelineActivityListener = timelineActivityViewModel.getITimelineActivityListener();
+        myNavHeaderBaseBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_base
+                , baseActivityBinding.navView, true);
+        myNavViewHeaderViewModel = new MyNavViewHeaderViewModel(this, myNavHeaderBaseBinding, service);
+        myNavHeaderBaseBinding.setViewModel(myNavViewHeaderViewModel);
+        iMyNavViewHeaderListener = myNavViewHeaderViewModel.getIMyNavViewHeaderListener();
     }
 
     protected void injectDagger(AppComponent appComponent) {
