@@ -219,12 +219,10 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
 
     @Override
     public void onResume() {
-        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onPause() {
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
