@@ -27,25 +27,28 @@ public class SingleTweetActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        disableDrawerState();
+        disableShowNavDrawer();
+        enableShowHomeAsUp();
         singleTweetActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.single_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
         singleTweetActivityViewModel = new SingleTweetActivityViewModel(this, singleTweetActivityBinding);
         iSingleTweetActivityListener = singleTweetActivityViewModel.getISingleTweetViewModel();
         singleTweetActivityBinding.setViewModel(singleTweetActivityViewModel);
         iSingleTweetActivityListener.retreivedIntentFromOtherActivity(getIntent());
-        setBackgroundForToggleMenuButton();
+        setBackButtonClickListener();
     }
 
-    protected void injectDagger(AppComponent appComponent){
+    protected void injectDagger(AppComponent appComponent) {
         appComponent.inject(this);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.closeButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
         return super.onPrepareOptionsMenu(menu);
     }
 }

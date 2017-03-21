@@ -27,6 +27,10 @@ public class Entities {
     @Expose
     private Description description;
 
+    @SerializedName("media")
+    @Expose
+    private List<Medium> media = null;
+
     public Description getDescription() {
         return description;
     }
@@ -65,6 +69,14 @@ public class Entities {
 
     public void setUrls(List<Object> urls) {
         this.urls = urls;
+    }
+
+    public List<Medium> getMedia() {
+        return media;
+    }
+
+    public void setMedia(List<Medium> media) {
+        this.media = media;
     }
 
 }

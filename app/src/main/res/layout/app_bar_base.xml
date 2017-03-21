@@ -22,6 +22,15 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+                    <AutoCompleteTextView
+                        android:layout_width="@dimen/search_edittext_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/search_edittext"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginEnd="@dimen/search_edittext_margin"
+                        android:layout_marginRight="@dimen/search_edittext_margin"
+                        android:editable="true"
+                        android:hint="@string/search_hint"/>
 
                     <ImageButton
                         android:id="@+id/search_button"
@@ -44,6 +53,14 @@
                         android:layout_marginEnd="@dimen/normal_view_view_margin"
                         android:layout_marginRight="@dimen/normal_view_view_margin"
                         android:background="@drawable/icon_close_black" />
+                    <ImageButton
+                        android:id="@+id/add_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/add_btn" />
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
 

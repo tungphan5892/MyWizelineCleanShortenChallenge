@@ -17,6 +17,27 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+        <ImageView
+            android:id="@+id/empty_background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/empty_data_image"
+            android:visibility="@{viewModel.visibleEmptyBackground ? View.VISIBLE : View.GONE}" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_tweet_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+
+        </android.support.v7.widget.RecyclerView>
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            style="?android:attr/progressBarStyle"
+            android:visibility="@{viewModel.visibleProgressBar ? View.VISIBLE : View.GONE}" />
     </RelativeLayout>
 </layout>

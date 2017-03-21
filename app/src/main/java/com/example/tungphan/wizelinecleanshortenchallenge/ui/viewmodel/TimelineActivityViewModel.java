@@ -37,6 +37,7 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
     private Context context;
     private TimelineActivityBinding timelineActivityBinding;
     private final TimelineActivityModel timelineActivityModel = new TimelineActivityModel();
+    private TweetsListRecyclerAdapter tweetsListAdapter;
 
     public TimelineActivityViewModel(Context context, TimelineActivityBinding timelineActivityBinding, Service service) {
         this.context = context;
@@ -47,6 +48,12 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
     }
 
     private void loadTimeline() {
+        if (tweetsListAdapter == null) {
+            setVisibleEmptyBackground(true);
+        } else if (tweetsListAdapter.getItemCount() == 0
+                && !timelineActivityBinding.swipeRefreshLayout.isRefreshing()) {
+            setVisibleProgressBar(true);
+        }
         service.getUserTimelineFromService(new Service.GetTimelineCallback() {
             @Override
             public void onSuccess(List<Tweet> tweetList) {
@@ -79,12 +86,19 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
     }
 
     private void finishLoadingTimeline(List<Tweet> tweetList) {
-        TweetsListRecyclerAdapter adapter = new TweetsListRecyclerAdapter(context, tweetList);
-        timelineActivityBinding.tweetsRecyclerView.setAdapter(adapter);
+        if (tweetsListAdapter == null) {//init tweet recycler view adapter for the first time
+            setVisibleEmptyBackground(false);
+            tweetsListAdapter = new TweetsListRecyclerAdapter(context, tweetList);
+            timelineActivityBinding.tweetsRecyclerView.setAdapter(tweetsListAdapter);
+        } else {
+            setVisibleProgressBar(false);
+            tweetsListAdapter.setTimeline(tweetList);
+            tweetsListAdapter.notifyDataSetChanged();
+        }
     }
 
     private void errorLoadingTimeline() {
-        Snackbar.make(timelineActivityBinding.parentView, R.string.error_data_in_response
+        Snackbar.make(timelineActivityBinding.parentView, R.string.error_loading_user_timeline
                 , Snackbar.LENGTH_LONG).show();
     }
 
@@ -100,7 +114,7 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
                 Toast.makeText(context, R.string.tweet_cancel, Toast.LENGTH_SHORT).show();
             }
         }
-        if(requestCode == ActivityRequestCode.START_SHARE_TWEET_ACTIVITY_REQUEST_CODE){
+        if (requestCode == ActivityRequestCode.START_SHARE_TWEET_ACTIVITY_REQUEST_CODE) {
             if (resultCode == ActivityResult.OK) {
                 Toast.makeText(context, R.string.text_share_tweet_successful, Toast.LENGTH_SHORT).show();
                 loadTimeline();
@@ -113,12 +127,23 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
     }
 
     @Bindable
-    public boolean isVisibleEmptyBackground(){
+    public boolean isVisibleEmptyBackground() {
         return timelineActivityModel.isVisibleEmptyBackground();
     }
 
-    public void setVisibleEmptyBackground(boolean visible){
+    public void setVisibleEmptyBackground(boolean visible) {
         timelineActivityModel.setVisibleEmptyBackground(visible);
         notifyPropertyChanged(BR.visibleEmptyBackground);
     }
+
+    public void setVisibleProgressBar(boolean visibleProgressBar) {
+        timelineActivityModel.setVisibleProgressBar(visibleProgressBar);
+        notifyPropertyChanged(BR.visibleProgressBar);
+    }
+
+    @Bindable
+    public boolean isVisibleProgressBar() {
+        return timelineActivityModel.isVisibleProgressBar();
+    }
+
 }

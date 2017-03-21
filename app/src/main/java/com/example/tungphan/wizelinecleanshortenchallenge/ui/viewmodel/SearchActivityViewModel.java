@@ -2,24 +2,49 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.ArrayAdapter;
 
+import com.example.tungphan.wizelinecleanshortenchallenge.BR;
+import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SearchActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchEdittextDoneEvent;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
+import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkError;
+import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.SearchTweetRecyclerAdapter;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.TweetsListRecyclerAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISearchActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivityModel;
+
+import java.util.List;
+import java.util.Set;
 
 
 /**
  * Created by tungphan on 3/9/17.
  */
 
-public class SearchActivityViewModel implements ISearchActivityListener {
+public class SearchActivityViewModel extends BaseObservable implements ISearchActivityListener {
 
     private Context context;
     private SearchActivityBinding searchActivityBinding;
+    private SearchTweetRecyclerAdapter searchTweetRecyclerAdapter;
+    private Service service;
+    private final SearchActivityModel searchActivityModel = new SearchActivityModel();
 
-    public SearchActivityViewModel(Context context, SearchActivityBinding searchActivityBinding) {
+    public SearchActivityViewModel(Context context, SearchActivityBinding searchActivityBinding, Service service) {
         this.context = context;
         this.searchActivityBinding = searchActivityBinding;
+        this.service = service;
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+        searchActivityBinding.searchTweetRecyclerView.setLayoutManager(mLayoutManager);
     }
 
     public ISearchActivityListener getISearchTweetViewModel() {
@@ -27,7 +52,64 @@ public class SearchActivityViewModel implements ISearchActivityListener {
     }
 
     @Override
-    public void searchEditTextDone(SearchEdittextDoneEvent searchEdittextDoneEvent) {
+    public void searchEditTextDone(StartSearchTweetEvent startSearchTweetEvent) {
 
+        searchTweet(startSearchTweetEvent.getSearchQuery());
+    }
+
+    private void finishLoadingSearchTweet(SearchTweet searchTweet) {
+        if (searchTweetRecyclerAdapter == null) {//init tweet recycler view adapter for the first time
+            setVisibleEmptyBackground(false);
+            searchTweetRecyclerAdapter = new SearchTweetRecyclerAdapter(context, searchTweet);
+            searchActivityBinding.searchTweetRecyclerView.setAdapter(searchTweetRecyclerAdapter);
+        } else {
+            setVisibleProgressBar(false);
+            searchTweetRecyclerAdapter.setSearchTweet(searchTweet);
+            searchTweetRecyclerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void searchTweet(String query) {
+        if (searchTweetRecyclerAdapter == null) {
+            setVisibleEmptyBackground(true);
+        } else if (searchTweetRecyclerAdapter.getItemCount() == 0) {
+            setVisibleProgressBar(true);
+        }
+        service.searchTweet("\"" + query + "\"", new Service.SearchTweetCallback() {
+            @Override
+            public void onSuccess(SearchTweet searchTweet) {
+                finishLoadingSearchTweet(searchTweet);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                errorSearchTweet();
+            }
+        });
+    }
+
+    private void errorSearchTweet() {
+        Snackbar.make(searchActivityBinding.parentView, R.string.error_search_in_response
+                , Snackbar.LENGTH_LONG).show();
+    }
+
+    public void setVisibleEmptyBackground(boolean visibleEmptyBackground) {
+        searchActivityModel.setVisibleEmptyBackground(visibleEmptyBackground);
+        notifyPropertyChanged(BR.visibleEmptyBackground);
+    }
+
+    @Bindable
+    public boolean isVisibleEmptyBackground() {
+        return searchActivityModel.isVisibleEmptyBackground();
+    }
+
+    public void setVisibleProgressBar(boolean visibleProgressBar) {
+        searchActivityModel.setVisibleProgressBar(visibleProgressBar);
+        notifyPropertyChanged(BR.visibleProgressBar);
+    }
+
+    @Bindable
+    public boolean isVisibleProgressBar() {
+        return searchActivityModel.isVisibleProgressBar();
     }
 }

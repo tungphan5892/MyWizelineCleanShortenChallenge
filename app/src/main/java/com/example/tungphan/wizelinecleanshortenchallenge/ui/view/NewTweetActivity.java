@@ -29,7 +29,8 @@ public class NewTweetActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        disableDrawerState();
+        disableShowNavDrawer();
+        disableShowHomAsUp();
         newTweetActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.new_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
         newTweetViewModel = new NewTweetActivityViewModel(this,newTweetActivityBinding,service);
@@ -48,6 +49,9 @@ public class NewTweetActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
         return super.onPrepareOptionsMenu(menu);
     }
 

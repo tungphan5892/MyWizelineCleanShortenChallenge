@@ -1,0 +1,24 @@
+<resources>
+    <string-array name="autocomplete_array">
+        <item>Apple</item>
+        <item>Air</item>
+        <item>abandon</item>
+        <item>abandonment</item>
+        <item>academic</item>
+        <item>adolescence</item>
+        <item>abbey</item>
+        <item>affiliation</item>
+        <item>abbreviation</item>
+        <item>agglomeration</item>
+        <item>babel</item>
+        <item>babyhood</item>
+        <item>bachelor</item>
+        <item>back</item>
+        <item>backbend</item>
+        <item>backbone</item>
+        <item>beacon</item>
+        <item>behind</item>
+        <item>bicarbonate</item>
+        <item>bird</item>
+    </string-array>
+</resources>

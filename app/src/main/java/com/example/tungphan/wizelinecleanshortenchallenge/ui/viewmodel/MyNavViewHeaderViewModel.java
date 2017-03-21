@@ -101,7 +101,7 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
     }
 
     private void errorLoadingUserInfo() {
-        Snackbar.make(myNavViewHeaderBinding.parentView, R.string.error_data_in_response
+        Snackbar.make(myNavViewHeaderBinding.parentView, R.string.error_loading_user_info
                 , Snackbar.LENGTH_LONG).show();
     }
 }

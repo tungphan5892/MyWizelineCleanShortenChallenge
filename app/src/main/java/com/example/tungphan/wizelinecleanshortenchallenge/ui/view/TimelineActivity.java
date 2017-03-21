@@ -36,7 +36,8 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        enableDrawerState();
+        enableShowNavDrawer();
+        disableShowHomAsUp();
         timelineActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.timeline_activity, baseActivityBinding.appBarBase.contentLayout, true);
         navHeaderBaseBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_base
@@ -65,7 +66,9 @@ public class TimelineActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
         return super.onPrepareOptionsMenu(menu);
     }
 

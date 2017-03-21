@@ -2,7 +2,9 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -47,6 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity
         baseActivityViewModel = new BaseActivityViewModel(this, baseActivityBinding);
         baseActivityBinding.setViewModel(baseActivityViewModel);
         iBaseActivityListener = baseActivityViewModel.getIBaseActivityListener();
+        iBaseActivityListener.onCreate();
         initToolbarAndNavigationDrawer();
     }
 
@@ -58,63 +61,30 @@ public abstract class BaseActivity extends AppCompatActivity
                 this, baseActivityBinding.drawerLayout, baseActivityBinding.appBarBase.toolbar
                 , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         baseActivityBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         actionBarDrawerToggle.syncState();
         baseActivityBinding.navView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = baseActivityBinding.drawerLayout;
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        this.setResult(ActivityResult.CANCELED);
+        super.onBackPressed();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.base, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-        DrawerLayout drawer = baseActivityBinding.drawerLayout;
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -142,6 +112,23 @@ public abstract class BaseActivity extends AppCompatActivity
         return (ImageButton) outViews.get(0);
     }
 
+    protected void setBackButtonClickListener(){
+        getBackButtonInNavigationDrawer().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    private ImageButton getBackButtonInNavigationDrawer(){
+        final ArrayList<View> outViews = new ArrayList<>();
+        String contentDesc = getResources().getString(R.string.navigate_up);
+        baseActivityBinding.appBarBase.toolbar.findViewsWithText(outViews, contentDesc
+                , View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+        return (ImageButton) outViews.get(0);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -154,17 +141,31 @@ public abstract class BaseActivity extends AppCompatActivity
         EventBus.getDefault().unregister(this);
     }
 
-    protected void enableDrawerState() {
-        baseActivityBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        actionBarDrawerToggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
-//        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-//        actionBarDrawerToggle.syncState();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        iBaseActivityListener.onStop();
     }
 
-    protected void disableDrawerState() {
+    protected void enableShowNavDrawer() {
+        baseActivityBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        actionBarDrawerToggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    protected void disableShowNavDrawer() {
         baseActivityBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         actionBarDrawerToggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-//        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-//        actionBarDrawerToggle.syncState();
+    }
+
+    protected void enableShowHomeAsUp() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    protected void disableShowHomAsUp() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
     }
 }

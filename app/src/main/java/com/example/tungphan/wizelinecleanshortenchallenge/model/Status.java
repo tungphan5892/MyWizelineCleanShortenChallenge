@@ -45,6 +45,9 @@ public class Status {
     @SerializedName("in_reply_to_screen_name")
     @Expose
     private Object inReplyToScreenName;
+    @SerializedName("user")
+    @Expose
+    private User user;
     @SerializedName("geo")
     @Expose
     private Object geo;
@@ -170,6 +173,14 @@ public class Status {
 
     public void setInReplyToScreenName(Object inReplyToScreenName) {
         this.inReplyToScreenName = inReplyToScreenName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Object getGeo() {

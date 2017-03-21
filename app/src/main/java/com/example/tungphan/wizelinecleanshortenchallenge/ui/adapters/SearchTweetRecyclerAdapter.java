@@ -12,53 +12,53 @@ import android.widget.TextView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.Status;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-
 /**
- * Created by Tung Phan on 2/15/2017.
+ * Created by tungphan on 3/20/17.
  */
 
-public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<TweetsListRecyclerAdapter.ViewHolder> {
+public class SearchTweetRecyclerAdapter extends RecyclerView.Adapter<TweetsListRecyclerAdapter.ViewHolder> {
 
-    private List<Tweet> timeline;
+    private List<Status> statuses;
     private Context context;
     private float profileImageSize;
 
-    public TweetsListRecyclerAdapter(Context context, List<Tweet> timeline) {
+    public SearchTweetRecyclerAdapter(Context context, SearchTweet searchTweet) {
         this.context = context;
-        this.timeline = timeline;
+        this.statuses = searchTweet.getStatuses();
         profileImageSize = context.getResources().getDimension(R.dimen.tweet_image_size);
     }
 
-    public void setTimeline(List<Tweet> timeline) {
-        this.timeline = timeline;
+    public void setSearchTweet(SearchTweet searchTweet) {
+        this.statuses = searchTweet.getStatuses();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TweetsListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(R.layout.timline_recycler_view_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        TweetsListRecyclerAdapter.ViewHolder viewHolder = new TweetsListRecyclerAdapter.ViewHolder(contactView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final Tweet tweet = timeline.get(position);
+    public void onBindViewHolder(TweetsListRecyclerAdapter.ViewHolder viewHolder, int position) {
+        final Status status = statuses.get(position);
         TextView nameTextView = viewHolder.mNameTview;
         TextView tweetTextView = viewHolder.mTweetTView;
         ImageView profilePicImView = viewHolder.mProfilePicImView;
         LinearLayout itemWrapLayout = viewHolder.mItemWrapLayout;
-        nameTextView.setText(tweet.getUser().getName());
-        tweetTextView.setText(tweet.getText());
+        nameTextView.setText(status.getUser().getName());
+        tweetTextView.setText(status.getText());
         Picasso.with(context)
-                .load(tweet.getUser().getProfileImageUrl())
+                .load(status.getUser().getProfileImageUrl())
                 .placeholder(R.drawable.face)
                 .resize((int) profileImageSize, (int) profileImageSize)
                 .onlyScaleDown()
@@ -68,10 +68,10 @@ public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<TweetsListRe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SingleTweetActivity.class);
-                intent.putExtra(IntentConstants.OWNER_NAME, tweet.getUser().getName());
-                intent.putExtra(IntentConstants.ONER_DESCRIPTION, tweet.getUser().getDescription());
-                intent.putExtra(IntentConstants.TWEET_CONTENT, tweet.getText());
-                intent.putExtra(IntentConstants.OWNER_PROFILE_IMAGE_URL, tweet.getUser().getProfileImageUrl());
+                intent.putExtra(IntentConstants.OWNER_NAME, status.getUser().getName());
+                intent.putExtra(IntentConstants.ONER_DESCRIPTION, status.getUser().getDescription());
+                intent.putExtra(IntentConstants.TWEET_CONTENT, status.getText());
+                intent.putExtra(IntentConstants.OWNER_PROFILE_IMAGE_URL, status.getUser().getProfileImageUrl());
                 context.startActivity(intent);
             }
         });
@@ -79,7 +79,7 @@ public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<TweetsListRe
 
     @Override
     public int getItemCount() {
-        return timeline.size();
+        return statuses.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -100,3 +100,4 @@ public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<TweetsListRe
         }
     }
 }
+

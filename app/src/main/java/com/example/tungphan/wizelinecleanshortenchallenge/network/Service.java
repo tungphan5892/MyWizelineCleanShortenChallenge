@@ -1,5 +1,6 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.network;
 
+import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 
@@ -128,6 +129,42 @@ public class Service {
 
     public interface PostNewTweetCallback {
         void onSuccess(ResponseBody responseBody);
+
+        void onError(NetworkError networkError);
+    }
+
+
+    public Subscription searchTweet(String query, final SearchTweetCallback callback) {
+        return networkService.searchTweet(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SearchTweet>>() {
+                    @Override
+                    public Observable<? extends SearchTweet> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<SearchTweet>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(SearchTweet searchTweet) {
+                        callback.onSuccess(searchTweet);
+                    }
+                });
+    }
+
+    public interface SearchTweetCallback {
+        void onSuccess(SearchTweet searchTweet);
 
         void onError(NetworkError networkError);
     }
