@@ -11,4 +11,5 @@ public interface ITimelineActivityListener {
     void onCreate();
 
     void onActivityResult(int requestCode, int resultCode, Intent data);
+
 }

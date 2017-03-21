@@ -31,19 +31,22 @@ public class NewTweetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         disableShowNavDrawer();
         disableShowHomAsUp();
+        initViews();
+        setBackgroundForToggleMenuButton();
+    }
+
+    private void initViews(){
         newTweetActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.new_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
         newTweetViewModel = new NewTweetActivityViewModel(this,newTweetActivityBinding,service);
         newTweetActivityBinding.setViewModel(newTweetViewModel);
         iNewTweetActivityListener = newTweetViewModel.getINewTweetViewModel();
         iNewTweetActivityListener.onCreate();
-        setBackgroundForToggleMenuButton();
     }
 
     protected void injectDagger(AppComponent appComponent){
         appComponent.inject(this);
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -59,7 +62,6 @@ public class NewTweetActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
         iNewTweetActivityListener.onResume();
     }
 }

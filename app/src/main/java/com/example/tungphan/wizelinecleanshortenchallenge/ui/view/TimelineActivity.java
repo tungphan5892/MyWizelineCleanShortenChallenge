@@ -69,6 +69,5 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        baseActivityBinding.appBarBase.fab.setVisibility(View.VISIBLE);
     }
 }

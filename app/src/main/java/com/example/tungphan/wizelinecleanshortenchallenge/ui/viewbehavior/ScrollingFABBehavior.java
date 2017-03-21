@@ -10,7 +10,6 @@ import android.view.View;
 /**
  * Created by tungphan on 3/20/17.
  */
-//Using to show/hide floating action button user scroll layout
 public class ScrollingFABBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
 
     public ScrollingFABBehavior(Context context, AttributeSet attrs) {
@@ -20,19 +19,12 @@ public class ScrollingFABBehavior extends CoordinatorLayout.Behavior<FloatingAct
     @Override
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, final FloatingActionButton child, View target) {
         super.onStopNestedScroll(coordinatorLayout, child, target);
-        //child -> Floating Action Button
-//        if (child.getVisibility() == View.VISIBLE && dyConsumed > 0) {
-//            child.hide();
-//        } else if (child.getVisibility() == View.GONE && dyConsumed < 0) {
-//            child.show();
-//        }
         child.show();
     }
 
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        //child -> Floating Action Button
         if (child.getVisibility() == View.VISIBLE && dyConsumed > 0) {
             child.hide();
         } else if (child.getVisibility() == View.GONE && dyConsumed < 0) {

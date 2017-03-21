@@ -29,7 +29,6 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivi
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.BaseActivityModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
@@ -37,8 +36,6 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.TimelineActivi
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +52,6 @@ import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefCo
 public class BaseActivityViewModel extends BaseObservable implements IBaseActivityListener,
         NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = BaseActivityViewModel.class.getSimpleName();
-    private BaseActivityModel baseActivityModel = new BaseActivityModel();
     private Context context;
     private BaseActivityBinding baseActivityBinding;
     private SharedPreferences sharedPreferences;
