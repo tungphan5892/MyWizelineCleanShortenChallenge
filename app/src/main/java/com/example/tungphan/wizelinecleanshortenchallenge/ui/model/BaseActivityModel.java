@@ -6,4 +6,5 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.model;
 
 public class BaseActivityModel {
 
+
 }

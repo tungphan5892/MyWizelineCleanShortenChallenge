@@ -53,7 +53,6 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
 
     @Override
     public void searchEditTextDone(StartSearchTweetEvent startSearchTweetEvent) {
-
         searchTweet(startSearchTweetEvent.getSearchQuery());
     }
 

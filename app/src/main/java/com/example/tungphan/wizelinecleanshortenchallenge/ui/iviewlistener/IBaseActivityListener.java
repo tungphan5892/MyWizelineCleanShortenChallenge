@@ -10,5 +10,6 @@ public interface IBaseActivityListener {
     void onStop();
     void onResume();
     void onPause();
+    void onPrepareOptionsMenu();
 
 }

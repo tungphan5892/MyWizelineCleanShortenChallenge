@@ -47,11 +47,6 @@ public class NewTweetActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.closeButton.setVisibility(View.VISIBLE);
-        baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
         return super.onPrepareOptionsMenu(menu);
     }
 

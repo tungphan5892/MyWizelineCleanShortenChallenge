@@ -67,16 +67,6 @@ public class TimelineActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.searchButton.setVisibility(View.VISIBLE);
-        baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.fab.setVisibility(View.VISIBLE);
-        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         baseActivityBinding.appBarBase.fab.setVisibility(View.VISIBLE);

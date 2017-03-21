@@ -52,7 +52,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/normal_view_view_margin"
                         android:layout_marginRight="@dimen/normal_view_view_margin"
-                        android:background="@drawable/icon_close_black" />
+                        android:background="@drawable/icon_close_black"
+                        />
                     <ImageButton
                         android:id="@+id/add_button"
                         android:layout_width="wrap_content"

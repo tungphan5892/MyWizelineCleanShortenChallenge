@@ -48,11 +48,6 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
-        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
-        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.VISIBLE);
         return super.onPrepareOptionsMenu(menu);
     }
 

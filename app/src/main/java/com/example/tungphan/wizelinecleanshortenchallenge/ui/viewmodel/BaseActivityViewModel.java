@@ -32,6 +32,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBase
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.BaseActivityModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.TimelineActivity;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -223,6 +225,48 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu() {
+        if(context instanceof TimelineActivity){
+            timelineToolbarItemsVisible();
+        } else if( context instanceof NewTweetActivity){
+            newteetToolbarItemsVisible();
+        }else if(context instanceof SearchActivity){
+            searchToolbarItemsVisible();
+        }else if(context instanceof SingleTweetActivity){
+            singleTweetToolbarItemsVisible();
+        }
+    }
+
+    private void timelineToolbarItemsVisible(){
+        baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.searchButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.fab.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
+    }
+    private void newteetToolbarItemsVisible(){
+        baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.closeButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
+    }
+    private void searchToolbarItemsVisible(){
+        baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.VISIBLE);
+    }
+    private void singleTweetToolbarItemsVisible(){
+        baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
     }
 
     @Override

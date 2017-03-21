@@ -53,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         iBaseActivityListener = baseActivityViewModel.getIBaseActivityListener();
     }
 
+
     protected abstract void injectDagger(AppComponent appComponent);
 
     @Override
@@ -63,6 +64,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        iBaseActivityListener.onPrepareOptionsMenu();
         return super.onPrepareOptionsMenu(menu);
     }
 
