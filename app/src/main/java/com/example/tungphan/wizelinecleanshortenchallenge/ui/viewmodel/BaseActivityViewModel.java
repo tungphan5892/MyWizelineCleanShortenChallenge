@@ -218,14 +218,6 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     }
 
     @Override
-    public void onResume() {
-    }
-
-    @Override
-    public void onPause() {
-    }
-
-    @Override
     public void onPrepareOptionsMenu() {
         if(context instanceof TimelineActivity){
             timelineToolbarItemsVisible();
@@ -235,6 +227,14 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
             searchToolbarItemsVisible();
         }else if(context instanceof SingleTweetActivity){
             singleTweetToolbarItemsVisible();
+        }
+    }
+
+    @Override
+    public void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent) {
+        if (finishLoadingUserInfoEvent.getResultCode() == EventBusConstant.OK) {
+            userImageUrl = finishLoadingUserInfoEvent.getUserProfileImageUrl();
+            setBackgroundForToggleMenuButton();
         }
     }
 
@@ -270,14 +270,6 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent) {
-        if (finishLoadingUserInfoEvent.getResultCode() == EventBusConstant.OK) {
-            userImageUrl = finishLoadingUserInfoEvent.getUserProfileImageUrl();
-            setBackgroundForToggleMenuButton();
-        }
     }
 
     public void setBackgroundForToggleMenuButton() {
