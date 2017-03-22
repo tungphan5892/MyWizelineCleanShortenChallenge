@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
@@ -21,7 +20,6 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineAc
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ITimelineActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.TimelineActivityModel;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkError;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.util.List;

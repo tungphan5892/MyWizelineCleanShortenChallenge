@@ -14,15 +14,12 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IMyNavViewHeaderListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.MyNavViewHeaderModel;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkError;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
-import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Func1;
 
 /**
  * Created by tungphan on 3/20/17.

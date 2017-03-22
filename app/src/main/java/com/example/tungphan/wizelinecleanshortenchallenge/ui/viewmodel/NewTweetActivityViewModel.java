@@ -27,7 +27,6 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.PhoneImage
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.INewTweetActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.NewTweetActivityModel;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkError;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.util.ArrayList;

@@ -8,23 +8,17 @@ import android.databinding.Bindable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ArrayAdapter;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SearchActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkError;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.SearchTweetRecyclerAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.TweetsListRecyclerAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISearchActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivityModel;
 
-import java.util.List;
-import java.util.Set;
 
 import rx.Subscriber;
 
