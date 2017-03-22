@@ -67,19 +67,20 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
 
 
     private void loadingUserInfo() {
-        service.getUserFromService(new Service.GetUserCallback() {
-            @Override
-            public void onSuccess(User user) {
-                if (user != null) {
-                    finishLoadingUserInfo(user);
-                }
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                errorLoadingUserInfo();
-            }
-        });
+        service.getUserFromService();
+//        service.getUserFromService(new Service.GetUserCallback() {
+//            @Override
+//            public void onSuccess(User user) {
+//                if (user != null) {
+//                    finishLoadingUserInfo(user);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(NetworkError networkError) {
+//                errorLoadingUserInfo();
+//            }
+//        });
     }
 
     private void finishLoadingUserInfo(User user) {

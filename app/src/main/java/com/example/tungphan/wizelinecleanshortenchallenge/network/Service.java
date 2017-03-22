@@ -25,8 +25,7 @@ public class Service {
         this.networkService = networkService;
     }
 
-    public Subscription getUserFromService(final GetUserCallback callback) {
-
+    public Subscription getUserFromService() {
         return networkService.getUserJson()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,22 +43,15 @@ public class Service {
 
                     @Override
                     public void onError(Throwable e) {
-                        callback.onError(new NetworkError(e));
+
 
                     }
 
                     @Override
                     public void onNext(User user) {
-                        callback.onSuccess(user);
 
                     }
                 });
-    }
-
-    public interface GetUserCallback {
-        void onSuccess(User user);
-
-        void onError(NetworkError networkError);
     }
 
     public Subscription getUserTimelineFromService(final GetTimelineCallback callback) {

@@ -216,13 +216,13 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     @Override
     public void onPrepareOptionsMenu() {
         if(context instanceof TimelineActivity){
-            timelineToolbarItemsVisible();
+            setTimelineToolbarItemsVisibility();
         } else if( context instanceof NewTweetActivity){
-            newteetToolbarItemsVisible();
+            setNewTweetToolbarItemsVisibility();
         }else if(context instanceof SearchActivity){
-            searchToolbarItemsVisible();
+            setSearchToolbarItemsVisibility();
         }else if(context instanceof SingleTweetActivity){
-            singleTweetToolbarItemsVisible();
+            setSingleTweetToolbarItemsVisibility();
         }
     }
 
@@ -234,28 +234,28 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         }
     }
 
-    private void timelineToolbarItemsVisible(){
+    private void setTimelineToolbarItemsVisibility(){
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
     }
-    private void newteetToolbarItemsVisible(){
+    private void setNewTweetToolbarItemsVisibility(){
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
     }
-    private void searchToolbarItemsVisible(){
+    private void setSearchToolbarItemsVisibility(){
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.VISIBLE);
     }
-    private void singleTweetToolbarItemsVisible(){
+    private void setSingleTweetToolbarItemsVisibility(){
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
