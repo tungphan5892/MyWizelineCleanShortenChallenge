@@ -2,7 +2,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.design.widget.Snackbar;
@@ -21,6 +20,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivit
 
 
 import rx.Subscriber;
+import rx.Subscription;
 
 
 /**
@@ -34,6 +34,7 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
     private SearchTweetRecyclerAdapter searchTweetRecyclerAdapter;
     private Service service;
     private final SearchActivityModel searchActivityModel = new SearchActivityModel();
+    private Subscription subscription;
 
     public SearchActivityViewModel(Context context, SearchActivityBinding searchActivityBinding, Service service) {
         this.context = context;
@@ -52,6 +53,11 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
         searchTweet(startSearchTweetEvent.getSearchQuery());
     }
 
+    @Override
+    public void onDestroy() {
+        subscription.unsubscribe();
+    }
+
     private void finishLoadingSearchTweet(SearchTweet searchTweet) {
         if (searchTweetRecyclerAdapter == null) {//init tweet recycler view adapter for the first time
             setVisibleEmptyBackground(false);
@@ -66,7 +72,7 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
 
     private void searchTweet(String query) {
         visibleLoading();
-        service.searchTweet("\"" + query + "\"")
+        subscription = service.searchTweet("\"" + query + "\"")
                 .subscribe(new Subscriber<SearchTweet>() {
                     @Override
                     public void onCompleted() {

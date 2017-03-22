@@ -6,4 +6,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener;
 
 public interface IMyNavViewHeaderListener {
     void onCreate();
+
+    void onDestroy();
 }

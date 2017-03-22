@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import rx.Subscriber;
+import rx.Subscription;
 
 /**
  * Created by tungphan on 3/9/17.
@@ -48,6 +49,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     private ArrayList<String> imagesPath = new ArrayList<>();
     private Uri imagesUri;
     private Service service;
+    private Subscription subscription;
 
     public static String getBucketId(String path) {
         return String.valueOf(path.toLowerCase().hashCode());
@@ -119,6 +121,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onDestroy() {
+        subscription.unsubscribe();
     }
 
     @Override
@@ -188,7 +191,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     }
 
     public void clickNewTweetButton(@NonNull final View view) {
-        service.postNewTweet(getTweetDescription()).subscribe(new Subscriber<ResponseBody>() {
+        subscription = service.postNewTweet(getTweetDescription()).subscribe(new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
 

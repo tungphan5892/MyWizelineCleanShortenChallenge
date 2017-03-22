@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 
 import rx.Subscriber;
+import rx.Subscription;
 
 /**
  * Created by tungphan on 3/20/17.
@@ -30,6 +31,7 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
     private Service service;
     private NavHeaderBaseBinding myNavViewHeaderBinding;
     private Context context;
+    private Subscription subscription;
 
     public IMyNavViewHeaderListener getIMyNavViewHeaderListener() {
         return this;
@@ -66,9 +68,14 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
         loadingUserInfo();
     }
 
+    @Override
+    public void onDestroy() {
+        subscription.unsubscribe();
+    }
+
 
     private void loadingUserInfo() {
-        service.getUserFromService()
+        subscription = service.getUserFromService()
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {

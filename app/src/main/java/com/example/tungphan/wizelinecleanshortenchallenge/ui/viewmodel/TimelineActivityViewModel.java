@@ -25,6 +25,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.Subscription;
 
 
 /**
@@ -38,6 +39,7 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
     private TimelineActivityBinding timelineActivityBinding;
     private final TimelineActivityModel timelineActivityModel = new TimelineActivityModel();
     private TweetsListRecyclerAdapter tweetsListAdapter;
+    private Subscription subscription;
 
     public TimelineActivityViewModel(Context context, TimelineActivityBinding timelineActivityBinding, Service service) {
         this.context = context;
@@ -134,6 +136,11 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
                 Toast.makeText(context, R.string.share_tweet_cancel, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        subscription.unsubscribe();
     }
 
     @Bindable

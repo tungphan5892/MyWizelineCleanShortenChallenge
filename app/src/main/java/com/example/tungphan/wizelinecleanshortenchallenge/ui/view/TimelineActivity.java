@@ -3,8 +3,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.components.AppComponent;
@@ -69,5 +67,12 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        iMyNavViewHeaderListener.onDestroy();
+        iTimelineActivityListener.onDestroy();
     }
 }
