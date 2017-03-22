@@ -26,6 +26,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivit
 import java.util.List;
 import java.util.Set;
 
+import rx.Subscriber;
+
 
 /**
  * Created by tungphan on 3/9/17.
@@ -69,22 +71,33 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
     }
 
     private void searchTweet(String query) {
+        visibleLoading();
+        service.searchTweet("\"" + query + "\"")
+                .subscribe(new Subscriber<SearchTweet>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        errorSearchTweet();
+
+                    }
+
+                    @Override
+                    public void onNext(SearchTweet searchTweet) {
+                        finishLoadingSearchTweet(searchTweet);
+                    }
+                });
+    }
+
+    private void visibleLoading(){
         if (searchTweetRecyclerAdapter == null) {
             setVisibleEmptyBackground(true);
         } else if (searchTweetRecyclerAdapter.getItemCount() == 0) {
             setVisibleProgressBar(true);
         }
-        service.searchTweet("\"" + query + "\"", new Service.SearchTweetCallback() {
-            @Override
-            public void onSuccess(SearchTweet searchTweet) {
-                finishLoadingSearchTweet(searchTweet);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                errorSearchTweet();
-            }
-        });
     }
 
     private void errorSearchTweet() {

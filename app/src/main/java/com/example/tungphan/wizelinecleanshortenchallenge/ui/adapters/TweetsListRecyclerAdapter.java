@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Tung Phan on 2/15/2017.
  */
 
-public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<TweetsListRecyclerAdapter.ViewHolder> {
+public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<SearchTweetRecyclerAdapter.ViewHolder> {
 
     private List<Tweet> timeline;
     private Context context;
@@ -40,21 +40,20 @@ public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<TweetsListRe
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchTweetRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(R.layout.timline_recycler_view_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        return new SearchTweetRecyclerAdapter.ViewHolder(contactView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(SearchTweetRecyclerAdapter.ViewHolder viewHolder, int position) {
         final Tweet tweet = timeline.get(position);
-        TextView nameTextView = viewHolder.mNameTview;
-        TextView tweetTextView = viewHolder.mTweetTView;
-        ImageView profilePicImView = viewHolder.mProfilePicImView;
-        LinearLayout itemWrapLayout = viewHolder.mItemWrapLayout;
+        TextView nameTextView = viewHolder.nameTextView;
+        TextView tweetTextView = viewHolder.tweetTextView;
+        ImageView profilePicImView = viewHolder.profileImageView;
+        LinearLayout itemWrapLayout = viewHolder.itemWrapLayout;
         nameTextView.setText(tweet.getUser().getName());
         tweetTextView.setText(tweet.getText());
         Picasso.with(context)
@@ -63,40 +62,19 @@ public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<TweetsListRe
                 .resize((int) profileImageSize, (int) profileImageSize)
                 .onlyScaleDown()
                 .into(profilePicImView);
-        final Context context = viewHolder.mContext;
-        itemWrapLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, SingleTweetActivity.class);
-                intent.putExtra(IntentConstants.OWNER_NAME, tweet.getUser().getName());
-                intent.putExtra(IntentConstants.ONER_DESCRIPTION, tweet.getUser().getDescription());
-                intent.putExtra(IntentConstants.TWEET_CONTENT, tweet.getText());
-                intent.putExtra(IntentConstants.OWNER_PROFILE_IMAGE_URL, tweet.getUser().getProfileImageUrl());
-                context.startActivity(intent);
-            }
+        final Context context = viewHolder.context;
+        itemWrapLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, SingleTweetActivity.class);
+            intent.putExtra(IntentConstants.OWNER_NAME, tweet.getUser().getName());
+            intent.putExtra(IntentConstants.ONER_DESCRIPTION, tweet.getUser().getDescription());
+            intent.putExtra(IntentConstants.TWEET_CONTENT, tweet.getText());
+            intent.putExtra(IntentConstants.OWNER_PROFILE_IMAGE_URL, tweet.getUser().getProfileImageUrl());
+            context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
         return timeline.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView mNameTview;
-        public TextView mTweetTView;
-        public ImageView mProfilePicImView;
-        public LinearLayout mItemWrapLayout;
-        public Context mContext;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            mContext = itemView.getContext();
-            mNameTview = (TextView) itemView.findViewById(R.id.user_name_view);
-            mTweetTView = (TextView) itemView.findViewById(R.id.tweet_view);
-            mProfilePicImView = (ImageView) itemView.findViewById(R.id.profile_image_view);
-            mItemWrapLayout = (LinearLayout) itemView.findViewById(R.id.item_wrap_layout);
-        }
     }
 }

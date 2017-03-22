@@ -113,9 +113,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    @SuppressWarnings("unused")
-    public NetworkService providesNetworkService(
-            Retrofit retrofit) {
+    public NetworkService providesNetworkService() {
         return getRetrofitInstance().create(NetworkService.class);
     }
 }

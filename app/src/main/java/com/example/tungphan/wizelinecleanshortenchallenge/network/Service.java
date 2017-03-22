@@ -25,139 +25,33 @@ public class Service {
         this.networkService = networkService;
     }
 
-    public Subscription getUserFromService() {
+    public Observable<User> getUserFromService() {
         return networkService.getUserJson()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends User>>() {
-                    @Override
-                    public Observable<? extends User> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
-                .subscribe(new Subscriber<User>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-
-                    }
-                });
+                .onErrorResumeNext(throwable -> Observable.error(throwable));
     }
 
-    public Subscription getUserTimelineFromService(final GetTimelineCallback callback) {
+    public Observable<List<Tweet>> getUserTimelineFromService() {
         return networkService.getUserTimelineJson()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Tweet>>>() {
-                    @Override
-                    public Observable<? extends List<Tweet>> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
-                .subscribe(new Subscriber<List<Tweet>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        callback.onError(new NetworkError(e));
-
-                    }
-
-                    @Override
-                    public void onNext(List<Tweet> tweetList) {
-                        callback.onSuccess(tweetList);
-                    }
-                });
+                .onErrorResumeNext(throwable -> Observable.error(throwable));
     }
 
-    public interface GetTimelineCallback {
-        void onSuccess(List<Tweet> tweetList);
-
-        void onError(NetworkError networkError);
-    }
-
-    public Subscription postNewTweet(String status, final PostNewTweetCallback callback) {
+    public Observable<ResponseBody> postNewTweet(String status) {
 
         return networkService.postNewTweet(status)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ResponseBody>>() {
-                    @Override
-                    public Observable<? extends ResponseBody> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
-                .subscribe(new Subscriber<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        callback.onError(new NetworkError(e));
-
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        callback.onSuccess(responseBody);
-                    }
-                });
-    }
-
-    public interface PostNewTweetCallback {
-        void onSuccess(ResponseBody responseBody);
-
-        void onError(NetworkError networkError);
+                .onErrorResumeNext(throwable -> Observable.error(throwable));
     }
 
 
-    public Subscription searchTweet(String query, final SearchTweetCallback callback) {
+    public Observable<SearchTweet> searchTweet(String query) {
         return networkService.searchTweet(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends SearchTweet>>() {
-                    @Override
-                    public Observable<? extends SearchTweet> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
-                .subscribe(new Subscriber<SearchTweet>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        callback.onError(new NetworkError(e));
-
-                    }
-
-                    @Override
-                    public void onNext(SearchTweet searchTweet) {
-                        callback.onSuccess(searchTweet);
-                    }
-                });
-    }
-
-    public interface SearchTweetCallback {
-        void onSuccess(SearchTweet searchTweet);
-
-        void onError(NetworkError networkError);
+                .onErrorResumeNext(throwable -> Observable.error(throwable));
     }
 }

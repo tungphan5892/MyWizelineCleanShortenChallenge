@@ -33,6 +33,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by tungphan on 3/9/17.
@@ -188,16 +189,21 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     }
 
     public void clickNewTweetButton(@NonNull final View view) {
-        service.postNewTweet(getTweetDescription(), new Service.PostNewTweetCallback() {
+        service.postNewTweet(getTweetDescription()).subscribe(new Subscriber<ResponseBody>() {
             @Override
-            public void onSuccess(ResponseBody responseBody) {
-                activity.setResult(ActivityResult.OK);
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                activity.setResult(ActivityResult.FALSE);
                 activity.finish();
             }
 
             @Override
-            public void onError(NetworkError networkError) {
-                activity.setResult(ActivityResult.FALSE);
+            public void onNext(ResponseBody responseBody) {
+                activity.setResult(ActivityResult.OK);
                 activity.finish();
             }
         });

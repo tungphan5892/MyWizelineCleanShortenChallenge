@@ -20,6 +20,10 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Func1;
+
 /**
  * Created by tungphan on 3/20/17.
  */
@@ -67,20 +71,23 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
 
 
     private void loadingUserInfo() {
-        service.getUserFromService();
-//        service.getUserFromService(new Service.GetUserCallback() {
-//            @Override
-//            public void onSuccess(User user) {
-//                if (user != null) {
-//                    finishLoadingUserInfo(user);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(NetworkError networkError) {
-//                errorLoadingUserInfo();
-//            }
-//        });
+        service.getUserFromService()
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        errorLoadingUserInfo();
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        finishLoadingUserInfo(user);
+                    }
+                });
     }
 
     private void finishLoadingUserInfo(User user) {

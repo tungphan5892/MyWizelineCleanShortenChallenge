@@ -26,6 +26,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.util.List;
 
+import rx.Subscriber;
+
 
 /**
  * Created by tungphan on 3/17/17.
@@ -48,26 +50,36 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
     }
 
     private void loadTimeline() {
+        visibleLoading();
+        service.getUserTimelineFromService()
+                .subscribe(new Subscriber<List<Tweet>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        timelineActivityBinding.swipeRefreshLayout.setRefreshing(false);
+                        errorLoadingTimeline();
+                    }
+
+                    @Override
+                    public void onNext(List<Tweet> tweetList) {
+                        timelineActivityBinding.swipeRefreshLayout.setRefreshing(false);
+                        setVisibleEmptyBackground(false);
+                        finishLoadingTimeline(tweetList);
+                    }
+                });
+    }
+
+    private void visibleLoading(){
         if (tweetsListAdapter == null) {
             setVisibleEmptyBackground(true);
         } else if (tweetsListAdapter.getItemCount() == 0
                 && !timelineActivityBinding.swipeRefreshLayout.isRefreshing()) {
             setVisibleProgressBar(true);
         }
-        service.getUserTimelineFromService(new Service.GetTimelineCallback() {
-            @Override
-            public void onSuccess(List<Tweet> tweetList) {
-                timelineActivityBinding.swipeRefreshLayout.setRefreshing(false);
-                setVisibleEmptyBackground(false);
-                finishLoadingTimeline(tweetList);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                timelineActivityBinding.swipeRefreshLayout.setRefreshing(false);
-                errorLoadingTimeline();
-            }
-        });
     }
 
     public ITimelineActivityListener getITimelineActivityListener() {
