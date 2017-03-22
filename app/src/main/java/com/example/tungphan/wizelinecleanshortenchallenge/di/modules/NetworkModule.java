@@ -8,7 +8,6 @@ import com.example.tungphan.wizelinecleanshortenchallenge.network.NetworkService
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -64,8 +63,7 @@ public class NetworkModule {
     Cache provideCache() {
         Cache cache = null;
         try {
-            cache = new Cache(new File(context.getCacheDir(), HTTP_CACHE),
-                    CACHE_SIZE); // 10 MB
+            cache = new Cache(new File(context.getCacheDir(), HTTP_CACHE), CACHE_SIZE);
         } catch (Exception e) {
             Log.e(TAG, "Could not create Cache!");
         }
@@ -73,35 +71,29 @@ public class NetworkModule {
     }
 
     public static Interceptor provideCacheInterceptor() {
-        return new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                okhttp3.Response response = chain.proceed(chain.request());
-                CacheControl cacheControl = new CacheControl.Builder()
-                        .maxAge(EXPIRE_TIME_MINS, TimeUnit.MINUTES)
-                        .build();
-                return response.newBuilder()
-                        .header(CACHE_CONTROL, cacheControl.toString())
-                        .build();
-            }
+        return chain -> {
+            Response response = chain.proceed(chain.request());
+            CacheControl cacheControl = new CacheControl.Builder()
+                    .maxAge(EXPIRE_TIME_MINS, TimeUnit.MINUTES)
+                    .build();
+            return response.newBuilder()
+                    .header(CACHE_CONTROL, cacheControl.toString())
+                    .build();
         };
     }
 
     public Interceptor provideOfflineCacheInterceptor() {
-        return new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                if (!WizelineApp.getInstance().isConnectToNetwork()) {
-                    CacheControl cacheControl = new CacheControl.Builder()
-                            .maxStale(OFFLINE_EXPIRE_TIME_DAY, TimeUnit.DAYS)
-                            .build();
-                    request = request.newBuilder()
-                            .cacheControl(cacheControl)
-                            .build();
-                }
-                return chain.proceed(request);
+        return chain -> {
+            Request request = chain.request();
+            if (!WizelineApp.getInstance().isConnectToNetwork()) {
+                CacheControl cacheControl = new CacheControl.Builder()
+                        .maxStale(OFFLINE_EXPIRE_TIME_DAY, TimeUnit.DAYS)
+                        .build();
+                request = request.newBuilder()
+                        .cacheControl(cacheControl)
+                        .build();
             }
+            return chain.proceed(request);
         };
     }
 
