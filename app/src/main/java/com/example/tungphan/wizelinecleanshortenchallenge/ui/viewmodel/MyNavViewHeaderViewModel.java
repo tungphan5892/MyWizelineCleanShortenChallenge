@@ -1,6 +1,5 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;

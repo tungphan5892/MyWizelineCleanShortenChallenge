@@ -9,12 +9,10 @@ import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
-import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SingleTweetActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISingleTweetActivityListener;

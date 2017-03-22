@@ -3,7 +3,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.components.AppComponent;

@@ -1,7 +1,6 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.di.components;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.di.modules.NetworkModule;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.BaseActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;

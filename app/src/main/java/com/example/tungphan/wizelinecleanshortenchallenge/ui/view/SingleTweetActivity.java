@@ -1,13 +1,10 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
-import com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.components.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SingleTweetActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISingleTweetActivityListener;
