@@ -38,7 +38,7 @@
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.view.LoadImageActivity"
-            android:label="@string/empty_string"
+            android:label="@string/load_image"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

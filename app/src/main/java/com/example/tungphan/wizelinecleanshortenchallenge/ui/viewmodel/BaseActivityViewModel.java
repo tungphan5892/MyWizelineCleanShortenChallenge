@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.common.Utils;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
@@ -121,11 +122,8 @@ public class BaseActivityViewModel extends RootViewModel implements IBaseActivit
         return this;
     }
 
-    public IActivityStartStopListener getIRootViewModelListener() {
-        return super.getIActivityStartStopListener();
-    }
-
     public BaseActivityViewModel(Context context, BaseActivityBinding baseActivityBinding) {
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         this.context = context;
         this.baseActivityBinding = baseActivityBinding;
         baseActivityBinding.appBarBase.fab.setOnClickListener(fabClickListenter);

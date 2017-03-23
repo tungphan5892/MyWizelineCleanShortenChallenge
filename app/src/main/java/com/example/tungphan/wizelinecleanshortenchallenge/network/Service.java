@@ -22,7 +22,8 @@ import rx.schedulers.Schedulers;
 public class Service {
     private final String USER_NAME = "wizeline";
     private final String USER_NAME_KEY = "username";
-    private final String HASH_TOKEN = "bearer wize@123456";
+    private final String PRE_TOKEN = "bearer ";
+//    private final String HASH_TOKEN = "bearer wize@123456";
     private final NetworkService networkService;
 
     public Service(NetworkService networkService) {
@@ -59,16 +60,15 @@ public class Service {
                 .onErrorResumeNext(throwable -> Observable.error(throwable));
     }
 
-    public Observable<ImagesInfo> getImagesFromService() {
-        return networkService.getImagesInfo(HASH_TOKEN)
+    public Observable<ImagesInfo> getImagesFromService(String eToken) {
+        return networkService.getImagesInfo(PRE_TOKEN + eToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(throwable -> Observable.error(throwable));
     }
 
     public Observable<Login> login() {
-        String username = "wizeline";
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), username);
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), USER_NAME);
         return networkService.login(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -52,10 +52,6 @@ public class SearchActivityViewModel extends RootViewModel implements ISearchAct
         return this;
     }
 
-    public IActivityStartStopListener getIActivityStartStopListener() {
-        return super.getIActivityStartStopListener();
-    }
-
     @Override
     public void onCreate() {
         rxEventBus.observable(StartSearchTweetEvent.class)

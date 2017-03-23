@@ -2,10 +2,16 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
 import android.app.Activity;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 
+import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
@@ -13,6 +19,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.ImagesFrom
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -24,6 +31,7 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
     private LoadImageActivityBinding loadImageActivityBinding;
     private ImagesFromServiceAdapter imagesFromServiceAdapter;
     private Activity activity;
+    private static String eToken;
 
     public LoadingImageActivityViewModel(Activity activity
             , LoadImageActivityBinding loadImageActivityBinding) {
@@ -34,11 +42,6 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
 
     public IRootViewModelListener getIRootViewModelListener() {
         return this;
-    }
-
-
-    public IActivityStartStopListener getIActivityStartStopListener() {
-        return super.getIActivityStartStopListener();
     }
 
     @Override
@@ -54,8 +57,6 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
 
     @Override
     public void onResume() {
-//        login();
-        getImagesFromService();
     }
 
     private void login() {
@@ -68,17 +69,23 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
             @Override
             public void onError(Throwable e) {
                 Log.e("TFunk", e.getMessage());
+                Snackbar.make(loadImageActivityBinding.parentView, R.string.login_fail
+                        , BaseTransientBottomBar.LENGTH_LONG).show();
             }
 
             @Override
             public void onNext(Login login) {
                 Log.e("TFunk", login.toString());
+                Snackbar.make(loadImageActivityBinding.parentView, R.string.login_success
+                        , BaseTransientBottomBar.LENGTH_LONG).show();
+                eToken = login.getToken();
+                getImagesFromService(eToken);
             }
         }));
     }
 
-    private void getImagesFromService() {
-        subscriptions.add(service.getImagesFromService()
+    private void getImagesFromService(String eToken) {
+        subscriptions.add(service.getImagesFromService(eToken)
                 .flatMap(list -> Observable.from(list.getData()))
                 .filter(data -> !data.isAnimated())
                 .toList()
@@ -94,5 +101,10 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
                     }
                 }));
     }
+
+    public void clickLoginButton(@NonNull final View view) {
+        login();
+    }
+
 
 }

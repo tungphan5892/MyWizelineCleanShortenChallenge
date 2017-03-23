@@ -89,10 +89,6 @@ public class TimelineActivityViewModel extends RootViewModel implements ITimelin
         return this;
     }
 
-    public IActivityStartStopListener getIActivityStartStopListener() {
-        return super.getIActivityStartStopListener();
-    }
-
     @Override
     public void onCreate() {
         loadTimeline();

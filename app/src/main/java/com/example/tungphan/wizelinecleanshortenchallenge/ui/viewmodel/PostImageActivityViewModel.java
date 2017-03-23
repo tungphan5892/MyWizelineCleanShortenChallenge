@@ -39,10 +39,6 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
         return this;
     }
 
-    public IActivityStartStopListener getIActivityStartStopListener() {
-        return super.getIActivityStartStopListener();
-    }
-
     @Override
     public void onCreate() {
         activity.getLoaderManager().initLoader(LoaderConstant.EXTERNAL_IMAGES_LOADER_ID, null, this);
@@ -80,7 +76,7 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
             cursor.close();
         }
         //TODO:reuse adapter object
-        galleryImageAdapter = new GalleryImageAdapter(activity, imagesPath);
+        galleryImageAdapter = new GalleryImageAdapter(activity, imagesPath, rxEventBus);
         postImageActivityBinding.gridviewCategory
                 .setOnScrollListener(galleryImageAdapter.getOnScrollListener());
         postImageActivityBinding.gridviewCategory.setAdapter(galleryImageAdapter);

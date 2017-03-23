@@ -39,8 +39,10 @@ public class RootViewModel extends BaseObservable implements IActivityStartStopL
 
     @Override
     public void onStop() {
-        subscriptions.unsubscribe();
-        subscriptions = null;
+        if (subscriptions != null) {
+            subscriptions.unsubscribe();
+            subscriptions = null;
+        }
     }
 
 }

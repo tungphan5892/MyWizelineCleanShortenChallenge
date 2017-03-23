@@ -61,10 +61,6 @@ public class NewTweetActivityViewModel extends RootViewModel implements IRootVie
         return this;
     }
 
-    public IActivityStartStopListener getIActivityStartStopListener() {
-        return super.getIActivityStartStopListener();
-    }
-
     public void setTweetCount(int tweetCount) {
         newTweetActivityModel.setTweetCount(tweetCount);
         notifyPropertyChanged(BR.tweetCount);
@@ -180,7 +176,7 @@ public class NewTweetActivityViewModel extends RootViewModel implements IRootVie
             cursor.close();
         }
         //TODO:reuse adapter object
-        galleryImageAdapter = new GalleryImageAdapter(activity, imagesPath);
+        galleryImageAdapter = new GalleryImageAdapter(activity, imagesPath, rxEventBus);
         newTweetActivityBinding.gridviewCategory
                 .setOnScrollListener(galleryImageAdapter.getOnScrollListener());
         newTweetActivityBinding.gridviewCategory.setAdapter(galleryImageAdapter);

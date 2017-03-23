@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.eventbus.RxEventBus;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,14 +29,16 @@ public class GalleryImageAdapter extends BaseAdapter implements AbsListView.OnSc
     private ArrayList<String> data = new ArrayList<>();
     private final Object scrollTag = new Object();
     private int galleryImageSize;
+    private RxEventBus rxEventBus;
 
     public AbsListView.OnScrollListener getOnScrollListener() {
         return this;
     }
 
-    public GalleryImageAdapter(Context context, ArrayList<String> data) {
+    public GalleryImageAdapter(Context context, ArrayList<String> data, RxEventBus rxEventBus) {
         this.context = context;
         this.data = data;
+        this.rxEventBus = rxEventBus;
         galleryImageSize = (int) context.getResources().getDimension(R.dimen.image_grid_view_size);
 
     }
@@ -70,6 +73,12 @@ public class GalleryImageAdapter extends BaseAdapter implements AbsListView.OnSc
                 .resize(galleryImageSize, galleryImageSize)
                 .centerCrop()
                 .into(viewHolder.image);
+        viewHolder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                rxEventBus.post();
+            }
+        });
         return convertView;
     }
 

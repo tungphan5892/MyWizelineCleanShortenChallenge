@@ -11,8 +11,20 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/text_login_btn"
+            android:layout_margin="@dimen/normal_view_view_margin"
+            android:onClick="@{viewModel.clickLoginButton}"
+            />
 
         <GridView
             android:id="@+id/loading_image_gridview"
@@ -21,6 +33,7 @@
             android:columnWidth="90dp"
             android:horizontalSpacing="10dp"
             android:numColumns="auto_fit"
+            android:layout_below="@id/login_btn"
             android:stretchMode="columnWidth"
             android:verticalSpacing="10dp" />
     </RelativeLayout>

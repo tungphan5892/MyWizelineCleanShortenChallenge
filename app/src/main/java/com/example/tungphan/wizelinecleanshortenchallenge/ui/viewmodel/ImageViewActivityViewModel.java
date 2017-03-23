@@ -1,5 +1,7 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
@@ -8,10 +10,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.ImageViewActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IImageViewActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.PostImageActivity;
@@ -94,29 +98,32 @@ public class ImageViewActivityViewModel extends BaseObservable implements IImage
     public void imageDownload(String imageUrl, String imageName) {
         Picasso.with(context)
                 .load(imageUrl)
-                .into(getTarget(imageName));
+                .into(getTarget(imageUrl, imageName));
     }
 
-    private static Target getTarget(final String imageName) {
+    private static Target getTarget(final String imageUrl, final String imageName) {
         Target target = new Target() {
-
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        File file = new File(imageRoot, imageName);
-                        try {
-                            file.createNewFile();
-                            FileOutputStream ostream = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, ostream);
-                            ostream.flush();
-                            ostream.close();
-                        } catch (IOException e) {
-                            Log.e("IOException", e.getLocalizedMessage());
-                        }
+                        String url = MediaStore.Images.Media.insertImage(
+                                WizelineApp.getInstance().getContentResolver()
+                                , bitmap, imageName, imageUrl);
+                        Log.e("TFunk",url);
+                        addImageToGallery(url,WizelineApp.getInstance().getApplicationContext());
                     }
                 }).start();
+            }
+
+            private void addImageToGallery(final String filePath, final Context context) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                values.put(MediaStore.MediaColumns.DATA, filePath);
+                context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             }
 
             @Override
