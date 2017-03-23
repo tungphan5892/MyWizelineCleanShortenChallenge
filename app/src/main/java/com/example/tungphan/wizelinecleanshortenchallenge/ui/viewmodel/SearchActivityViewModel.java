@@ -21,6 +21,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivit
 
 import rx.Subscriber;
 import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 
 /**
@@ -34,7 +35,7 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
     private SearchTweetRecyclerAdapter searchTweetRecyclerAdapter;
     private Service service;
     private final SearchActivityModel searchActivityModel = new SearchActivityModel();
-    private Subscription subscription;
+    private CompositeSubscription subscriptions;
 
     public SearchActivityViewModel(Context context, SearchActivityBinding searchActivityBinding, Service service) {
         this.context = context;
@@ -54,8 +55,19 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
     }
 
     @Override
+    public void onStart() {
+        subscriptions = new CompositeSubscription();
+    }
+
+    @Override
+    public void onStop() {
+        subscriptions.unsubscribe();
+        subscriptions = null;
+    }
+
+    @Override
     public void onDestroy() {
-        subscription.unsubscribe();
+
     }
 
     private void finishLoadingSearchTweet(SearchTweet searchTweet) {
@@ -72,7 +84,7 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
 
     private void searchTweet(String query) {
         visibleLoading();
-        subscription = service.searchTweet("\"" + query + "\"")
+        subscriptions.add(service.searchTweet("\"" + query + "\"")
                 .subscribe(new Subscriber<SearchTweet>() {
                     @Override
                     public void onCompleted() {
@@ -89,10 +101,10 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
                     public void onNext(SearchTweet searchTweet) {
                         finishLoadingSearchTweet(searchTweet);
                     }
-                });
+                }));
     }
 
-    private void visibleLoading(){
+    private void visibleLoading() {
         if (searchTweetRecyclerAdapter == null) {
             setVisibleEmptyBackground(true);
         } else if (searchTweetRecyclerAdapter.getItemCount() == 0) {

@@ -5,9 +5,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.example.tungphan.wizelinecleanshortenchallenge.di.components.AppComponent;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.components.DaggerAppComponent;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.modules.NetworkModule;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.DaggerAppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.module.NetworkModule;
 
 /**
  * Created by tungphan on 3/17/17.

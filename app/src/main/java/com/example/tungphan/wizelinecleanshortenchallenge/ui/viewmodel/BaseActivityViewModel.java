@@ -29,6 +29,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivi
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageViewActivity;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.LoadImageActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
@@ -155,12 +157,12 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     }
 
     private void initToolbarAndNavigationDrawer() {
-        ((AppCompatActivity)context).setSupportActionBar(baseActivityBinding.appBarBase.toolbar);
+        ((AppCompatActivity) context).setSupportActionBar(baseActivityBinding.appBarBase.toolbar);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
-                (Activity)context, baseActivityBinding.drawerLayout, baseActivityBinding.appBarBase.toolbar
+                (Activity) context, baseActivityBinding.drawerLayout, baseActivityBinding.appBarBase.toolbar
                 , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         baseActivityBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        ((AppCompatActivity)context).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ((AppCompatActivity) context).getSupportActionBar().setDisplayShowHomeEnabled(true);
         actionBarDrawerToggle.syncState();
         baseActivityBinding.navView.setNavigationItemSelectedListener(this);
     }
@@ -215,14 +217,19 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
 
     @Override
     public void onPrepareOptionsMenu() {
-        if(context instanceof TimelineActivity){
+        if (context instanceof TimelineActivity) {
             setTimelineToolbarItemsVisibility();
-        } else if( context instanceof NewTweetActivity){
+        } else if (context instanceof NewTweetActivity) {
             setNewTweetToolbarItemsVisibility();
-        }else if(context instanceof SearchActivity){
+        } else if (context instanceof SearchActivity) {
             setSearchToolbarItemsVisibility();
-        }else if(context instanceof SingleTweetActivity){
+        } else if (context instanceof SingleTweetActivity) {
             setSingleTweetToolbarItemsVisibility();
+        } else if (context instanceof LoadImageActivity) {
+            setNewTweetToolbarItemsVisibility();//the toolbar and fab is the same
+            // with new tweet activity
+        } else if (context instanceof ImageViewActivity) {
+            setNewTweetToolbarItemsVisibility();
         }
     }
 
@@ -234,28 +241,31 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         }
     }
 
-    private void setTimelineToolbarItemsVisibility(){
+    private void setTimelineToolbarItemsVisibility() {
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
     }
-    private void setNewTweetToolbarItemsVisibility(){
+
+    private void setNewTweetToolbarItemsVisibility() {
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
     }
-    private void setSearchToolbarItemsVisibility(){
+
+    private void setSearchToolbarItemsVisibility() {
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.VISIBLE);
     }
-    private void setSingleTweetToolbarItemsVisibility(){
+
+    private void setSingleTweetToolbarItemsVisibility() {
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.VISIBLE);
@@ -284,14 +294,14 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         return (ImageButton) outViews.get(0);
     }
 
-    public void setBackButtonClickListener(){
+    public void setBackButtonClickListener() {
         getBackButtonInNavigationDrawer().setOnClickListener(v -> {
-            ((Activity)context).setResult(ActivityResult.CANCELED);
-            ((Activity)context).finish();
+            ((Activity) context).setResult(ActivityResult.CANCELED);
+            ((Activity) context).finish();
         });
     }
 
-    private ImageButton getBackButtonInNavigationDrawer(){
+    private ImageButton getBackButtonInNavigationDrawer() {
         final ArrayList<View> outViews = new ArrayList<>();
         String contentDesc = context.getResources().getString(R.string.navigate_up);
         baseActivityBinding.appBarBase.toolbar.findViewsWithText(outViews, contentDesc

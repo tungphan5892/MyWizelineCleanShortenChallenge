@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by tungphan on 3/9/17.
@@ -49,7 +50,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     private ArrayList<String> imagesPath = new ArrayList<>();
     private Uri imagesUri;
     private Service service;
-    private Subscription subscription;
+    private CompositeSubscription subscriptions;
 
     public static String getBucketId(String path) {
         return String.valueOf(path.toLowerCase().hashCode());
@@ -92,6 +93,11 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
         activity.getLoaderManager().initLoader(EXTERNAL_IMAGES_LOADER_ID, null, this);
     }
 
+    @Override
+    public void onStart() {
+        subscriptions = new CompositeSubscription();
+    }
+
     private void setupSoftKeyboardListener() {
         final View contentView = activity
                 .findViewById(android.R.id.content);
@@ -121,11 +127,17 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onDestroy() {
-        subscription.unsubscribe();
+
     }
 
     @Override
     public void onResume() {
+    }
+
+    @Override
+    public void onStop() {
+        subscriptions.unsubscribe();
+        subscriptions = null;
     }
 
     private void setTweetDescriptionChanged() {
@@ -179,7 +191,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
             }
             cursor.close();
         }
-        phoneImagesGridVAdapter = new PhoneImagesGridVAdapter(activity, imagesPath);
+//        phoneImagesGridVAdapter = new PhoneImagesGridVAdapter(activity, imagesPath);
         newTweetActivityBinding.gridviewCategory
                 .setOnScrollListener(phoneImagesGridVAdapter.getOnScrollListener());
         newTweetActivityBinding.gridviewCategory.setAdapter(phoneImagesGridVAdapter);
@@ -191,7 +203,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     }
 
     public void clickNewTweetButton(@NonNull final View view) {
-        subscription = service.postNewTweet(getTweetDescription()).subscribe(new Subscriber<ResponseBody>() {
+        subscriptions.add(service.postNewTweet(getTweetDescription()).subscribe(new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
 
@@ -208,7 +220,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
                 activity.setResult(ActivityResult.OK);
                 activity.finish();
             }
-        });
+        }));
     }
 
     public String getTweetDescription() {

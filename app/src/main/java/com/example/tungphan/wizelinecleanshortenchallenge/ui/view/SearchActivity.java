@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.components.AppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SearchActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;

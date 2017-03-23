@@ -9,6 +9,7 @@ public interface IntentConstants {
     String TWEET_CONTENT = "tweet_description";
     String OWNER_PROFILE_IMAGE_URL = "owner_profile_image_url";
     String ONER_DESCRIPTION = "owner_description";
-    String CUSTOM_BROADCAST_NETWORK_DISCONNECT = "custom_broadcast_network_disconnect";
-    String POST_TWEET_RESULT = "post_tweet_result";
+    String IMAGE_ID = "image_id";
+    String IMAGE_DESCRIPTION = "image_description";
+    String IMAGE_URL = "image_url";
 }

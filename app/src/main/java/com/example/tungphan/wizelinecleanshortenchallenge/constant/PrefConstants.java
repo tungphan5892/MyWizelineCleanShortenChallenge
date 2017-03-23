@@ -6,9 +6,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.constant;
 
 public interface PrefConstants {
 
-    String LOGIN_PREF = "login_pref";
-    String USER_NAME = "user_name";
-    String USER_DESCRIPTION = "user_description";
     String PREFS_NAME = "PingBusPrefs";
     String PREFS_SEARCH_HISTORY = "SearchHistory";
 

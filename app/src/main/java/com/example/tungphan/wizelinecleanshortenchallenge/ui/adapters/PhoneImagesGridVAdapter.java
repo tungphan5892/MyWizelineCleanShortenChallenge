@@ -2,6 +2,7 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.Datum;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageViewActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants.IMAGE_DESCRIPTION;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants.IMAGE_ID;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants.IMAGE_URL;
 
 
 /**
@@ -24,9 +31,9 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.M)
 public class PhoneImagesGridVAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
 
-    private static final String FILE_PATH = "file://";
+    //    private static final String FILE_PATH = "file://";
     private Context context;
-    private ArrayList<String> data = new ArrayList<>();
+    private List<Datum> data = new ArrayList<>();
     private final Object scrollTag = new Object();
     private int galleryImageSize;
 
@@ -34,7 +41,7 @@ public class PhoneImagesGridVAdapter extends BaseAdapter implements AbsListView.
         return this;
     }
 
-    public PhoneImagesGridVAdapter(Context context, ArrayList<String> data) {
+    public PhoneImagesGridVAdapter(Context context, List<Datum> data) {
         this.context = context;
         this.data = data;
         galleryImageSize = (int) context.getResources().getDimension(R.dimen.image_grid_view_size);
@@ -64,13 +71,22 @@ public class PhoneImagesGridVAdapter extends BaseAdapter implements AbsListView.
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        String itemPath = data.get(position);
+        String itemId = data.get(position).getId();
+        String itemDescription = data.get(position).getDescription();
+        String itemLink = data.get(position).getLink();
         Picasso.with(context)
-                .load(FILE_PATH + itemPath)
+                .load(itemLink)
                 .placeholder(R.drawable.default_placeholder)
-                .resize(galleryImageSize,galleryImageSize)
+                .resize(galleryImageSize, galleryImageSize)
                 .centerCrop()
                 .into(viewHolder.image);
+        viewHolder.image.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ImageViewActivity.class);
+            intent.putExtra(IMAGE_ID, itemId);
+            intent.putExtra(IMAGE_DESCRIPTION, itemDescription);
+            intent.putExtra(IMAGE_URL, itemLink);
+            context.startActivity(intent);
+        });
         return convertView;
     }
 

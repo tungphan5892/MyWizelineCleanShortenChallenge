@@ -5,7 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.components.AppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderBaseBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IMyNavViewHeaderListener;

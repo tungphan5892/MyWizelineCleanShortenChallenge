@@ -25,12 +25,11 @@ import com.squareup.picasso.Picasso;
  */
 
 public class SingleTweetActivityViewModel extends BaseObservable implements ISingleTweetActivityListener {
-    private final String INTENT_TEXT_SHARE_TYPE = "text/plain";
 
+    private final String INTENT_TEXT_SHARE_TYPE = "text/plain";
     private Context context;
     private SingleTweetActivityBinding singleTweetActivityBinding;
     final private SingleTweetActivityModel singleTweetActivityModel = new SingleTweetActivityModel();
-
     public ISingleTweetActivityListener getISingleTweetViewModel() {
         return this;
     }

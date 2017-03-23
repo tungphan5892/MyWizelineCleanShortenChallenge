@@ -1,6 +1,7 @@
-package com.example.tungphan.wizelinecleanshortenchallenge.di.components;
+package com.example.tungphan.wizelinecleanshortenchallenge.di.component;
 
-import com.example.tungphan.wizelinecleanshortenchallenge.di.modules.NetworkModule;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.module.NetworkModule;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.LoadImageActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
@@ -21,5 +22,6 @@ public interface AppComponent {
     void inject(SingleTweetActivity singleTweetActivity);
     void inject(NewTweetActivity newTweetActivity);
     void inject(SearchActivity searchActivity);
+    void inject(LoadImageActivity loadImageActivity);
 
 }

@@ -1,15 +1,19 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener;
 
 /**
- * Created by tungphan on 3/20/17.
+ * Created by tungphan on 3/23/17.
  */
 
-public interface IMyNavViewHeaderListener {
+public interface ILoadImageActivityListener {
     void onCreate();
 
     void onStart();
 
+    void onResume();
+
     void onStop();
 
     void onDestroy();
+
+
 }

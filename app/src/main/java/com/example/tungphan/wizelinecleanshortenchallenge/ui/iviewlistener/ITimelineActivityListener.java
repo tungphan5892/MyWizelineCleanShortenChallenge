@@ -12,6 +12,10 @@ public interface ITimelineActivityListener {
 
     void onActivityResult(int requestCode, int resultCode, Intent data);
 
+    void onStart();
+
+    void onStop();
+
     void onDestroy();
 
 }

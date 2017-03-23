@@ -20,6 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import rx.Subscriber;
 import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by tungphan on 3/20/17.
@@ -30,7 +31,13 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
     private Service service;
     private NavHeaderBaseBinding myNavViewHeaderBinding;
     private Context context;
-    private Subscription subscription;
+    private CompositeSubscription subscriptions;
+
+    @Override
+    public void onStop() {
+        subscriptions.unsubscribe();
+        subscriptions = null;
+    }
 
     public IMyNavViewHeaderListener getIMyNavViewHeaderListener() {
         return this;
@@ -68,13 +75,18 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
     }
 
     @Override
+    public void onStart() {
+
+    }
+
+    @Override
     public void onDestroy() {
-        subscription.unsubscribe();
+
     }
 
 
     private void loadingUserInfo() {
-        subscription = service.getUserFromService()
+        subscriptions.add(service.getUserFromService()
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
@@ -90,7 +102,7 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
                     public void onNext(User user) {
                         finishLoadingUserInfo(user);
                     }
-                });
+                }));
     }
 
     private void finishLoadingUserInfo(User user) {

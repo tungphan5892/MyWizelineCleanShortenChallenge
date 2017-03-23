@@ -10,5 +10,9 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweet
 public interface ISearchActivityListener {
     void searchEditTextDone(StartSearchTweetEvent startSearchTweetEvent);
 
+    void onStart();
+
+    void onStop();
+
     void onDestroy();
 }

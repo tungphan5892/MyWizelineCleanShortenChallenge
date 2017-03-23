@@ -1,4 +1,4 @@
-package com.example.tungphan.wizelinecleanshortenchallenge.di.modules;
+package com.example.tungphan.wizelinecleanshortenchallenge.di.module;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,7 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
     private final String TAG = NetworkModule.class.getSimpleName();
-    private static final String ROOT_URL = "https://wizetwitterproxy.herokuapp.com";
+//    private static final String ROOT_URL = "https://wizetwitterproxy.herokuapp.com";
+    private static final String ROOT_URL = "https://wzimgur.herokuapp.com";
     private static final int OFFLINE_EXPIRE_TIME_DAY = 7;
     private static final int EXPIRE_TIME_MINS = 2;
     private static final String CACHE_CONTROL = "cache_control";
@@ -99,8 +100,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public Service providesService(NetworkService networkService) {
-        return new Service(networkService);
+    public Service providesService() {
+        return new Service(providesNetworkService());
     }
 
     @Provides
