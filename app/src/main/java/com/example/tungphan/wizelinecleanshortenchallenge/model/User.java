@@ -3,6 +3,7 @@ package com.example.tungphan.wizelinecleanshortenchallenge.model;
 /**
  * Created by Tung Phan on 2/17/2017.
  */
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

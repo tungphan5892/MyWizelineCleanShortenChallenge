@@ -27,7 +27,7 @@ public class WizelineApp extends Application {
                 .build();
     }
 
-    public static WizelineApp getInstance(){
+    public static WizelineApp getInstance() {
         return instance;
     }
 

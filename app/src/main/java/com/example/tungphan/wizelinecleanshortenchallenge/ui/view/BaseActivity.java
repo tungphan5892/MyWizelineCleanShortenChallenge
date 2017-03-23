@@ -1,17 +1,30 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
+import com.example.tungphan.wizelinecleanshortenchallenge.common.Utils;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.BaseActivityViewModel;
 
@@ -21,9 +34,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
+
     protected BaseActivityBinding baseActivityBinding;
     private BaseActivityViewModel baseActivityViewModel;
     private IBaseActivityListener iBaseActivityListener;
+    private IActivityStartStopListener iActivityStartStopListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +47,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         iBaseActivityListener.onCreate();
     }
 
-    private void initViews(){
+    private void initViews() {
         //init databinding, base view model and set up IBaseActivity Listener.
         baseActivityBinding = DataBindingUtil.setContentView(this, R.layout.base_activity);
         baseActivityViewModel = new BaseActivityViewModel(this, baseActivityBinding);
         baseActivityBinding.setViewModel(baseActivityViewModel);
         iBaseActivityListener = baseActivityViewModel.getIBaseActivityListener();
+        iActivityStartStopListener = baseActivityViewModel.getIActivityStartStopListener();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        iBaseActivityListener.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -75,7 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        iBaseActivityListener.onStop();
+        iActivityStartStopListener.onStop();
     }
 
     protected void enableShowNavDrawer() {
@@ -98,11 +120,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setBackButtonClickListener(){
+    protected void setBackButtonClickListener() {
         baseActivityViewModel.setBackButtonClickListener();
     }
 
-    protected void setBackgroundForToggleMenuButton(){
+    protected void setBackgroundForToggleMenuButton() {
         baseActivityViewModel.setBackgroundForToggleMenuButton();
     }
 

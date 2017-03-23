@@ -31,7 +31,7 @@ public class SingleTweetActivity extends BaseActivity {
         iSingleTweetActivityListener.retreivedIntentFromOtherActivity(getIntent());
     }
 
-    private void initViews(){
+    private void initViews() {
         singleTweetActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.single_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
         singleTweetActivityViewModel = new SingleTweetActivityViewModel(this, singleTweetActivityBinding);

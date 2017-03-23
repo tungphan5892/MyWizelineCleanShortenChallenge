@@ -1,6 +1,6 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener;
 
-import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
+import android.support.annotation.NonNull;
 
 /**
  * Created by tungphan on 3/17/17.
@@ -12,8 +12,6 @@ public interface IBaseActivityListener {
 
     void onPrepareOptionsMenu();
 
-    void onStop();
-
-    void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent);
+    void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
 }

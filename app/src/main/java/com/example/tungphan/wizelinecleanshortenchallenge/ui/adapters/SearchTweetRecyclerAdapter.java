@@ -91,7 +91,7 @@ public class SearchTweetRecyclerAdapter extends RecyclerView.Adapter<SearchTweet
             this.context = itemView.getContext();
             this.nameTextView = (TextView) itemView.findViewById(R.id.user_name_view);
             this.tweetTextView = (TextView) itemView.findViewById(R.id.tweet_view);
-            this.profileImageView= (ImageView) itemView.findViewById(R.id.profile_image_view);
+            this.profileImageView = (ImageView) itemView.findViewById(R.id.profile_image_view);
             this.itemWrapLayout = (LinearLayout) itemView.findViewById(R.id.item_wrap_layout);
         }
     }

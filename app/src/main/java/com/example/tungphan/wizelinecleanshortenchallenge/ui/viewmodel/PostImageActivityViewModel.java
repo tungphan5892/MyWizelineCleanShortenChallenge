@@ -39,7 +39,7 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
         return this;
     }
 
-    public IActivityStartStopListener getIActivityStartStopListener(){
+    public IActivityStartStopListener getIActivityStartStopListener() {
         return super.getIActivityStartStopListener();
     }
 

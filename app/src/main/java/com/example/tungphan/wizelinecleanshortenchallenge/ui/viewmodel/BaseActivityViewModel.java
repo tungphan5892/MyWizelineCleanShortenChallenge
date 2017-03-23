@@ -1,15 +1,24 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
+import android.net.Uri;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -20,15 +29,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.common.Utils;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.EventBusConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.BaseActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageDetailActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.LoadImageActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
@@ -52,9 +66,10 @@ import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefCo
  * Created by tungphan on 3/17/17.
  */
 
-public class BaseActivityViewModel extends BaseObservable implements IBaseActivityListener,
+public class BaseActivityViewModel extends RootViewModel implements IBaseActivityListener,
         NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = BaseActivityViewModel.class.getSimpleName();
+    private final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
     private Context context;
     private BaseActivityBinding baseActivityBinding;
     private SharedPreferences sharedPreferences;
@@ -106,6 +121,10 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         return this;
     }
 
+    public IActivityStartStopListener getIRootViewModelListener() {
+        return super.getIActivityStartStopListener();
+    }
+
     public BaseActivityViewModel(Context context, BaseActivityBinding baseActivityBinding) {
         this.context = context;
         this.baseActivityBinding = baseActivityBinding;
@@ -148,6 +167,9 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
 
     @Override
     public void onCreate() {
+        if (Utils.isHigherThanMasmarlow()) {
+            requestPermissionIfNeeded();
+        }
         initToolbarAndNavigationDrawer();
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, 0);
         history = sharedPreferences.getStringSet(PREFS_SEARCH_HISTORY, new HashSet<String>());
@@ -155,6 +177,66 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
             history = new HashSet<String>(Arrays.asList(getAutoCompleteFromString()));
         }
         setAutoCompleteSource();
+        rxEventBus.observable(FinishLoadingUserInfoEvent.class)
+                .subscribe(event -> {
+                    if (event.getResultCode() == EventBusConstant.OK) {
+                        userImageUrl = event.getUserProfileImageUrl();
+                        setBackgroundForToggleMenuButton();
+                    }
+                });
+    }
+
+    private void requestPermissionIfNeeded() {
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestWriteExternalPermission();
+        }
+    }
+
+    private void requestWriteExternalPermission() {
+        ActivityCompat.requestPermissions((Activity) context,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                PERMISSION_WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_WRITE_EXTERNAL_STORAGE:
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context
+                                , Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            showpermissionRationale();
+                        } else {
+                            Toast.makeText(context
+                                    , R.string.please_turn_on_permission_in_setting
+                                    , Toast.LENGTH_LONG).show();
+                            ((Activity) context).finish();
+                        }
+                    }
+                }
+        }
+    }
+
+    private void showpermissionRationale() {
+        Snackbar.make(baseActivityBinding.appBarBase.contentLayout
+                , R.string.click_yes_to_turn_on_permission_in_setting,
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.YES, view -> startSettings())
+                .show();
+    }
+
+    private void startSettings() {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setData(Uri.parse(context.getResources().getString(R.string.string_package)
+                + context.getPackageName()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        context.startActivity(intent);
     }
 
     private void initToolbarAndNavigationDrawer() {
@@ -212,7 +294,13 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onStop() {
+        super.onStop();
         savePrefs();
     }
 
@@ -230,16 +318,8 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
             setLoadImageToolbarItemsVisibility();
         } else if (context instanceof ImageDetailActivity) {
             setLoadImageToolbarItemsVisibility();//reuse new tweet toolbar and fab status
-        } else if(context instanceof PostImageActivity){
+        } else if (context instanceof PostImageActivity) {
             setNewTweetToolbarItemsVisibility();//reuse new tweet toolbar and fab status
-        }
-    }
-
-    @Override
-    public void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent) {
-        if (finishLoadingUserInfoEvent.getResultCode() == EventBusConstant.OK) {
-            userImageUrl = finishLoadingUserInfoEvent.getUserProfileImageUrl();
-            setBackgroundForToggleMenuButton();
         }
     }
 

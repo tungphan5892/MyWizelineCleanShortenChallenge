@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
     private final String TAG = NetworkModule.class.getSimpleName();
-//    private static final String ROOT_URL = "https://wizetwitterproxy.herokuapp.com";
+    //    private static final String ROOT_URL = "https://wizetwitterproxy.herokuapp.com";
     private static final String ROOT_URL = "https://wzimgur.herokuapp.com";
     private static final int OFFLINE_EXPIRE_TIME_DAY = 7;
     private static final int EXPIRE_TIME_MINS = 2;

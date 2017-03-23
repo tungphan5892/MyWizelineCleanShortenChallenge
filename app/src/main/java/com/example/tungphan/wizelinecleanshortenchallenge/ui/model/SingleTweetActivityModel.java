@@ -12,7 +12,6 @@ public class SingleTweetActivityModel {
     private String singleTweetContent;
 
 
-
     public String getSingleTweetUserName() {
         return singleTweetUserName;
     }

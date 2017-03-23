@@ -8,11 +8,11 @@ public class StartSearchTweetEvent {
 
     private String searchQuery;
 
-    public StartSearchTweetEvent(String searchQuery){
+    public StartSearchTweetEvent(String searchQuery) {
         this.searchQuery = searchQuery;
     }
 
-    public String getSearchQuery(){
+    public String getSearchQuery() {
         return searchQuery;
     }
 }

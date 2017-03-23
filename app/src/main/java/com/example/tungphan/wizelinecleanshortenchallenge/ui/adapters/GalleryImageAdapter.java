@@ -67,7 +67,7 @@ public class GalleryImageAdapter extends BaseAdapter implements AbsListView.OnSc
         Picasso.with(context)
                 .load(FILE_PATH + itemPath)
                 .placeholder(R.drawable.default_placeholder)
-                .resize(galleryImageSize,galleryImageSize)
+                .resize(galleryImageSize, galleryImageSize)
                 .centerCrop()
                 .into(viewHolder.image);
         return convertView;

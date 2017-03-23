@@ -1,7 +1,6 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener;
 
 
-
 /**
  * Created by tungphan on 3/17/17.
  */

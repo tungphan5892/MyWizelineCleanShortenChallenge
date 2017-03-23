@@ -43,7 +43,7 @@ public class ImagesFromServiceAdapter extends BaseAdapter implements AbsListView
 
     }
 
-    public void setData(List<Datum> data){
+    public void setData(List<Datum> data) {
         this.data = data;
     }
 

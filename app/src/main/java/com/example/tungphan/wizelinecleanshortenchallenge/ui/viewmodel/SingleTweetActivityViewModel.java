@@ -30,6 +30,7 @@ public class SingleTweetActivityViewModel extends BaseObservable implements ISin
     private Context context;
     private SingleTweetActivityBinding singleTweetActivityBinding;
     final private SingleTweetActivityModel singleTweetActivityModel = new SingleTweetActivityModel();
+
     public ISingleTweetActivityListener getISingleTweetViewModel() {
         return this;
     }
@@ -100,10 +101,11 @@ public class SingleTweetActivityViewModel extends BaseObservable implements ISin
     }
 
     @Bindable
-    public String getUserDescription(){
+    public String getUserDescription() {
         return singleTweetActivityModel.getUserDescription();
     }
-    public void setUserDescription(String userDescription){
+
+    public void setUserDescription(String userDescription) {
         singleTweetActivityModel.setUserDescription(userDescription);
         notifyPropertyChanged(BR.userDescription);
     }

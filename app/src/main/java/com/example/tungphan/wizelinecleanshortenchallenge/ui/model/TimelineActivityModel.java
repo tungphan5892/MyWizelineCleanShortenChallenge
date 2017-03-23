@@ -8,19 +8,19 @@ public class TimelineActivityModel {
     private boolean visibleEmptyBackground = true;
     private boolean visibleProgressBar = false;
 
-    public boolean isVisibleEmptyBackground(){
+    public boolean isVisibleEmptyBackground() {
         return visibleEmptyBackground;
     }
 
-    public void setVisibleEmptyBackground(boolean visible){
+    public void setVisibleEmptyBackground(boolean visible) {
         visibleEmptyBackground = visible;
     }
 
-    public void setVisibleProgressBar(boolean visibleProgressBar){
+    public void setVisibleProgressBar(boolean visibleProgressBar) {
         this.visibleProgressBar = visibleProgressBar;
     }
 
-    public boolean isVisibleProgressBar(){
+    public boolean isVisibleProgressBar() {
         return visibleProgressBar;
     }
 }

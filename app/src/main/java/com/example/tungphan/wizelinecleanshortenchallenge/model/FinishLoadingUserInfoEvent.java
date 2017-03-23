@@ -14,11 +14,11 @@ public class FinishLoadingUserInfoEvent {
         this.resultCode = resultCode;
     }
 
-    public String getUserProfileImageUrl(){
+    public String getUserProfileImageUrl() {
         return userProfileImageUrl;
     }
 
-    public int getResultCode(){
+    public int getResultCode() {
         return resultCode;
     }
 }

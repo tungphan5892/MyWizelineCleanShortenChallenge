@@ -12,7 +12,7 @@ import dagger.Component;
  * Created by tung phan on 3/12/17.
  */
 @Singleton
-@Component(modules = {NetworkModule.class,EventBusModule.class})
+@Component(modules = {NetworkModule.class, EventBusModule.class})
 public interface AppComponent {
 
     void inject(RootViewModel rootViewModel);
