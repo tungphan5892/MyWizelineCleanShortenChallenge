@@ -13,7 +13,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderB
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IMyNavViewHeaderListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.MyNavViewHeaderModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.squareup.picasso.Picasso;
@@ -23,14 +23,13 @@ import org.greenrobot.eventbus.EventBus;
 import javax.inject.Inject;
 
 import rx.Subscriber;
-import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by tungphan on 3/20/17.
  */
 
-public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavViewHeaderListener {
+public class MyNavViewHeaderViewModel extends BaseObservable implements IActivityListener {
     private final MyNavViewHeaderModel myNavViewHeaderModel = new MyNavViewHeaderModel();
     @Inject
     Service service;
@@ -44,7 +43,7 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
         subscriptions = null;
     }
 
-    public IMyNavViewHeaderListener getIMyNavViewHeaderListener() {
+    public IActivityListener getIActivityListener() {
         return this;
     }
 
@@ -54,7 +53,7 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
         injectDagger(WizelineApp.getInstance().getAppComponent());
     }
 
-    private void injectDagger(AppComponent appComponent){
+    private void injectDagger(AppComponent appComponent) {
         appComponent.inject(this);
     }
 
@@ -85,6 +84,11 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
 
     @Override
     public void onStart() {
+
+    }
+
+    @Override
+    public void onResume() {
 
     }
 

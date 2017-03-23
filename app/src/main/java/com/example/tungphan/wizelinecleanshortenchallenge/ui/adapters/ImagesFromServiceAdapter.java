@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Datum;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageViewActivity;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class ImagesFromServiceAdapter extends BaseAdapter implements AbsListView
                 .centerCrop()
                 .into(viewHolder.image);
         viewHolder.image.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ImageViewActivity.class);
+            Intent intent = new Intent(context, ImageDetailActivity.class);
             intent.putExtra(IMAGE_ID, itemId);
             intent.putExtra(IMAGE_DESCRIPTION, itemDescription);
             intent.putExtra(IMAGE_URL, itemLink);

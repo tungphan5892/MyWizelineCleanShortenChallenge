@@ -9,8 +9,11 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUse
 public interface IBaseActivityListener {
 
     void onCreate();
-    void onStop();
+
     void onPrepareOptionsMenu();
+
+    void onStop();
+
     void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent);
 
 }

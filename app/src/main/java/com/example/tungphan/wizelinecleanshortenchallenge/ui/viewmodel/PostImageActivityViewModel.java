@@ -14,7 +14,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageA
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IPostImageActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by tungphan on 3/23/17.
  */
 
-public class PostImageActivityViewModel implements IPostImageActivityListener, LoaderManager.LoaderCallbacks {
+public class PostImageActivityViewModel implements IActivityListener, LoaderManager.LoaderCallbacks {
 
     private PostImageActivityBinding postImageActivityBinding;
     private GalleryImageAdapter galleryImageAdapter;
@@ -47,7 +47,7 @@ public class PostImageActivityViewModel implements IPostImageActivityListener, L
         appComponent.inject(this);
     }
 
-    public IPostImageActivityListener getIPostImageActivityListener() {
+    public IActivityListener getIActivityListener() {
         return this;
     }
 

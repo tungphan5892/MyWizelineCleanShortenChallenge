@@ -16,7 +16,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ImageView
  * Created by tungphan on 3/23/17.
  */
 
-public class ImageViewActivity extends BaseActivity {
+public class ImageDetailActivity extends BaseActivity {
     private ImageViewActivityBinding imageViewActivityBinding;
     private ImageViewActivityViewModel imageViewActivityViewModel;
     private IImageViewActivityListener iImageViewActivityListener;
@@ -25,7 +25,7 @@ public class ImageViewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         disableShowNavDrawer();
-        disableShowHomAsUp();
+        enableShowHomeAsUp();
         initViews();
         setBackgroundForToggleMenuButton();
         iImageViewActivityListener.onCreate(getIntent());
@@ -37,9 +37,6 @@ public class ImageViewActivity extends BaseActivity {
         imageViewActivityViewModel = new ImageViewActivityViewModel(this, imageViewActivityBinding);
         imageViewActivityBinding.setViewModel(imageViewActivityViewModel);
         iImageViewActivityListener = imageViewActivityViewModel.getIImageViewActivityListener();
-    }
-
-    protected void injectDagger(AppComponent appComponent) {
     }
 
     @Override

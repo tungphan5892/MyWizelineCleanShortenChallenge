@@ -29,9 +29,10 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivi
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageViewActivity;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageDetailActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.LoadImageActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.PostImageActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.TimelineActivity;
@@ -226,10 +227,11 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
         } else if (context instanceof SingleTweetActivity) {
             setSingleTweetToolbarItemsVisibility();
         } else if (context instanceof LoadImageActivity) {
-            setNewTweetToolbarItemsVisibility();//the toolbar and fab is the same
-            // with new tweet activity
-        } else if (context instanceof ImageViewActivity) {
-            setNewTweetToolbarItemsVisibility();
+            setLoadImageToolbarItemsVisibility();
+        } else if (context instanceof ImageDetailActivity) {
+            setLoadImageToolbarItemsVisibility();//reuse new tweet toolbar and fab status
+        } else if(context instanceof PostImageActivity){
+            setNewTweetToolbarItemsVisibility();//reuse new tweet toolbar and fab status
         }
     }
 
@@ -252,6 +254,14 @@ public class BaseActivityViewModel extends BaseObservable implements IBaseActivi
     private void setNewTweetToolbarItemsVisibility() {
         baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.closeButton.setVisibility(View.VISIBLE);
+        baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);
+    }
+
+    private void setLoadImageToolbarItemsVisibility() {
+        baseActivityBinding.appBarBase.searchButton.setVisibility(View.GONE);
+        baseActivityBinding.appBarBase.closeButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.addButton.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.fab.setVisibility(View.GONE);
         baseActivityBinding.appBarBase.searchEdittext.setVisibility(View.GONE);

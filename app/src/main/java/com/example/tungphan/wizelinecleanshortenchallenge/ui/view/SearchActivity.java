@@ -31,12 +31,16 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         disableShowNavDrawer();
         enableShowHomeAsUp();
+        initViews();
+        setBackButtonClickListener();
+    }
+
+    private void initViews(){
         searchActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.search_activity, baseActivityBinding.appBarBase.contentLayout, true);
         searchActivityViewModel = new SearchActivityViewModel(this,searchActivityBinding);
         searchActivityBinding.setViewModel(searchActivityViewModel);
         iSearchActivityListener = searchActivityViewModel.getISearchTweetViewModel();
-        setBackButtonClickListener();
     }
 
     @Override

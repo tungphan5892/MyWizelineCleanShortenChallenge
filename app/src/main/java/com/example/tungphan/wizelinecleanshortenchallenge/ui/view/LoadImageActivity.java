@@ -6,12 +6,8 @@ import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ILoadImageActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.LoadImageActivityViewModel;
-
-import javax.inject.Inject;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ActivityViewModel;
 
 /**
  * Created by tungphan on 3/23/17.
@@ -19,43 +15,43 @@ import javax.inject.Inject;
 
 public class LoadImageActivity extends BaseActivity {
     private LoadImageActivityBinding loadImageActivityBinding;
-    private LoadImageActivityViewModel loadImageActivityViewModel;
-    private ILoadImageActivityListener iLoadImageActivityListener;
+    private ActivityViewModel loadImageActivityViewModel;
+    private IActivityListener iActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        disableShowNavDrawer();
+        enableShowNavDrawer();
         disableShowHomAsUp();
         initViews();
         setBackgroundForToggleMenuButton();
     }
 
+    private void initViews() {
+        loadImageActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
+                , R.layout.load_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
+        loadImageActivityViewModel = new ActivityViewModel(this, loadImageActivityBinding);
+        loadImageActivityBinding.setViewModel(loadImageActivityViewModel);
+        iActivityListener = loadImageActivityViewModel.getILoadImageActivityListener();
+        iActivityListener.onCreate();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iLoadImageActivityListener.onDestroy();
+        iActivityListener.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        iLoadImageActivityListener.onResume();
+        iActivityListener.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        iLoadImageActivityListener.onStart();
-    }
-
-    private void initViews() {
-        loadImageActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
-                , R.layout.load_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        loadImageActivityViewModel = new LoadImageActivityViewModel(this, loadImageActivityBinding);
-        loadImageActivityBinding.setViewModel(loadImageActivityViewModel);
-        iLoadImageActivityListener = loadImageActivityViewModel.getILoadImageActivityListener();
-        iLoadImageActivityListener.onCreate();
+        iActivityListener.onStart();
     }
 
     @Override

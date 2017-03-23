@@ -8,13 +8,10 @@ import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderBaseBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IMyNavViewHeaderListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ITimelineActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.MyNavViewHeaderViewModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.TimelineActivityViewModel;
-
-import javax.inject.Inject;
 
 /**
  * Created by tungphan on 3/17/17.
@@ -27,33 +24,33 @@ public class TimelineActivity extends BaseActivity {
     private ITimelineActivityListener iTimelineActivityListener;
     private MyNavViewHeaderViewModel myNavViewHeaderViewModel;
     private NavHeaderBaseBinding myNavHeaderBaseBinding;
-    private IMyNavViewHeaderListener iMyNavViewHeaderListener;
+    private IActivityListener iActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableShowNavDrawer();
         disableShowHomAsUp();
-        initViews();
+        initTimelineViews();
+        initHeaderViews();
         iTimelineActivityListener.onCreate();
-        iMyNavViewHeaderListener.onCreate();
+        iActivityListener.onCreate();
     }
 
-    private void initViews() {
+    private void initTimelineViews() {
         timelineActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.timeline_activity, baseActivityBinding.appBarBase.contentLayout, true);
         timelineActivityViewModel = new TimelineActivityViewModel(this, timelineActivityBinding);
         timelineActivityBinding.setViewModel(timelineActivityViewModel);
         iTimelineActivityListener = timelineActivityViewModel.getITimelineActivityListener();
+    }
+
+    private void initHeaderViews() {
         myNavHeaderBaseBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_base
                 , baseActivityBinding.navView, true);
         myNavViewHeaderViewModel = new MyNavViewHeaderViewModel(this, myNavHeaderBaseBinding);
         myNavHeaderBaseBinding.setViewModel(myNavViewHeaderViewModel);
-        iMyNavViewHeaderListener = myNavViewHeaderViewModel.getIMyNavViewHeaderListener();
-    }
-
-    protected void injectDagger(AppComponent appComponent) {
-
+        iActivityListener = myNavViewHeaderViewModel.getIActivityListener();
     }
 
     @Override
@@ -70,7 +67,7 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iMyNavViewHeaderListener.onDestroy();
+        iActivityListener.onDestroy();
         iTimelineActivityListener.onDestroy();
     }
 }

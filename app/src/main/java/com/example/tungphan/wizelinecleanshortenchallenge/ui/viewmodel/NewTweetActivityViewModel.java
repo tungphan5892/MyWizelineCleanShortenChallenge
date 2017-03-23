@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,7 +27,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstan
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.INewTweetActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.NewTweetActivityModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
@@ -44,7 +43,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by tungphan on 3/9/17.
  */
 
-public class NewTweetActivityViewModel extends BaseObservable implements INewTweetActivityListener, LoaderManager.LoaderCallbacks {
+public class NewTweetActivityViewModel extends BaseObservable implements IActivityListener, LoaderManager.LoaderCallbacks {
     private final int MAX_TWEET_LENGTH = 140;
     private final NewTweetActivityModel newTweetActivityModel = new NewTweetActivityModel();
     private NewTweetActivityBinding newTweetActivityBinding;
@@ -65,11 +64,11 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
         injectDagger(WizelineApp.getInstance().getAppComponent());
     }
 
-    private void injectDagger(AppComponent appComponent){
+    private void injectDagger(AppComponent appComponent) {
         appComponent.inject(this);
     }
 
-    public INewTweetActivityListener getINewTweetViewModel() {
+    public IActivityListener getIActitivyListener() {
         return this;
     }
 

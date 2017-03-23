@@ -8,11 +8,9 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -24,7 +22,7 @@ import retrofit2.http.Path;
 import rx.Observable;
 
 /**
- * Created by ennur on 6/25/16.
+ * Created by tung phan on 6/25/16.
  */
 public interface NetworkService {
 
@@ -43,9 +41,6 @@ public interface NetworkService {
 
     @GET("/image")
     Observable<ImagesInfo> getImagesInfo(@Header("Authorization") String token);
-
-//    @POST("/login")
-//    Observable<Login> login(@Body Map<String, String> userData);
 
     @Multipart
     @POST("/login")

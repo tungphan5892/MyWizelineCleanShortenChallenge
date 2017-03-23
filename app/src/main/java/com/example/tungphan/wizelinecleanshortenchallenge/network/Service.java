@@ -1,19 +1,12 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.network;
 
-import android.util.ArrayMap;
-
-import com.example.tungphan.wizelinecleanshortenchallenge.model.Datum;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.ImagesInfo;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.UserInfo;
-import com.google.gson.Gson;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 import okhttp3.MediaType;
@@ -21,7 +14,6 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**

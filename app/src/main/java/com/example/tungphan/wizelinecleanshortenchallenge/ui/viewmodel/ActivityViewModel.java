@@ -11,9 +11,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageA
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.ImagesFromServiceAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ILoadImageActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
 
 import javax.inject.Inject;
 
@@ -25,7 +24,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by tungphan on 3/23/17.
  */
 
-public class LoadImageActivityViewModel extends BaseObservable implements ILoadImageActivityListener {
+public class ActivityViewModel extends BaseObservable implements IActivityListener {
     private LoadImageActivityBinding loadImageActivityBinding;
     private ImagesFromServiceAdapter imagesFromServiceAdapter;
     private Activity activity;
@@ -34,7 +33,7 @@ public class LoadImageActivityViewModel extends BaseObservable implements ILoadI
     Service service;
     private CompositeSubscription subscriptions;
 
-    public LoadImageActivityViewModel(Activity activity
+    public ActivityViewModel(Activity activity
             , LoadImageActivityBinding loadImageActivityBinding) {
         this.activity = activity;
         this.loadImageActivityBinding = loadImageActivityBinding;
@@ -45,7 +44,7 @@ public class LoadImageActivityViewModel extends BaseObservable implements ILoadI
         appComponent.inject(this);
     }
 
-    public ILoadImageActivityListener getILoadImageActivityListener() {
+    public IActivityListener getILoadImageActivityListener() {
         return this;
     }
 

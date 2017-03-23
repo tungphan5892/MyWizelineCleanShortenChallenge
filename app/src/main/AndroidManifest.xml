@@ -49,7 +49,7 @@
         </activity>
 
         <activity
-            android:name=".ui.view.ImageViewActivity"
+            android:name=".ui.view.ImageDetailActivity"
             android:label="@string/empty_string"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>

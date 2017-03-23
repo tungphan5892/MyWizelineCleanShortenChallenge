@@ -26,16 +26,17 @@ public class SingleTweetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         disableShowNavDrawer();
         enableShowHomeAsUp();
+        initViews();
+        setBackButtonClickListener();
+        iSingleTweetActivityListener.retreivedIntentFromOtherActivity(getIntent());
+    }
+
+    private void initViews(){
         singleTweetActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.single_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
         singleTweetActivityViewModel = new SingleTweetActivityViewModel(this, singleTweetActivityBinding);
         iSingleTweetActivityListener = singleTweetActivityViewModel.getISingleTweetViewModel();
         singleTweetActivityBinding.setViewModel(singleTweetActivityViewModel);
-        iSingleTweetActivityListener.retreivedIntentFromOtherActivity(getIntent());
-        setBackButtonClickListener();
-    }
-
-    protected void injectDagger(AppComponent appComponent) {
     }
 
     @Override

@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.INewTweetActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.NewTweetActivityViewModel;
 
 import javax.inject.Inject;
@@ -21,7 +19,7 @@ import javax.inject.Inject;
 public class NewTweetActivity extends BaseActivity {
     private NewTweetActivityBinding newTweetActivityBinding;
     private NewTweetActivityViewModel newTweetViewModel;
-    private INewTweetActivityListener iNewTweetActivityListener;
+    private IActivityListener iActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +30,13 @@ public class NewTweetActivity extends BaseActivity {
         setBackgroundForToggleMenuButton();
     }
 
-    private void initViews(){
+    private void initViews() {
         newTweetActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.new_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        newTweetViewModel = new NewTweetActivityViewModel(this,newTweetActivityBinding);
+        newTweetViewModel = new NewTweetActivityViewModel(this, newTweetActivityBinding);
         newTweetActivityBinding.setViewModel(newTweetViewModel);
-        iNewTweetActivityListener = newTweetViewModel.getINewTweetViewModel();
-        iNewTweetActivityListener.onCreate();
+        iActivityListener = newTweetViewModel.getIActitivyListener();
+        iActivityListener.onCreate();
     }
 
     @Override
@@ -49,12 +47,12 @@ public class NewTweetActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iNewTweetActivityListener.onDestroy();
+        iActivityListener.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        iNewTweetActivityListener.onResume();
+        iActivityListener.onResume();
     }
 }

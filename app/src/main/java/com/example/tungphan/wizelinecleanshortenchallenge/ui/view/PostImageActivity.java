@@ -6,7 +6,7 @@ import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IPostImageActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.PostImageActivityViewModel;
 
 /**
@@ -16,7 +16,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.PostImage
 public class PostImageActivity extends BaseActivity {
     private PostImageActivityBinding postImageActivityBinding;
     private PostImageActivityViewModel postImageActivityViewModel;
-    private IPostImageActivityListener iPostImageActivityListener;
+    private IActivityListener iActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +27,13 @@ public class PostImageActivity extends BaseActivity {
         setBackgroundForToggleMenuButton();
     }
 
-    private void initViews(){
+    private void initViews() {
         postImageActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.post_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        postImageActivityViewModel = new PostImageActivityViewModel(this,postImageActivityBinding);
+        postImageActivityViewModel = new PostImageActivityViewModel(this, postImageActivityBinding);
         postImageActivityBinding.setViewModel(postImageActivityViewModel);
-        iPostImageActivityListener = postImageActivityViewModel.getIPostImageActivityListener();
-        iPostImageActivityListener.onCreate();
+        iActivityListener = postImageActivityViewModel.getIActivityListener();
+        iActivityListener.onCreate();
     }
 
     @Override
@@ -45,24 +45,24 @@ public class PostImageActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        iPostImageActivityListener.onResume();
+        iActivityListener.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        iPostImageActivityListener.onStart();
+        iActivityListener.onStart();
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
-        iPostImageActivityListener.onStop();
+        iActivityListener.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iPostImageActivityListener.onDestroy();
+        iActivityListener.onDestroy();
     }
 }
