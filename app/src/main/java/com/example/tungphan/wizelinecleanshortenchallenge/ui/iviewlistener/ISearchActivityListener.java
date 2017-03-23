@@ -1,7 +1,6 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener;
 
 
-import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 
 /**
  * Created by tungphan on 3/17/17.
@@ -9,7 +8,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweet
 
 public interface ISearchActivityListener {
 
-    void searchEditTextDone(StartSearchTweetEvent startSearchTweetEvent);
+    void onCreate();
 
     void onDestroy();
 

@@ -48,11 +48,6 @@ public class SearchActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doThis(StartSearchTweetEvent startSearchTweetEvent) {
-        iSearchActivityListener.searchEditTextDone(startSearchTweetEvent);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

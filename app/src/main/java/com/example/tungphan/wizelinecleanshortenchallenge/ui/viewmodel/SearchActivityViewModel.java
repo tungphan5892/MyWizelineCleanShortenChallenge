@@ -57,8 +57,11 @@ public class SearchActivityViewModel extends RootViewModel implements ISearchAct
     }
 
     @Override
-    public void searchEditTextDone(StartSearchTweetEvent startSearchTweetEvent) {
-        searchTweet(startSearchTweetEvent.getSearchQuery());
+    public void onCreate() {
+        rxEventBus.observable(StartSearchTweetEvent.class)
+                .subscribe(event -> {
+                    searchTweet(event.getSearchQuery());
+                });
     }
 
     @Override

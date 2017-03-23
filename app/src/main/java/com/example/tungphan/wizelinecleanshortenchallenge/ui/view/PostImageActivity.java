@@ -27,6 +27,7 @@ public class PostImageActivity extends BaseActivity {
         disableShowHomAsUp();
         initViews();
         setBackgroundForToggleMenuButton();
+        setBackButtonClickListener();
     }
 
     private void initViews() {

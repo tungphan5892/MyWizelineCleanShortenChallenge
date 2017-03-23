@@ -122,7 +122,7 @@ public class MyNavViewHeaderViewModel extends RootViewModel implements ITimeline
                 .fit()
                 .into(myNavViewHeaderBinding.userBackgroundImage);
         //send this event to BaseActivity to update the menu toggle background image
-        EventBus.getDefault().post(new FinishLoadingUserInfoEvent(EventBusConstant.OK
+        rxEventBus.post(new FinishLoadingUserInfoEvent(EventBusConstant.OK
                 , user.getProfileImageUrl()));
     }
 

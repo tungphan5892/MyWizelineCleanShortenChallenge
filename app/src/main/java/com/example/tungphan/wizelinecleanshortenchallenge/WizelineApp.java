@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.DaggerAppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.module.EventBusModule;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.module.NetworkModule;
 
 /**
@@ -20,7 +21,10 @@ public class WizelineApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        appComponent = DaggerAppComponent.builder().networkModule(new NetworkModule(this)).build();
+        appComponent = DaggerAppComponent.builder()
+                .networkModule(new NetworkModule(this))
+                .eventBusModule(new EventBusModule())
+                .build();
     }
 
     public static WizelineApp getInstance(){

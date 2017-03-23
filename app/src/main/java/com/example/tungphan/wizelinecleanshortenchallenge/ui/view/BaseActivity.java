@@ -65,13 +65,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -108,8 +106,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         baseActivityViewModel.setBackgroundForToggleMenuButton();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doThis(FinishLoadingUserInfoEvent finishLoadingUserInfoEvent) {
-        iBaseActivityListener.doThis(finishLoadingUserInfoEvent);
-    }
 }

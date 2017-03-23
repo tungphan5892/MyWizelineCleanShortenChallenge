@@ -28,6 +28,7 @@ public class ImageDetailActivity extends BaseActivity {
         enableShowHomeAsUp();
         initViews();
         setBackgroundForToggleMenuButton();
+        setBackButtonClickListener();
         iImageViewActivityListener.onCreate(getIntent());
     }
 

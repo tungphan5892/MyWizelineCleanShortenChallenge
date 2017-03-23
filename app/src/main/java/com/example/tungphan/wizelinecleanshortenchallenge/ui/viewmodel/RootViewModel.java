@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.eventbus.RxEventBus;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 
@@ -19,6 +20,8 @@ public class RootViewModel extends BaseObservable implements IActivityStartStopL
 
     @Inject
     Service service;
+    @Inject
+    RxEventBus rxEventBus;
     protected CompositeSubscription subscriptions;
 
     protected void injectDagger(AppComponent appComponent) {
