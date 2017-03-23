@@ -28,7 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        injectDagger(WizelineApp.getInstance().getAppComponent());
         initViews();
         iBaseActivityListener.onCreate();
     }
@@ -40,9 +39,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         baseActivityBinding.setViewModel(baseActivityViewModel);
         iBaseActivityListener = baseActivityViewModel.getIBaseActivityListener();
     }
-
-
-    protected abstract void injectDagger(AppComponent appComponent);
 
     @Override
     public void onBackPressed() {

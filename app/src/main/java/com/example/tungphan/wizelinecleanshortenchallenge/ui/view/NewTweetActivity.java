@@ -22,8 +22,6 @@ public class NewTweetActivity extends BaseActivity {
     private NewTweetActivityBinding newTweetActivityBinding;
     private NewTweetActivityViewModel newTweetViewModel;
     private INewTweetActivityListener iNewTweetActivityListener;
-    @Inject
-    Service service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +35,10 @@ public class NewTweetActivity extends BaseActivity {
     private void initViews(){
         newTweetActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.new_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        newTweetViewModel = new NewTweetActivityViewModel(this,newTweetActivityBinding,service);
+        newTweetViewModel = new NewTweetActivityViewModel(this,newTweetActivityBinding);
         newTweetActivityBinding.setViewModel(newTweetViewModel);
         iNewTweetActivityListener = newTweetViewModel.getINewTweetViewModel();
         iNewTweetActivityListener.onCreate();
-    }
-
-    protected void injectDagger(AppComponent appComponent){
-        appComponent.inject(this);
     }
 
     @Override

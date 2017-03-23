@@ -36,7 +36,6 @@ public class SingleTweetActivity extends BaseActivity {
     }
 
     protected void injectDagger(AppComponent appComponent) {
-        appComponent.inject(this);
     }
 
     @Override

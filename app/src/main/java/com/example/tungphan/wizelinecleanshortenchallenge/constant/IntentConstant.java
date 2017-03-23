@@ -4,7 +4,7 @@ package com.example.tungphan.wizelinecleanshortenchallenge.constant;
  * Created by Tung Phan on 2/15/2017.
  */
 
-public interface IntentConstants {
+public interface IntentConstant {
     String OWNER_NAME = "owner_name";
     String TWEET_CONTENT = "tweet_description";
     String OWNER_PROFILE_IMAGE_URL = "owner_profile_image_url";

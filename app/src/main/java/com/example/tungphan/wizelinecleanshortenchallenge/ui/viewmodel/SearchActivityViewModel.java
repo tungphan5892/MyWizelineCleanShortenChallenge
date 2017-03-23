@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SearchActivityBinding;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
@@ -18,6 +20,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.SearchTwee
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISearchActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivityModel;
 
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -33,16 +37,21 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
     private Context context;
     private SearchActivityBinding searchActivityBinding;
     private SearchTweetRecyclerAdapter searchTweetRecyclerAdapter;
-    private Service service;
+    @Inject
+    Service service;
     private final SearchActivityModel searchActivityModel = new SearchActivityModel();
     private CompositeSubscription subscriptions;
 
-    public SearchActivityViewModel(Context context, SearchActivityBinding searchActivityBinding, Service service) {
+    public SearchActivityViewModel(Context context, SearchActivityBinding searchActivityBinding) {
         this.context = context;
         this.searchActivityBinding = searchActivityBinding;
-        this.service = service;
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         searchActivityBinding.searchTweetRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    private void injectDagger(AppComponent appComponent){
+        appComponent.inject(this);
     }
 
     public ISearchActivityListener getISearchTweetViewModel() {

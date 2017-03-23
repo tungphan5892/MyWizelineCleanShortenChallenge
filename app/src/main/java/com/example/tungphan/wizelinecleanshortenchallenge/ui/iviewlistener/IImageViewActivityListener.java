@@ -15,4 +15,6 @@ public interface IImageViewActivityListener {
     void onDestroy();
 
     void saveImage();
+
+    void postImage();
 }

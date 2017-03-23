@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.TweetsListRecyclerAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineActivityBinding;
@@ -20,8 +22,11 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ITimelineActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.TimelineActivityModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.TimelineActivity;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.subscriptions.CompositeSubscription;
@@ -33,19 +38,24 @@ import rx.subscriptions.CompositeSubscription;
 
 public class TimelineActivityViewModel extends BaseObservable implements ITimelineActivityListener {
 
-    private final Service service;
+    @Inject
+    Service service;
     private Context context;
     private TimelineActivityBinding timelineActivityBinding;
     private final TimelineActivityModel timelineActivityModel = new TimelineActivityModel();
     private TweetsListRecyclerAdapter tweetsListAdapter;
     private CompositeSubscription subscriptions;
 
-    public TimelineActivityViewModel(Context context, TimelineActivityBinding timelineActivityBinding, Service service) {
+    public TimelineActivityViewModel(Context context, TimelineActivityBinding timelineActivityBinding) {
         this.context = context;
         this.timelineActivityBinding = timelineActivityBinding;
-        this.service = service;
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         timelineActivityBinding.tweetsRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    private void injectDagger(AppComponent appComponent){
+        appComponent.inject(this);
     }
 
     private void loadTimeline() {

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
-import com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
 import com.squareup.picasso.Picasso;
@@ -65,10 +65,10 @@ public class TweetsListRecyclerAdapter extends RecyclerView.Adapter<SearchTweetR
         final Context context = viewHolder.context;
         itemWrapLayout.setOnClickListener(v -> {
             Intent intent = new Intent(context, SingleTweetActivity.class);
-            intent.putExtra(IntentConstants.OWNER_NAME, tweet.getUser().getName());
-            intent.putExtra(IntentConstants.ONER_DESCRIPTION, tweet.getUser().getDescription());
-            intent.putExtra(IntentConstants.TWEET_CONTENT, tweet.getText());
-            intent.putExtra(IntentConstants.OWNER_PROFILE_IMAGE_URL, tweet.getUser().getProfileImageUrl());
+            intent.putExtra(IntentConstant.OWNER_NAME, tweet.getUser().getName());
+            intent.putExtra(IntentConstant.ONER_DESCRIPTION, tweet.getUser().getDescription());
+            intent.putExtra(IntentConstant.TWEET_CONTENT, tweet.getText());
+            intent.putExtra(IntentConstant.OWNER_PROFILE_IMAGE_URL, tweet.getUser().getProfileImageUrl());
             context.startActivity(intent);
         });
     }

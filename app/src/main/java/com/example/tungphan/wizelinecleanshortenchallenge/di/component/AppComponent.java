@@ -1,11 +1,12 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.di.component;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.di.module.NetworkModule;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.LoadImageActivity;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SearchActivity;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetActivity;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.TimelineActivity;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.LoadImageActivityViewModel;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.MyNavViewHeaderViewModel;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.NewTweetActivityViewModel;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.PostImageActivityViewModel;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.SearchActivityViewModel;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.TimelineActivityViewModel;
 
 import javax.inject.Singleton;
 
@@ -18,10 +19,11 @@ import dagger.Component;
 @Component(modules = {NetworkModule.class,})
 public interface AppComponent {
 
-    void inject(TimelineActivity timelineActivity);
-    void inject(SingleTweetActivity singleTweetActivity);
-    void inject(NewTweetActivity newTweetActivity);
-    void inject(SearchActivity searchActivity);
-    void inject(LoadImageActivity loadImageActivity);
+    void inject(NewTweetActivityViewModel newTweetActivityViewModel);
+    void inject(SearchActivityViewModel searchActivityViewModel);
+    void inject(LoadImageActivityViewModel loadImageActivityViewModel);
+    void inject(TimelineActivityViewModel timelineActivityViewModel);
+    void inject(MyNavViewHeaderViewModel myNavViewHeaderViewModel);
+    void inject(PostImageActivityViewModel postImageActivityViewModel);
 
 }

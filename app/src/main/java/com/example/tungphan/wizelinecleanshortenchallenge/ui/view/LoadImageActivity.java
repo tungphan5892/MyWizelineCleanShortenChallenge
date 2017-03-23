@@ -21,8 +21,6 @@ public class LoadImageActivity extends BaseActivity {
     private LoadImageActivityBinding loadImageActivityBinding;
     private LoadImageActivityViewModel loadImageActivityViewModel;
     private ILoadImageActivityListener iLoadImageActivityListener;
-    @Inject
-    Service service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +29,6 @@ public class LoadImageActivity extends BaseActivity {
         disableShowHomAsUp();
         initViews();
         setBackgroundForToggleMenuButton();
-    }
-
-    private void initViews() {
-        loadImageActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
-                , R.layout.load_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        loadImageActivityViewModel = new LoadImageActivityViewModel(this, loadImageActivityBinding, service);
-        loadImageActivityBinding.setViewModel(loadImageActivityViewModel);
-        iLoadImageActivityListener = loadImageActivityViewModel.getILoadImageActivityListener();
-        iLoadImageActivityListener.onCreate();
-    }
-
-    protected void injectDagger(AppComponent appComponent) {
-        appComponent.inject(this);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -62,4 +42,25 @@ public class LoadImageActivity extends BaseActivity {
         super.onResume();
         iLoadImageActivityListener.onResume();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        iLoadImageActivityListener.onStart();
+    }
+
+    private void initViews() {
+        loadImageActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
+                , R.layout.load_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
+        loadImageActivityViewModel = new LoadImageActivityViewModel(this, loadImageActivityBinding);
+        loadImageActivityBinding.setViewModel(loadImageActivityViewModel);
+        iLoadImageActivityListener = loadImageActivityViewModel.getILoadImageActivityListener();
+        iLoadImageActivityListener.onCreate();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 }

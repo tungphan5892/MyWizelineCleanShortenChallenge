@@ -21,15 +21,13 @@ import javax.inject.Inject;
  */
 
 public class TimelineActivity extends BaseActivity {
+
     private TimelineActivityBinding timelineActivityBinding;
     private TimelineActivityViewModel timelineActivityViewModel;
     private ITimelineActivityListener iTimelineActivityListener;
     private MyNavViewHeaderViewModel myNavViewHeaderViewModel;
     private NavHeaderBaseBinding myNavHeaderBaseBinding;
     private IMyNavViewHeaderListener iMyNavViewHeaderListener;
-    @Inject
-    Service service;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +39,21 @@ public class TimelineActivity extends BaseActivity {
         iMyNavViewHeaderListener.onCreate();
     }
 
-    private void initViews(){
+    private void initViews() {
         timelineActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.timeline_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        timelineActivityViewModel = new TimelineActivityViewModel(this, timelineActivityBinding, service);
+        timelineActivityViewModel = new TimelineActivityViewModel(this, timelineActivityBinding);
         timelineActivityBinding.setViewModel(timelineActivityViewModel);
         iTimelineActivityListener = timelineActivityViewModel.getITimelineActivityListener();
         myNavHeaderBaseBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_base
                 , baseActivityBinding.navView, true);
-        myNavViewHeaderViewModel = new MyNavViewHeaderViewModel(this, myNavHeaderBaseBinding, service);
+        myNavViewHeaderViewModel = new MyNavViewHeaderViewModel(this, myNavHeaderBaseBinding);
         myNavHeaderBaseBinding.setViewModel(myNavViewHeaderViewModel);
         iMyNavViewHeaderListener = myNavViewHeaderViewModel.getIMyNavViewHeaderListener();
     }
 
     protected void injectDagger(AppComponent appComponent) {
-        appComponent.inject(this);
+
     }
 
     @Override

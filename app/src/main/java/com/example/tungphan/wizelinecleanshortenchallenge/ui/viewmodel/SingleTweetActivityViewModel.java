@@ -13,7 +13,7 @@ import android.view.View;
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
-import com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SingleTweetActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISingleTweetActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SingleTweetActivityModel;
@@ -58,11 +58,11 @@ public class SingleTweetActivityViewModel extends BaseObservable implements ISin
             return;
         } else {
             Bundle bundle = intent.getExtras();
-            setSingleTweetUserName(bundle.getString(IntentConstants.OWNER_NAME));
-            setUserDescription(bundle.getString(IntentConstants.ONER_DESCRIPTION));
-            setSingleTweetContent(bundle.getString(IntentConstants.TWEET_CONTENT));
+            setSingleTweetUserName(bundle.getString(IntentConstant.OWNER_NAME));
+            setUserDescription(bundle.getString(IntentConstant.ONER_DESCRIPTION));
+            setSingleTweetContent(bundle.getString(IntentConstant.TWEET_CONTENT));
             Picasso.with(context)
-                    .load(bundle.getString(IntentConstants.OWNER_PROFILE_IMAGE_URL))
+                    .load(bundle.getString(IntentConstant.OWNER_PROFILE_IMAGE_URL))
                     .placeholder(R.drawable.face)
                     .fit()
                     .into(singleTweetActivityBinding.profileImage);

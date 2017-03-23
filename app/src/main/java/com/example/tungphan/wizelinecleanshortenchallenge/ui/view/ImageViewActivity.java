@@ -53,6 +53,8 @@ public class ImageViewActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.action_save) {
             iImageViewActivityListener.saveImage();
+        } else if (id == R.id.action_post_image) {
+            iImageViewActivityListener.postImage();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -25,8 +25,6 @@ public class SearchActivity extends BaseActivity {
     private SearchActivityBinding searchActivityBinding;
     private SearchActivityViewModel searchActivityViewModel;
     private ISearchActivityListener iSearchActivityListener;
-    @Inject
-    Service service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +33,10 @@ public class SearchActivity extends BaseActivity {
         enableShowHomeAsUp();
         searchActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.search_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        searchActivityViewModel = new SearchActivityViewModel(this,searchActivityBinding,service);
+        searchActivityViewModel = new SearchActivityViewModel(this,searchActivityBinding);
         searchActivityBinding.setViewModel(searchActivityViewModel);
         iSearchActivityListener = searchActivityViewModel.getISearchTweetViewModel();
         setBackButtonClickListener();
-    }
-
-    protected void injectDagger(AppComponent appComponent){
-        appComponent.inject(this);
     }
 
     @Override

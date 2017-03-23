@@ -6,11 +6,16 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.PhoneImagesGridVAdapter;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.ImagesFromServiceAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ILoadImageActivityListener;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -22,16 +27,22 @@ import rx.subscriptions.CompositeSubscription;
 
 public class LoadImageActivityViewModel extends BaseObservable implements ILoadImageActivityListener {
     private LoadImageActivityBinding loadImageActivityBinding;
-    private PhoneImagesGridVAdapter phoneImagesGridVAdapter;
+    private ImagesFromServiceAdapter imagesFromServiceAdapter;
     private Activity activity;
-    private Service service;
+    //TODO: reuse code please.
+    @Inject
+    Service service;
     private CompositeSubscription subscriptions;
 
     public LoadImageActivityViewModel(Activity activity
-            , LoadImageActivityBinding loadImageActivityBinding, Service service) {
+            , LoadImageActivityBinding loadImageActivityBinding) {
         this.activity = activity;
         this.loadImageActivityBinding = loadImageActivityBinding;
-        this.service = service;
+        injectDagger(WizelineApp.getInstance().getAppComponent());
+    }
+
+    private void injectDagger(AppComponent appComponent) {
+        appComponent.inject(this);
     }
 
     public ILoadImageActivityListener getILoadImageActivityListener() {
@@ -91,10 +102,11 @@ public class LoadImageActivityViewModel extends BaseObservable implements ILoadI
                 .filter(data -> !data.isAnimated())
                 .toList()
                 .subscribe(data -> {
-                    phoneImagesGridVAdapter = new PhoneImagesGridVAdapter(activity, data);
+                    //TODO: check adapter != null to reuse the object instead of create new instance
+                    imagesFromServiceAdapter = new ImagesFromServiceAdapter(activity, data);
                     loadImageActivityBinding.loadingImageGridview
-                            .setOnScrollListener(phoneImagesGridVAdapter.getOnScrollListener());
-                    loadImageActivityBinding.loadingImageGridview.setAdapter(phoneImagesGridVAdapter);
+                            .setOnScrollListener(imagesFromServiceAdapter.getOnScrollListener());
+                    loadImageActivityBinding.loadingImageGridview.setAdapter(imagesFromServiceAdapter);
                 }));
     }
 

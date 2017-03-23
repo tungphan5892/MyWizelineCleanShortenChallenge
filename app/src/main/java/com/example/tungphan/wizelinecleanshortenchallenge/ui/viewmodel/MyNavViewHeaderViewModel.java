@@ -7,8 +7,10 @@ import android.support.design.widget.Snackbar;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.EventBusConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderBaseBinding;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IMyNavViewHeaderListener;
@@ -17,6 +19,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -28,7 +32,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavViewHeaderListener {
     private final MyNavViewHeaderModel myNavViewHeaderModel = new MyNavViewHeaderModel();
-    private Service service;
+    @Inject
+    Service service;
     private NavHeaderBaseBinding myNavViewHeaderBinding;
     private Context context;
     private CompositeSubscription subscriptions;
@@ -43,10 +48,14 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IMyNavVi
         return this;
     }
 
-    public MyNavViewHeaderViewModel(Context context, NavHeaderBaseBinding myNavViewHeaderBinding, Service service) {
+    public MyNavViewHeaderViewModel(Context context, NavHeaderBaseBinding myNavViewHeaderBinding) {
         this.context = context;
         this.myNavViewHeaderBinding = myNavViewHeaderBinding;
-        this.service = service;
+        injectDagger(WizelineApp.getInstance().getAppComponent());
+    }
+
+    private void injectDagger(AppComponent appComponent){
+        appComponent.inject(this);
     }
 
     @Bindable

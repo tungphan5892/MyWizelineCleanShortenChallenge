@@ -53,6 +53,11 @@
             android:label="@string/empty_string"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.view.PostImageActivity"
+            android:label="@string/empty_string"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

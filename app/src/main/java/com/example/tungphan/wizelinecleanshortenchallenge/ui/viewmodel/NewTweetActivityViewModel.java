@@ -22,8 +22,11 @@ import android.view.ViewTreeObserver;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.PhoneImagesGridVAdapter;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstant;
+import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.INewTweetActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.NewTweetActivityModel;
@@ -31,9 +34,10 @@ import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import okhttp3.ResponseBody;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -42,24 +46,27 @@ import rx.subscriptions.CompositeSubscription;
 
 public class NewTweetActivityViewModel extends BaseObservable implements INewTweetActivityListener, LoaderManager.LoaderCallbacks {
     private final int MAX_TWEET_LENGTH = 140;
-    private final int EXTERNAL_IMAGES_LOADER_ID = 0;
     private final NewTweetActivityModel newTweetActivityModel = new NewTweetActivityModel();
     private NewTweetActivityBinding newTweetActivityBinding;
-    private PhoneImagesGridVAdapter phoneImagesGridVAdapter;
+    private GalleryImageAdapter galleryImageAdapter;
     private Activity activity;
     private ArrayList<String> imagesPath = new ArrayList<>();
-    private Uri imagesUri;
-    private Service service;
+    @Inject
+    Service service;
     private CompositeSubscription subscriptions;
 
     public static String getBucketId(String path) {
         return String.valueOf(path.toLowerCase().hashCode());
     }
 
-    public NewTweetActivityViewModel(Activity activity, NewTweetActivityBinding newTweetActivityBinding, Service service) {
+    public NewTweetActivityViewModel(Activity activity, NewTweetActivityBinding newTweetActivityBinding) {
         this.activity = activity;
         this.newTweetActivityBinding = newTweetActivityBinding;
-        this.service = service;
+        injectDagger(WizelineApp.getInstance().getAppComponent());
+    }
+
+    private void injectDagger(AppComponent appComponent){
+        appComponent.inject(this);
     }
 
     public INewTweetActivityListener getINewTweetViewModel() {
@@ -90,7 +97,7 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
     public void onCreate() {
         setTweetDescriptionChanged();
         setupSoftKeyboardListener();
-        activity.getLoaderManager().initLoader(EXTERNAL_IMAGES_LOADER_ID, null, this);
+        activity.getLoaderManager().initLoader(LoaderConstant.EXTERNAL_IMAGES_LOADER_ID, null, this);
     }
 
     @Override
@@ -191,10 +198,11 @@ public class NewTweetActivityViewModel extends BaseObservable implements INewTwe
             }
             cursor.close();
         }
-//        phoneImagesGridVAdapter = new PhoneImagesGridVAdapter(activity, imagesPath);
+        //TODO:reuse adapter object
+        galleryImageAdapter = new GalleryImageAdapter(activity, imagesPath);
         newTweetActivityBinding.gridviewCategory
-                .setOnScrollListener(phoneImagesGridVAdapter.getOnScrollListener());
-        newTweetActivityBinding.gridviewCategory.setAdapter(phoneImagesGridVAdapter);
+                .setOnScrollListener(galleryImageAdapter.getOnScrollListener());
+        newTweetActivityBinding.gridviewCategory.setAdapter(galleryImageAdapter);
     }
 
     @Override

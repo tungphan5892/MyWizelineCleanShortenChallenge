@@ -44,8 +44,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstants.PREFS_NAME;
-import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstants.PREFS_SEARCH_HISTORY;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstant.PREFS_NAME;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstant.PREFS_SEARCH_HISTORY;
 
 /**
  * Created by tungphan on 3/17/17.

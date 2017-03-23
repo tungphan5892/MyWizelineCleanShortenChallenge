@@ -14,19 +14,17 @@ import android.util.Log;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.ImageViewActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IImageViewActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.PostImageActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants.IMAGE_DESCRIPTION;
-import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants.IMAGE_ID;
-import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstants.IMAGE_URL;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant.IMAGE_DESCRIPTION;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant.IMAGE_ID;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant.IMAGE_URL;
 
 /**
  * Created by tungphan on 3/23/17.
@@ -74,6 +72,12 @@ public class ImageViewActivityViewModel extends BaseObservable implements IImage
     @Override
     public void saveImage() {
         imageDownload(imageUrl, imageId);
+    }
+
+    @Override
+    public void postImage() {
+        Intent intent = new Intent(context, PostImageActivity.class);
+        context.startActivity(intent);
     }
 
     @Override
