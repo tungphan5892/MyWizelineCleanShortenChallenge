@@ -1,6 +1,7 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.design.widget.Snackbar;
@@ -13,7 +14,9 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderB
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ITimelineActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.MyNavViewHeaderModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.squareup.picasso.Picasso;
@@ -29,32 +32,20 @@ import rx.subscriptions.CompositeSubscription;
  * Created by tungphan on 3/20/17.
  */
 
-public class MyNavViewHeaderViewModel extends BaseObservable implements IActivityListener {
+public class MyNavViewHeaderViewModel extends RootViewModel implements ITimelineActivityListener {
+
     private final MyNavViewHeaderModel myNavViewHeaderModel = new MyNavViewHeaderModel();
-    @Inject
-    Service service;
     private NavHeaderBaseBinding myNavViewHeaderBinding;
     private Context context;
-    private CompositeSubscription subscriptions;
 
-    @Override
-    public void onStop() {
-        subscriptions.unsubscribe();
-        subscriptions = null;
-    }
-
-    public IActivityListener getIActivityListener() {
+    public ITimelineActivityListener getITimelineActivityListener() {
         return this;
     }
 
     public MyNavViewHeaderViewModel(Context context, NavHeaderBaseBinding myNavViewHeaderBinding) {
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         this.context = context;
         this.myNavViewHeaderBinding = myNavViewHeaderBinding;
-        injectDagger(WizelineApp.getInstance().getAppComponent());
-    }
-
-    private void injectDagger(AppComponent appComponent) {
-        appComponent.inject(this);
     }
 
     @Bindable
@@ -83,7 +74,7 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IActivit
     }
 
     @Override
-    public void onStart() {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 
@@ -96,7 +87,6 @@ public class MyNavViewHeaderViewModel extends BaseObservable implements IActivit
     public void onDestroy() {
 
     }
-
 
     private void loadingUserInfo() {
         subscriptions.add(service.getUserFromService()

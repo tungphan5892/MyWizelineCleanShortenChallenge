@@ -6,8 +6,9 @@ import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ActivityViewModel;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.LoadingImageActivityViewModel;
 
 /**
  * Created by tungphan on 3/23/17.
@@ -15,8 +16,9 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ActivityV
 
 public class LoadImageActivity extends BaseActivity {
     private LoadImageActivityBinding loadImageActivityBinding;
-    private ActivityViewModel loadImageActivityViewModel;
-    private IActivityListener iActivityListener;
+    private LoadingImageActivityViewModel loadImageLoadingImageActivityViewModel;
+    private IRootViewModelListener iRootViewModelListener;
+    private IActivityStartStopListener iActivityStartStopListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,28 +32,29 @@ public class LoadImageActivity extends BaseActivity {
     private void initViews() {
         loadImageActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.load_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        loadImageActivityViewModel = new ActivityViewModel(this, loadImageActivityBinding);
-        loadImageActivityBinding.setViewModel(loadImageActivityViewModel);
-        iActivityListener = loadImageActivityViewModel.getILoadImageActivityListener();
-        iActivityListener.onCreate();
+        loadImageLoadingImageActivityViewModel = new LoadingImageActivityViewModel(this, loadImageActivityBinding);
+        loadImageActivityBinding.setViewModel(loadImageLoadingImageActivityViewModel);
+        iRootViewModelListener = loadImageLoadingImageActivityViewModel.getIRootViewModelListener();
+        iRootViewModelListener.onCreate();
+        iActivityStartStopListener = loadImageLoadingImageActivityViewModel.getIActivityStartStopListener();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iActivityListener.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        iActivityListener.onResume();
+        iRootViewModelListener.onDestroy();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        iActivityListener.onStart();
+        iActivityStartStopListener.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iRootViewModelListener.onResume();
     }
 
     @Override

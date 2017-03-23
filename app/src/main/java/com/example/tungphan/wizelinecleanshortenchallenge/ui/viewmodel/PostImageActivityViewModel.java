@@ -11,44 +11,36 @@ import android.provider.MediaStore;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
 
 import java.util.ArrayList;
-
-import javax.inject.Inject;
-
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by tungphan on 3/23/17.
  */
 
-public class PostImageActivityViewModel implements IActivityListener, LoaderManager.LoaderCallbacks {
+public class PostImageActivityViewModel extends RootViewModel implements IRootViewModelListener, LoaderManager.LoaderCallbacks {
 
     private PostImageActivityBinding postImageActivityBinding;
     private GalleryImageAdapter galleryImageAdapter;
     private Activity activity;
     private ArrayList<String> imagesPath = new ArrayList<>();
-    @Inject
-    Service service;
-    private CompositeSubscription subscriptions;
 
     public PostImageActivityViewModel(Activity activity
             , PostImageActivityBinding postImageActivityBinding) {
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         this.activity = activity;
         this.postImageActivityBinding = postImageActivityBinding;
-        injectDagger(WizelineApp.getInstance().getAppComponent());
     }
 
-    private void injectDagger(AppComponent appComponent) {
-        appComponent.inject(this);
-    }
-
-    public IActivityListener getIActivityListener() {
+    public IRootViewModelListener getIRootViewModelListener() {
         return this;
+    }
+
+    public IActivityStartStopListener getIActivityStartStopListener(){
+        return super.getIActivityStartStopListener();
     }
 
     @Override
@@ -57,19 +49,8 @@ public class PostImageActivityViewModel implements IActivityListener, LoaderMana
     }
 
     @Override
-    public void onStart() {
-        subscriptions = new CompositeSubscription();
-    }
-
-    @Override
     public void onResume() {
 
-    }
-
-    @Override
-    public void onStop() {
-        subscriptions.unsubscribe();
-        subscriptions = null;
     }
 
     @Override

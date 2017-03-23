@@ -17,6 +17,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.SearchTweetRecyclerAdapter;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISearchActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivityModel;
 
@@ -32,15 +33,12 @@ import rx.subscriptions.CompositeSubscription;
  * Created by tungphan on 3/9/17.
  */
 
-public class SearchActivityViewModel extends BaseObservable implements ISearchActivityListener {
+public class SearchActivityViewModel extends RootViewModel implements ISearchActivityListener {
 
     private Context context;
     private SearchActivityBinding searchActivityBinding;
     private SearchTweetRecyclerAdapter searchTweetRecyclerAdapter;
-    @Inject
-    Service service;
     private final SearchActivityModel searchActivityModel = new SearchActivityModel();
-    private CompositeSubscription subscriptions;
 
     public SearchActivityViewModel(Context context, SearchActivityBinding searchActivityBinding) {
         this.context = context;
@@ -50,28 +48,17 @@ public class SearchActivityViewModel extends BaseObservable implements ISearchAc
         searchActivityBinding.searchTweetRecyclerView.setLayoutManager(mLayoutManager);
     }
 
-    private void injectDagger(AppComponent appComponent){
-        appComponent.inject(this);
-    }
-
     public ISearchActivityListener getISearchTweetViewModel() {
         return this;
+    }
+
+    public IActivityStartStopListener getIActivityStartStopListener() {
+        return super.getIActivityStartStopListener();
     }
 
     @Override
     public void searchEditTextDone(StartSearchTweetEvent startSearchTweetEvent) {
         searchTweet(startSearchTweetEvent.getSearchQuery());
-    }
-
-    @Override
-    public void onStart() {
-        subscriptions = new CompositeSubscription();
-    }
-
-    @Override
-    public void onStop() {
-        subscriptions.unsubscribe();
-        subscriptions = null;
     }
 
     @Override

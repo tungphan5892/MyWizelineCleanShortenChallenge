@@ -6,10 +6,8 @@ import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.NewTweetActivityViewModel;
-
-import javax.inject.Inject;
 
 
 /**
@@ -19,7 +17,7 @@ import javax.inject.Inject;
 public class NewTweetActivity extends BaseActivity {
     private NewTweetActivityBinding newTweetActivityBinding;
     private NewTweetActivityViewModel newTweetViewModel;
-    private IActivityListener iActivityListener;
+    private IRootViewModelListener iActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

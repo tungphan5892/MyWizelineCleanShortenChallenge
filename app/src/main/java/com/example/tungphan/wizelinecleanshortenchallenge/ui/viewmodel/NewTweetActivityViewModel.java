@@ -24,52 +24,45 @@ import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstant;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.NewTweetActivityModel;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import okhttp3.ResponseBody;
 import rx.Subscriber;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by tungphan on 3/9/17.
  */
 
-public class NewTweetActivityViewModel extends BaseObservable implements IActivityListener, LoaderManager.LoaderCallbacks {
+public class NewTweetActivityViewModel extends RootViewModel implements IRootViewModelListener, LoaderManager.LoaderCallbacks {
     private final int MAX_TWEET_LENGTH = 140;
     private final NewTweetActivityModel newTweetActivityModel = new NewTweetActivityModel();
     private NewTweetActivityBinding newTweetActivityBinding;
     private GalleryImageAdapter galleryImageAdapter;
     private Activity activity;
     private ArrayList<String> imagesPath = new ArrayList<>();
-    @Inject
-    Service service;
-    private CompositeSubscription subscriptions;
 
     public static String getBucketId(String path) {
         return String.valueOf(path.toLowerCase().hashCode());
     }
 
     public NewTweetActivityViewModel(Activity activity, NewTweetActivityBinding newTweetActivityBinding) {
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         this.activity = activity;
         this.newTweetActivityBinding = newTweetActivityBinding;
-        injectDagger(WizelineApp.getInstance().getAppComponent());
     }
 
-    private void injectDagger(AppComponent appComponent) {
-        appComponent.inject(this);
-    }
-
-    public IActivityListener getIActitivyListener() {
+    public IRootViewModelListener getIActitivyListener() {
         return this;
+    }
+
+    public IActivityStartStopListener getIActivityStartStopListener() {
+        return super.getIActivityStartStopListener();
     }
 
     public void setTweetCount(int tweetCount) {
@@ -97,11 +90,6 @@ public class NewTweetActivityViewModel extends BaseObservable implements IActivi
         setTweetDescriptionChanged();
         setupSoftKeyboardListener();
         activity.getLoaderManager().initLoader(LoaderConstant.EXTERNAL_IMAGES_LOADER_ID, null, this);
-    }
-
-    @Override
-    public void onStart() {
-        subscriptions = new CompositeSubscription();
     }
 
     private void setupSoftKeyboardListener() {
@@ -138,12 +126,6 @@ public class NewTweetActivityViewModel extends BaseObservable implements IActivi
 
     @Override
     public void onResume() {
-    }
-
-    @Override
-    public void onStop() {
-        subscriptions.unsubscribe();
-        subscriptions = null;
     }
 
     private void setTweetDescriptionChanged() {

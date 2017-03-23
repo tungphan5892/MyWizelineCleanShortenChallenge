@@ -19,6 +19,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.TweetsList
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ITimelineActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.TimelineActivityModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
@@ -36,26 +37,19 @@ import rx.subscriptions.CompositeSubscription;
  * Created by tungphan on 3/17/17.
  */
 
-public class TimelineActivityViewModel extends BaseObservable implements ITimelineActivityListener {
+public class TimelineActivityViewModel extends RootViewModel implements ITimelineActivityListener {
 
-    @Inject
-    Service service;
     private Context context;
     private TimelineActivityBinding timelineActivityBinding;
     private final TimelineActivityModel timelineActivityModel = new TimelineActivityModel();
     private TweetsListRecyclerAdapter tweetsListAdapter;
-    private CompositeSubscription subscriptions;
 
     public TimelineActivityViewModel(Context context, TimelineActivityBinding timelineActivityBinding) {
+        injectDagger(WizelineApp.getInstance().getAppComponent());
         this.context = context;
         this.timelineActivityBinding = timelineActivityBinding;
-        injectDagger(WizelineApp.getInstance().getAppComponent());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         timelineActivityBinding.tweetsRecyclerView.setLayoutManager(mLayoutManager);
-    }
-
-    private void injectDagger(AppComponent appComponent){
-        appComponent.inject(this);
     }
 
     private void loadTimeline() {
@@ -82,7 +76,7 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
                 });
     }
 
-    private void visibleLoading(){
+    private void visibleLoading() {
         if (tweetsListAdapter == null) {
             setVisibleEmptyBackground(true);
         } else if (tweetsListAdapter.getItemCount() == 0
@@ -93,6 +87,10 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
 
     public ITimelineActivityListener getITimelineActivityListener() {
         return this;
+    }
+
+    public IActivityStartStopListener getIActivityStartStopListener() {
+        return super.getIActivityStartStopListener();
     }
 
     @Override
@@ -148,14 +146,8 @@ public class TimelineActivityViewModel extends BaseObservable implements ITimeli
     }
 
     @Override
-    public void onStart() {
-        subscriptions = new CompositeSubscription();
-    }
+    public void onResume() {
 
-    @Override
-    public void onStop() {
-        subscriptions.unsubscribe();
-        subscriptions = null;
     }
 
     @Override
