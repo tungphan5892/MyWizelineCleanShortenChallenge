@@ -4,9 +4,9 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Rect;
 import android.os.Build;
@@ -26,8 +26,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResul
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.NewTweetActivityModel;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ import rx.Subscriber;
  * Created by tungphan on 3/9/17.
  */
 
-public class NewTweetActivityViewModel extends RootViewModel implements IRootViewModelListener, LoaderManager.LoaderCallbacks {
+public class NewTweetActivityViewModel extends RootViewModel implements IRootViewListener, LoaderManager.LoaderCallbacks {
     private final int MAX_TWEET_LENGTH = 140;
     private final NewTweetActivityModel newTweetActivityModel = new NewTweetActivityModel();
     private NewTweetActivityBinding newTweetActivityBinding;
@@ -57,7 +56,7 @@ public class NewTweetActivityViewModel extends RootViewModel implements IRootVie
         this.newTweetActivityBinding = newTweetActivityBinding;
     }
 
-    public IRootViewModelListener getIActitivyListener() {
+    public IRootViewListener getIActitivyListener() {
         return this;
     }
 
@@ -122,6 +121,11 @@ public class NewTweetActivityViewModel extends RootViewModel implements IRootVie
 
     @Override
     public void onResume() {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
     }
 
     private void setTweetDescriptionChanged() {

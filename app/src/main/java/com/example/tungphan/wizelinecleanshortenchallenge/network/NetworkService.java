@@ -9,6 +9,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
@@ -40,9 +41,13 @@ public interface NetworkService {
     Observable<SearchTweet> searchTweet(@Path("query") String query);
 
     @GET("/image")
-    Observable<ImagesInfo> getImagesInfo(@Header("Authorization") String token);
+    Observable<ImagesInfo> getImagesInfo(@Header("Authorization") String eToken);
 
     @Multipart
     @POST("/login")
     Observable<Login> login(@Part("username") RequestBody userName);
+
+    @Multipart
+    @POST("/image")
+    Observable<ImagesInfo> postImage(@Header("Authorization") String eToken, @Part MultipartBody.Part image);
 }

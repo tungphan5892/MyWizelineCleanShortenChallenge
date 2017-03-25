@@ -38,9 +38,4 @@ public class SingleTweetActivity extends BaseActivity {
         iSingleTweetActivityListener = singleTweetActivityViewModel.getISingleTweetViewModel();
         singleTweetActivityBinding.setViewModel(singleTweetActivityViewModel);
     }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
 }

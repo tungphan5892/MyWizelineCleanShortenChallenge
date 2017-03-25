@@ -9,7 +9,7 @@ import java.util.List;
  * Created by tungphan on 3/23/17.
  */
 
-public class Datum {
+public class ImageDetail {
     @SerializedName("id")
     @Expose
     private String id;
@@ -70,6 +70,12 @@ public class Datum {
     @SerializedName("in_gallery")
     @Expose
     private Boolean inGallery;
+    @SerializedName("deletehash")
+    @Expose
+    private String deletehash;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("link")
     @Expose
     private String link;
@@ -244,6 +250,22 @@ public class Datum {
 
     public void setInGallery(Boolean inGallery) {
         this.inGallery = inGallery;
+    }
+
+    public String getDeletehash() {
+        return deletehash;
+    }
+
+    public void setDeletehash(String deletehash) {
+        this.deletehash = deletehash;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLink() {

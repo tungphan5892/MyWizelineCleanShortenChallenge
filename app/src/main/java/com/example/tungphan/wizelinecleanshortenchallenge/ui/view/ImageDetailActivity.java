@@ -7,9 +7,8 @@ import android.view.MenuItem;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.ImageViewActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IImageViewActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ImageViewActivityViewModel;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IImageDetailActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ImageDetailActivityViewModel;
 
 
 /**
@@ -18,8 +17,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ImageView
 
 public class ImageDetailActivity extends BaseActivity {
     private ImageViewActivityBinding imageViewActivityBinding;
-    private ImageViewActivityViewModel imageViewActivityViewModel;
-    private IImageViewActivityListener iImageViewActivityListener;
+    private ImageDetailActivityViewModel imageViewActivityViewModel;
+    private IImageDetailActivityListener iImageDetailActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +26,21 @@ public class ImageDetailActivity extends BaseActivity {
         disableShowNavDrawer();
         enableShowHomeAsUp();
         initViews();
-        setBackgroundForToggleMenuButton();
         setBackButtonClickListener();
-        iImageViewActivityListener.onCreate(getIntent());
+        iImageDetailActivityListener.onCreate(getIntent());
     }
 
     private void initViews() {
         imageViewActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.image_view_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        imageViewActivityViewModel = new ImageViewActivityViewModel(this, imageViewActivityBinding);
+        imageViewActivityViewModel = new ImageDetailActivityViewModel(this, imageViewActivityBinding);
         imageViewActivityBinding.setViewModel(imageViewActivityViewModel);
-        iImageViewActivityListener = imageViewActivityViewModel.getIImageViewActivityListener();
+        iImageDetailActivityListener = imageViewActivityViewModel.getIImageViewActivityListener();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.base, menu);
+        getMenuInflater().inflate(R.menu.image_detail_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -50,9 +48,7 @@ public class ImageDetailActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save) {
-            iImageViewActivityListener.saveImage();
-        } else if (id == R.id.action_post_image) {
-            iImageViewActivityListener.postImage();
+            iImageDetailActivityListener.saveImage();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -60,12 +56,12 @@ public class ImageDetailActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iImageViewActivityListener.onDestroy();
+        iImageDetailActivityListener.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        iImageViewActivityListener.onResume();
+        iImageDetailActivityListener.onResume();
     }
 }

@@ -6,10 +6,4 @@
         android:orderInCategory="100"
         android:title="@string/action_save"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_post_image"
-        android:orderInCategory="100"
-        android:title="@string/action_post_image"
-        app:showAsAction="never" />
 </menu>

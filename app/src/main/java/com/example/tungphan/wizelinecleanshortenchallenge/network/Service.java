@@ -6,10 +6,12 @@ import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 
+import java.io.File;
 import java.util.List;
 
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -23,7 +25,7 @@ public class Service {
     private final String USER_NAME = "wizeline";
     private final String USER_NAME_KEY = "username";
     private final String PRE_TOKEN = "bearer ";
-//    private final String HASH_TOKEN = "bearer wize@123456";
+    //    private final String HASH_TOKEN = "bearer wize@123456";
     private final NetworkService networkService;
 
     public Service(NetworkService networkService) {
@@ -70,6 +72,16 @@ public class Service {
     public Observable<Login> login() {
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), USER_NAME);
         return networkService.login(body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(throwable -> Observable.error(throwable));
+    }
+
+    public Observable<ImagesInfo> postImageToServer(String eToken, String filePath) {
+        File file = new File(filePath);
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
+        return networkService.postImage(PRE_TOKEN + eToken, body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(throwable -> Observable.error(throwable));

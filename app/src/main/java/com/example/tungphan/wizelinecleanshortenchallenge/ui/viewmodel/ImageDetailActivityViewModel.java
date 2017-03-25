@@ -9,23 +9,20 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.ImageViewActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IImageViewActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IImageDetailActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.PostImageActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode.START_POST_IMAGE_ACTIVITY_REQUEST_CODE;
 import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant.IMAGE_DESCRIPTION;
 import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant.IMAGE_ID;
 import static com.example.tungphan.wizelinecleanshortenchallenge.constant.IntentConstant.IMAGE_URL;
@@ -34,24 +31,23 @@ import static com.example.tungphan.wizelinecleanshortenchallenge.constant.Intent
  * Created by tungphan on 3/23/17.
  */
 
-public class ImageViewActivityViewModel extends BaseObservable implements IImageViewActivityListener {
+public class ImageDetailActivityViewModel extends BaseObservable implements IImageDetailActivityListener {
 
-    private static final String TAG = ImageViewActivityViewModel.class.getSimpleName();
+    private static final String TAG = ImageDetailActivityViewModel.class.getSimpleName();
+    private static final String IMAGE_TYPE = "image/jpeg";
     private ImageViewActivityBinding imageViewActivityBinding;
     private Context context;
     private String imageId = "";
     private String imageDescription = "";
     private String imageUrl = "";
-    private static final File imageRoot = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_PICTURES);
 
-    public ImageViewActivityViewModel(Context context
+    public ImageDetailActivityViewModel(Context context
             , ImageViewActivityBinding imageViewActivityBinding) {
         this.context = context;
         this.imageViewActivityBinding = imageViewActivityBinding;
     }
 
-    public IImageViewActivityListener getIImageViewActivityListener() {
+    public IImageDetailActivityListener getIImageViewActivityListener() {
         return this;
     }
 
@@ -79,12 +75,6 @@ public class ImageViewActivityViewModel extends BaseObservable implements IImage
     }
 
     @Override
-    public void postImage() {
-        Intent intent = new Intent(context, PostImageActivity.class);
-        context.startActivity(intent);
-    }
-
-    @Override
     public void onResume() {
         Picasso.with(context)
                 .load(imageUrl)
@@ -105,22 +95,20 @@ public class ImageViewActivityViewModel extends BaseObservable implements IImage
         Target target = new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String url = MediaStore.Images.Media.insertImage(
-                                WizelineApp.getInstance().getContentResolver()
-                                , bitmap, imageName, imageUrl);
-                        Log.e("TFunk",url);
-                        addImageToGallery(url,WizelineApp.getInstance().getApplicationContext());
-                    }
+                new Thread(() -> {
+                    String url = MediaStore.Images.Media.insertImage(
+                            WizelineApp.getInstance().getContentResolver()
+                            , bitmap, imageName, imageUrl);
+                    addImageToGallery(url, WizelineApp.getInstance().getApplicationContext());
                 }).start();
+                Toast.makeText(WizelineApp.getInstance(), R.string.save_image_successfully,
+                        Toast.LENGTH_LONG);
             }
 
             private void addImageToGallery(final String filePath, final Context context) {
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                values.put(MediaStore.Images.Media.MIME_TYPE, IMAGE_TYPE);
                 values.put(MediaStore.MediaColumns.DATA, filePath);
                 context.getContentResolver().insert(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);

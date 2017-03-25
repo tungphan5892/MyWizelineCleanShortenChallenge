@@ -23,7 +23,7 @@
             android:layout_alignParentEnd="true"
             android:text="@string/text_login_btn"
             android:layout_margin="@dimen/normal_view_view_margin"
-            android:onClick="@{viewModel.clickLoginButton}"
+            android:onClick="@{viewModel::clickLoginButton}"
             />
 
         <GridView

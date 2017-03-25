@@ -105,7 +105,7 @@
                     android:layout_marginEnd="@dimen/single_tweet_child_view_margin"
                     android:layout_marginRight="@dimen/single_tweet_share_btn_marginright"
                     android:background="@drawable/button_search_shape"
-                    android:onClick="@{viewModel.clickShareButton}"
+                    android:onClick="@{viewModel::clickShareButton}"
                     android:text="@string/text_share_button"
                     android:textSize="@dimen/share_button_text_size"
                     android:textStyle="bold" />

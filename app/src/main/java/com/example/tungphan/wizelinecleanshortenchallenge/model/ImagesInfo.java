@@ -12,7 +12,7 @@ import java.util.List;
 public class ImagesInfo {
     @SerializedName("data")
     @Expose
-    private List<Datum> data = null;
+    private List<ImageDetail> data = null;
     @SerializedName("success")
     @Expose
     private Boolean success;
@@ -20,11 +20,11 @@ public class ImagesInfo {
     @Expose
     private Integer status;
 
-    public List<Datum> getData() {
+    public List<ImageDetail> getData() {
         return data;
     }
 
-    public void setData(List<Datum> data) {
+    public void setData(List<ImageDetail> data) {
         this.data = data;
     }
 

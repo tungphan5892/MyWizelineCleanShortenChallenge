@@ -6,7 +6,7 @@ import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NewTweetActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.NewTweetActivityViewModel;
 
 
@@ -17,7 +17,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.NewTweetA
 public class NewTweetActivity extends BaseActivity {
     private NewTweetActivityBinding newTweetActivityBinding;
     private NewTweetActivityViewModel newTweetViewModel;
-    private IRootViewModelListener iActivityListener;
+    private IRootViewListener iActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +35,6 @@ public class NewTweetActivity extends BaseActivity {
         newTweetActivityBinding.setViewModel(newTweetViewModel);
         iActivityListener = newTweetViewModel.getIActitivyListener();
         iActivityListener.onCreate();
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.Datum;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.ImageDetail;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -28,7 +28,7 @@ import static com.example.tungphan.wizelinecleanshortenchallenge.constant.Intent
 public class ImagesFromServiceAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
 
     private Context context;
-    private List<Datum> data = new ArrayList<>();
+    private List<ImageDetail> data = new ArrayList<>();
     private final Object scrollTag = new Object();
     private int galleryImageSize;
 
@@ -36,14 +36,14 @@ public class ImagesFromServiceAdapter extends BaseAdapter implements AbsListView
         return this;
     }
 
-    public ImagesFromServiceAdapter(Context context, List<Datum> data) {
+    public ImagesFromServiceAdapter(Context context, List<ImageDetail> data) {
         this.context = context;
         this.data = data;
         galleryImageSize = (int) context.getResources().getDimension(R.dimen.image_grid_view_size);
 
     }
 
-    public void setData(List<Datum> data) {
+    public void setData(List<ImageDetail> data) {
         this.data = data;
     }
 

@@ -5,17 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SearchActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISearchActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.SearchActivityViewModel;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import javax.inject.Inject;
 
 /**
  * Created by tungphan on 3/17/17.
@@ -41,11 +34,6 @@ public class SearchActivity extends BaseActivity {
         searchActivityViewModel = new SearchActivityViewModel(this, searchActivityBinding);
         searchActivityBinding.setViewModel(searchActivityViewModel);
         iSearchActivityListener = searchActivityViewModel.getISearchTweetViewModel();
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

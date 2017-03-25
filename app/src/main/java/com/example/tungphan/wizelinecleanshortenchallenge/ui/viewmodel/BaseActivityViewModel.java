@@ -3,11 +3,9 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.databinding.BaseObservable;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
@@ -18,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -40,10 +37,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.constant.EventBusConst
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.BaseActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageDetailActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.LoadImageActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
@@ -53,14 +47,12 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.SingleTweetAct
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.TimelineActivity;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstant.PREFS_NAME;
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstant.PREFS_SEARCH;
 import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefConstant.PREFS_SEARCH_HISTORY;
 
 /**
@@ -109,7 +101,7 @@ public class BaseActivityViewModel extends RootViewModel implements IBaseActivit
 
     private void callStartSearch(String query) {
         addSearchInput(baseActivityBinding.appBarBase.searchEdittext.getText().toString());
-        EventBus.getDefault().post(new StartSearchTweetEvent(query));
+        rxEventBus.post(new StartSearchTweetEvent(query));
     }
 
     private AdapterView.OnItemClickListener searchItemClickListener = (parent, view, position, id) -> {
@@ -157,7 +149,7 @@ public class BaseActivityViewModel extends RootViewModel implements IBaseActivit
     }
 
     private void savePrefs() {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFS_SEARCH, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putStringSet(PREFS_SEARCH_HISTORY, history);
         editor.apply();
@@ -169,7 +161,7 @@ public class BaseActivityViewModel extends RootViewModel implements IBaseActivit
             requestPermissionIfNeeded();
         }
         initToolbarAndNavigationDrawer();
-        sharedPreferences = context.getSharedPreferences(PREFS_NAME, 0);
+        sharedPreferences = context.getSharedPreferences(PREFS_SEARCH, 0);
         history = sharedPreferences.getStringSet(PREFS_SEARCH_HISTORY, new HashSet<String>());
         if (history.size() == 0) {
             history = new HashSet<String>(Arrays.asList(getAutoCompleteFromString()));

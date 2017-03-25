@@ -6,5 +6,14 @@ package com.example.tungphan.wizelinecleanshortenchallenge.model;
 
 public class PostImageEvent {
 
+    private String imagePath;
+
+    public PostImageEvent(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath(){
+        return imagePath;
+    }
 
 }

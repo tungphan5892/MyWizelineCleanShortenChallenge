@@ -2,7 +2,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.design.widget.Snackbar;
 
@@ -11,34 +10,25 @@ import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.EventBusConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderBaseBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ITimelineActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.MyNavViewHeaderModel;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-
-import javax.inject.Inject;
-
 import rx.Subscriber;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by tungphan on 3/20/17.
  */
 
-public class MyNavViewHeaderViewModel extends RootViewModel implements ITimelineActivityListener {
+public class MyNavViewHeaderViewModel extends RootViewModel implements IRootViewListener {
 
     private final MyNavViewHeaderModel myNavViewHeaderModel = new MyNavViewHeaderModel();
     private NavHeaderBaseBinding myNavViewHeaderBinding;
     private Context context;
 
-    public ITimelineActivityListener getITimelineActivityListener() {
+    public IRootViewListener getIRootViewListener() {
         return this;
     }
 

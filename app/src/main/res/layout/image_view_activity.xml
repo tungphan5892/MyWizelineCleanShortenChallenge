@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ImageViewActivityViewModel" />
+            type="com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.ImageDetailActivityViewModel" />
     </data>
 
     <RelativeLayout

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.eventbus.RxEventBus;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -73,12 +74,7 @@ public class GalleryImageAdapter extends BaseAdapter implements AbsListView.OnSc
                 .resize(galleryImageSize, galleryImageSize)
                 .centerCrop()
                 .into(viewHolder.image);
-        viewHolder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                rxEventBus.post();
-            }
-        });
+        viewHolder.image.setOnClickListener(v -> rxEventBus.post(new PostImageEvent(itemPath)));
         return convertView;
     }
 

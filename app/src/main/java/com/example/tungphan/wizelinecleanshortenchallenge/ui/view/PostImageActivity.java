@@ -2,12 +2,11 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.PostImageActivityViewModel;
 
 /**
@@ -16,40 +15,33 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.PostImage
 
 public class PostImageActivity extends BaseActivity {
     private PostImageActivityBinding postImageActivityBinding;
-    private PostImageActivityViewModel postImageActivityViewModel;
-    private IRootViewModelListener iRootViewModelListener;
+    private PostImageActivityViewModel postImageActivityViewModelModel;
+    private IRootViewListener iRootViewListener;
     private IActivityStartStopListener iActivityStartStopListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         disableShowNavDrawer();
-        disableShowHomAsUp();
+        enableShowHomeAsUp();
         initViews();
-        setBackgroundForToggleMenuButton();
         setBackButtonClickListener();
     }
 
     private void initViews() {
         postImageActivityBinding = DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.post_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
-        postImageActivityViewModel = new PostImageActivityViewModel(this, postImageActivityBinding);
-        postImageActivityBinding.setViewModel(postImageActivityViewModel);
-        iRootViewModelListener = postImageActivityViewModel.getIRootViewModelListener();
-        iRootViewModelListener.onCreate();
-        iActivityStartStopListener = postImageActivityViewModel.getIActivityStartStopListener();
+        postImageActivityViewModelModel = new PostImageActivityViewModel(this, postImageActivityBinding);
+        postImageActivityBinding.setViewModel(postImageActivityViewModelModel);
+        iRootViewListener = postImageActivityViewModelModel.getIRootViewModelListener();
+        iRootViewListener.onCreate();
+        iActivityStartStopListener = postImageActivityViewModelModel.getIActivityStartStopListener();
     }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
 
     @Override
     protected void onResume() {
         super.onResume();
-        iRootViewModelListener.onResume();
+        iRootViewListener.onResume();
     }
 
     @Override
@@ -67,6 +59,6 @@ public class PostImageActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iRootViewModelListener.onDestroy();
+        iRootViewListener.onDestroy();
     }
 }

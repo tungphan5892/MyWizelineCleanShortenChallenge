@@ -1,52 +1,55 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
-import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.ImagesFromServiceAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ILoadingImageActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.PostImageActivity;
 
-import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
+
+import static com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode.START_POST_IMAGE_ACTIVITY_REQUEST_CODE;
 
 /**
  * Created by tungphan on 3/23/17.
  */
 
-public class LoadingImageActivityViewModel extends RootViewModel implements IRootViewModelListener {
+public class LoadingImageActivityViewModel extends RootViewModel implements IRootViewListener, ILoadingImageActivityListener {
     private LoadImageActivityBinding loadImageActivityBinding;
     private ImagesFromServiceAdapter imagesFromServiceAdapter;
-    private Activity activity;
-    private static String eToken;
+    private Context context;
 
-    public LoadingImageActivityViewModel(Activity activity
+    public LoadingImageActivityViewModel(Context context
             , LoadImageActivityBinding loadImageActivityBinding) {
         injectDagger(WizelineApp.getInstance().getAppComponent());
-        this.activity = activity;
+        this.context = context;
         this.loadImageActivityBinding = loadImageActivityBinding;
     }
 
-    public IRootViewModelListener getIRootViewModelListener() {
+    public IRootViewListener getIRootViewModelListener() {
+        return this;
+    }
+
+    public ILoadingImageActivityListener getLoadingImageActivityListener() {
         return this;
     }
 
     @Override
     public void onCreate() {
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -59,6 +62,11 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
     public void onResume() {
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    }
+
     private void login() {
         subscriptions.add(service.login().subscribe(new Subscriber<Login>() {
             @Override
@@ -68,18 +76,16 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TFunk", e.getMessage());
                 Snackbar.make(loadImageActivityBinding.parentView, R.string.login_fail
                         , BaseTransientBottomBar.LENGTH_LONG).show();
             }
 
             @Override
             public void onNext(Login login) {
-                Log.e("TFunk", login.toString());
                 Snackbar.make(loadImageActivityBinding.parentView, R.string.login_success
                         , BaseTransientBottomBar.LENGTH_LONG).show();
-                eToken = login.getToken();
-                getImagesFromService(eToken);
+                WizelineApp.getInstance().encryptETokenAES(login.getToken());
+                getImagesFromService(login.getToken());
             }
         }));
     }
@@ -91,7 +97,7 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
                 .toList()
                 .subscribe(data -> {
                     if (imagesFromServiceAdapter == null) {
-                        imagesFromServiceAdapter = new ImagesFromServiceAdapter(activity, data);
+                        imagesFromServiceAdapter = new ImagesFromServiceAdapter(context, data);
                         loadImageActivityBinding.loadingImageGridview.setAdapter(imagesFromServiceAdapter);
                         loadImageActivityBinding.loadingImageGridview
                                 .setOnScrollListener(imagesFromServiceAdapter.getOnScrollListener());
@@ -106,5 +112,9 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
         login();
     }
 
-
+    @Override
+    public void postImage() {
+        Intent intent = new Intent(context, PostImageActivity.class);
+        ((Activity) context).startActivityForResult(intent, START_POST_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
 }

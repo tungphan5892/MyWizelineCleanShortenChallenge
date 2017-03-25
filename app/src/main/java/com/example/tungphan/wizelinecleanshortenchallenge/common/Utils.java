@@ -8,12 +8,17 @@ import android.os.Build;
 
 public class Utils {
 
-    public static boolean isLowerThanJellyBeans() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN;
+    public static boolean isHigherThanJellyBean() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 
-    public static boolean isLowerThanLollipop() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
+    public static boolean isHigherThanJellyBeanMR2() {
+        return
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+    }
+
+    public static boolean isHigherThanKitkat() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 
     public static boolean isHigherThanMasmarlow() {

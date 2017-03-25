@@ -8,8 +8,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderBaseBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ITimelineActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.MyNavViewHeaderViewModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.TimelineActivityViewModel;
 
@@ -21,8 +20,8 @@ public class TimelineActivity extends BaseActivity {
 
     private TimelineActivityBinding timelineActivityBinding;
     private TimelineActivityViewModel timelineActivityViewModel;
-    private ITimelineActivityListener iTimelineActivityListener;
-    private ITimelineActivityListener iNavViewHeaderListener;
+    private IRootViewListener iTimelineActivityListener;
+    private IRootViewListener iNavViewHeaderListener;
     private IActivityStartStopListener iActivityStartStopListener;
     private MyNavViewHeaderViewModel myNavViewHeaderViewModel;
     private NavHeaderBaseBinding myNavHeaderBaseBinding;
@@ -43,7 +42,7 @@ public class TimelineActivity extends BaseActivity {
                 , R.layout.timeline_activity, baseActivityBinding.appBarBase.contentLayout, true);
         timelineActivityViewModel = new TimelineActivityViewModel(this, timelineActivityBinding);
         timelineActivityBinding.setViewModel(timelineActivityViewModel);
-        iTimelineActivityListener = timelineActivityViewModel.getITimelineActivityListener();
+        iTimelineActivityListener = timelineActivityViewModel.getIRootViewListener();
         iActivityStartStopListener = timelineActivityViewModel.getIActivityStartStopListener();
     }
 
@@ -52,7 +51,7 @@ public class TimelineActivity extends BaseActivity {
                 , baseActivityBinding.navView, true);
         myNavViewHeaderViewModel = new MyNavViewHeaderViewModel(this, myNavHeaderBaseBinding);
         myNavHeaderBaseBinding.setViewModel(myNavViewHeaderViewModel);
-        iNavViewHeaderListener = myNavViewHeaderViewModel.getITimelineActivityListener();
+        iNavViewHeaderListener = myNavViewHeaderViewModel.getIRootViewListener();
     }
 
     @Override

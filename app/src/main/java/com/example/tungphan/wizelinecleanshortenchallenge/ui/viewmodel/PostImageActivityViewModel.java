@@ -3,6 +3,7 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,17 +12,20 @@ import android.provider.MediaStore;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageActivityBinding;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.ImagesInfo;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewModelListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 
 import java.util.ArrayList;
+
+import rx.Subscriber;
 
 /**
  * Created by tungphan on 3/23/17.
  */
 
-public class PostImageActivityViewModel extends RootViewModel implements IRootViewModelListener, LoaderManager.LoaderCallbacks {
+public class PostImageActivityViewModel extends RootViewModel implements IRootViewListener, LoaderManager.LoaderCallbacks {
 
     private PostImageActivityBinding postImageActivityBinding;
     private GalleryImageAdapter galleryImageAdapter;
@@ -35,17 +39,45 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
         this.postImageActivityBinding = postImageActivityBinding;
     }
 
-    public IRootViewModelListener getIRootViewModelListener() {
+    public IRootViewListener getIRootViewModelListener() {
         return this;
     }
 
     @Override
     public void onCreate() {
         activity.getLoaderManager().initLoader(LoaderConstant.EXTERNAL_IMAGES_LOADER_ID, null, this);
+        rxEventBus.observable(PostImageEvent.class)
+                .subscribe(event -> postImageToServer(event.getImagePath()));
+    }
+
+    private void postImageToServer(String imagePath) {
+        subscriptions.add(service.postImageToServer(WizelineApp.getInstance().decryptETokenAES()
+                , imagePath).subscribe(new Subscriber<ImagesInfo>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(ImagesInfo imagesInfo) {
+                if(imagesInfo.getSuccess()){
+                    //post images succesfully
+                }
+            }
+        }));
     }
 
     @Override
     public void onResume() {
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 
