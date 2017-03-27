@@ -8,8 +8,10 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.ImagesInfo;
@@ -60,12 +62,17 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
 
             @Override
             public void onError(Throwable e) {
+                Log.e("TFunk", e.getMessage());
             }
 
             @Override
             public void onNext(ImagesInfo imagesInfo) {
-                if(imagesInfo.getSuccess()){
-                    //post images succesfully
+                if (imagesInfo.getSuccess()) {
+                    activity.setResult(ActivityResult.OK);
+                    activity.finish();
+                } else {
+                    activity.setResult(ActivityResult.FALSE);
+                    activity.finish();
                 }
             }
         }));

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Wizeline Clean Shorten Challenge</string>
+    <string name="tweet_challenge">Tweet Challenge</string>
+    <string name="loading_image_challenge">Loading Image Challenge</string>
     <string name="home">Home</string>
     <string name="OK">OK</string>
     <string name="YES">Yes</string>
@@ -13,6 +15,9 @@
     <string name="click_yes_to_turn_on_permission_in_setting">"Click yes to turn on Permission in Settings"</string>
     <string name="action_save">Save</string>
     <string name="action_post_image">Post Image</string>
+    <string name="post_image_successfully">Post image succesfully</string>
+    <string name="post_image_fail">Post image fail</string>
+    <string name="post_image_cancel">Cancel post image</string>
     <string name="error_data_in_response">There\'s something wrong when loading data.</string>
     <string name="error_search_in_response">There\'s something wrong when search for tweets.</string>
     <string name="error_loading_user_info">There\'s something wrong when loading user info.</string>

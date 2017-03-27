@@ -309,7 +309,7 @@ public class BaseActivityViewModel extends RootViewModel implements IBaseActivit
         } else if (context instanceof ImageDetailActivity) {
             setLoadImageToolbarItemsVisibility();//reuse new tweet toolbar and fab status
         } else if (context instanceof PostImageActivity) {
-            setNewTweetToolbarItemsVisibility();//reuse new tweet toolbar and fab status
+            setLoadImageToolbarItemsVisibility();//reuse new tweet toolbar and fab status
         }
     }
 

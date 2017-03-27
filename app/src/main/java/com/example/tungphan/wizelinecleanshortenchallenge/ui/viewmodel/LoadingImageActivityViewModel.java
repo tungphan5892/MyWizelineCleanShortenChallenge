@@ -9,9 +9,12 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode;
+import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.ImagesFromServiceAdapter;
@@ -64,7 +67,16 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        if (requestCode == ActivityRequestCode.START_NEW_TWEET_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == ActivityResult.OK) {
+                Toast.makeText(context, R.string.post_image_successfully, Toast.LENGTH_SHORT).show();
+                getImagesFromService(WizelineApp.getInstance().decryptETokenAES());
+            } else if (resultCode == ActivityResult.FALSE) {
+                Toast.makeText(context, R.string.post_image_fail, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, R.string.post_image_cancel, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void login() {
