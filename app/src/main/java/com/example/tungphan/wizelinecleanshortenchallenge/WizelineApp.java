@@ -17,6 +17,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.di.component.DaggerApp
 import com.example.tungphan.wizelinecleanshortenchallenge.di.module.EventBusModule;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.module.NetworkModule;
 import com.example.tungphan.wizelinecleanshortenchallenge.distractrabit.Crypto;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -52,7 +53,9 @@ public class WizelineApp extends Application {
                 .networkModule(new NetworkModule(this))
                 .eventBusModule(new EventBusModule())
                 .build();
-        Crypto.generateAesSecretKey(ETOKEN_KEYSTORE_ALIAS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Crypto.generateAesSecretKey(ETOKEN_KEYSTORE_ALIAS);
+        }
     }
 
     public static WizelineApp getInstance() {
@@ -93,7 +96,6 @@ public class WizelineApp extends Application {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TFunk", e.getMessage());
             }
 
             @Override
@@ -106,16 +108,7 @@ public class WizelineApp extends Application {
         });
     }
 
-    public String decryptETokenAES() {
-        final String[] eToken = new String[1];
-        Observable.fromCallable(decryptETokenLogic())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(s ->
-                        eToken[0] = s);
-        return eToken[0];
-    }
-
-    private Callable<String> decryptETokenLogic() {
+    public Callable<String> decryptETokenLogic() {
         return () -> {
             SecretKey key = Crypto.getAesSecretKey(ETOKEN_KEYSTORE_ALIAS);
             return Crypto.decryptAesCbc(loadETokenFromSharePreference(), key);

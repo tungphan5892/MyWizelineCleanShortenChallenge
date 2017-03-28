@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityReque
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.ImagesFromServiceAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ILoadingImageActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
@@ -24,6 +26,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.PostImageActiv
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityRequestCode.START_POST_IMAGE_ACTIVITY_REQUEST_CODE;
 
@@ -70,13 +73,19 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
         if (requestCode == ActivityRequestCode.START_NEW_TWEET_ACTIVITY_REQUEST_CODE) {
             if (resultCode == ActivityResult.OK) {
                 Toast.makeText(context, R.string.post_image_successfully, Toast.LENGTH_SHORT).show();
-                getImagesFromService(WizelineApp.getInstance().decryptETokenAES());
+                decryptETokenAESThenReloadImages();
             } else if (resultCode == ActivityResult.FALSE) {
                 Toast.makeText(context, R.string.post_image_fail, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, R.string.post_image_cancel, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void decryptETokenAESThenReloadImages() {
+        Observable.fromCallable(WizelineApp.getInstance().decryptETokenLogic())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::getImagesFromService);
     }
 
     private void login() {

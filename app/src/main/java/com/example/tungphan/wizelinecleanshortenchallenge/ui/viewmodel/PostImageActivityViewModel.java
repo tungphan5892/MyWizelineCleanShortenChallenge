@@ -14,8 +14,8 @@ import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.LoaderConstant;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.ImagesInfo;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.GalleryImageAdapter;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 
@@ -49,12 +49,12 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
     public void onCreate() {
         activity.getLoaderManager().initLoader(LoaderConstant.EXTERNAL_IMAGES_LOADER_ID, null, this);
         rxEventBus.observable(PostImageEvent.class)
-                .subscribe(event -> postImageToServer(event.getImagePath()));
+                .subscribe(event -> postImageToServer(event.getEToken(),event.getImagePath()));
     }
 
-    private void postImageToServer(String imagePath) {
-        subscriptions.add(service.postImageToServer(WizelineApp.getInstance().decryptETokenAES()
-                , imagePath).subscribe(new Subscriber<ImagesInfo>() {
+    private void postImageToServer(String eToken, String imagePath) {
+        subscriptions.add(service.postImageToServer(eToken
+                , imagePath).subscribe(new Subscriber<PostImageResult>() {
             @Override
             public void onCompleted() {
 
@@ -62,11 +62,10 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TFunk", e.getMessage());
             }
 
             @Override
-            public void onNext(ImagesInfo imagesInfo) {
+            public void onNext(PostImageResult imagesInfo) {
                 if (imagesInfo.getSuccess()) {
                     activity.setResult(ActivityResult.OK);
                     activity.finish();

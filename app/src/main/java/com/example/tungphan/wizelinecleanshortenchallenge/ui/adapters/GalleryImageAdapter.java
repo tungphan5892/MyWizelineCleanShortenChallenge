@@ -11,11 +11,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
+import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.eventbus.RxEventBus;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -74,8 +78,16 @@ public class GalleryImageAdapter extends BaseAdapter implements AbsListView.OnSc
                 .resize(galleryImageSize, galleryImageSize)
                 .centerCrop()
                 .into(viewHolder.image);
-        viewHolder.image.setOnClickListener(v -> rxEventBus.post(new PostImageEvent(itemPath)));
+        viewHolder.image.setOnClickListener(v -> decryptETokenAESThenPostImage(itemPath));
         return convertView;
+    }
+
+    public void decryptETokenAESThenPostImage(String imagePath) {
+        Observable.fromCallable(WizelineApp.getInstance().decryptETokenLogic())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(s ->
+                        rxEventBus.post(new PostImageEvent(s, imagePath))
+                );
     }
 
     @Override

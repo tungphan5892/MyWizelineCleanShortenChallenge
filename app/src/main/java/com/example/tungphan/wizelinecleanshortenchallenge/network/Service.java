@@ -1,7 +1,10 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.network;
 
+import android.util.Log;
+
 import com.example.tungphan.wizelinecleanshortenchallenge.model.ImagesInfo;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
@@ -77,11 +80,10 @@ public class Service {
                 .onErrorResumeNext(throwable -> Observable.error(throwable));
     }
 
-    public Observable<ImagesInfo> postImageToServer(String eToken, String filePath) {
+    public Observable<PostImageResult> postImageToServer(String eToken, String filePath) {
         File file = new File(filePath);
-        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-        return networkService.postImage(PRE_TOKEN + eToken, body)
+        RequestBody fbody = RequestBody.create(MediaType.parse("image/*"), file);
+        return networkService.postImage(PRE_TOKEN + eToken, fbody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(throwable -> Observable.error(throwable));

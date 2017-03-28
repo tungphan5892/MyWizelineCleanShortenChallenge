@@ -7,13 +7,19 @@ package com.example.tungphan.wizelinecleanshortenchallenge.model;
 public class PostImageEvent {
 
     private String imagePath;
+    private String eToken;
 
-    public PostImageEvent(String imagePath) {
+    public PostImageEvent(String eToken, String imagePath) {
+        this.eToken = eToken;
         this.imagePath = imagePath;
     }
 
     public String getImagePath(){
         return imagePath;
+    }
+
+    public String getEToken(){
+        return eToken;
     }
 
 }

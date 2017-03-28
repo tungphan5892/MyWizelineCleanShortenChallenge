@@ -3,6 +3,7 @@ package com.example.tungphan.wizelinecleanshortenchallenge.network;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.model.ImagesInfo;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
+import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Tweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.User;
@@ -49,5 +50,6 @@ public interface NetworkService {
 
     @Multipart
     @POST("/image")
-    Observable<ImagesInfo> postImage(@Header("Authorization") String eToken, @Part MultipartBody.Part image);
+//    Observable<ImagesInfo> postImage(@Header("Authorization") String eToken, @Part MultipartBody.Part image);
+    Observable<PostImageResult> postImage(@Header("Authorization") String eToken, @Part("file\"; filename=\"pp.png\" ") RequestBody file);
 }
