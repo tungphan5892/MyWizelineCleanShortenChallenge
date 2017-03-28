@@ -1,17 +1,8 @@
 package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 
-import android.Manifest;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,8 +10,8 @@ import android.view.MenuItem;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.BaseActivityViewModel;
 
 
@@ -29,13 +20,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected BaseActivityBinding baseActivityBinding;
     private BaseActivityViewModel baseActivityViewModel;
     private IBaseActivityListener iBaseActivityListener;
-    private IActivityStartStopListener iActivityStartStopListener;
+    private IRootViewListener iRootViewListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews();
-        iBaseActivityListener.onCreate();
+        iRootViewListener.onCreate();
     }
 
     private void initViews() {
@@ -44,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         baseActivityViewModel = new BaseActivityViewModel(this, baseActivityBinding);
         baseActivityBinding.setViewModel(baseActivityViewModel);
         iBaseActivityListener = baseActivityViewModel.getIBaseActivityListener();
-        iActivityStartStopListener = baseActivityViewModel.getIActivityStartStopListener();
+        iRootViewListener = baseActivityViewModel.getIRootViewListener();
     }
 
     @Override
@@ -88,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        iActivityStartStopListener.onStop();
+        iRootViewListener.onStop();
     }
 
     protected void enableShowNavDrawer() {

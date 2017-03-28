@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.PostImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.PostImageActivityViewModel;
 
@@ -17,7 +16,6 @@ public class PostImageActivity extends BaseActivity {
     private PostImageActivityBinding postImageActivityBinding;
     private PostImageActivityViewModel postImageActivityViewModelModel;
     private IRootViewListener iRootViewListener;
-    private IActivityStartStopListener iActivityStartStopListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +31,8 @@ public class PostImageActivity extends BaseActivity {
                 , R.layout.post_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
         postImageActivityViewModelModel = new PostImageActivityViewModel(this, postImageActivityBinding);
         postImageActivityBinding.setViewModel(postImageActivityViewModelModel);
-        iRootViewListener = postImageActivityViewModelModel.getIRootViewModelListener();
+        iRootViewListener = postImageActivityViewModelModel.getIRootViewListener();
         iRootViewListener.onCreate();
-        iActivityStartStopListener = postImageActivityViewModelModel.getIActivityStartStopListener();
     }
 
     @Override
@@ -47,13 +44,13 @@ public class PostImageActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        iActivityStartStopListener.onStart();
+        iRootViewListener.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        iActivityStartStopListener.onStop();
+        iRootViewListener.onStop();
     }
 
     @Override

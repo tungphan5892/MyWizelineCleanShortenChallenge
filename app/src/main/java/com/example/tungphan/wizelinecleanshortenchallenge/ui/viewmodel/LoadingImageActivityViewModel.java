@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,10 +17,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityReque
 import com.example.tungphan.wizelinecleanshortenchallenge.constant.ActivityResult;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.Login;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.ImagesFromServiceAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ILoadingImageActivityListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.PostImageActivity;
 
 import rx.Observable;
@@ -34,7 +30,7 @@ import static com.example.tungphan.wizelinecleanshortenchallenge.constant.Activi
  * Created by tungphan on 3/23/17.
  */
 
-public class LoadingImageActivityViewModel extends RootViewModel implements IRootViewListener, ILoadingImageActivityListener {
+public class LoadingImageActivityViewModel extends RootViewModel {
     private LoadImageActivityBinding loadImageActivityBinding;
     private ImagesFromServiceAdapter imagesFromServiceAdapter;
     private Context context;
@@ -44,14 +40,6 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
         injectDagger(WizelineApp.getInstance().getAppComponent());
         this.context = context;
         this.loadImageActivityBinding = loadImageActivityBinding;
-    }
-
-    public IRootViewListener getIRootViewModelListener() {
-        return this;
-    }
-
-    public ILoadingImageActivityListener getLoadingImageActivityListener() {
-        return this;
     }
 
     @Override
@@ -133,7 +121,6 @@ public class LoadingImageActivityViewModel extends RootViewModel implements IRoo
         login();
     }
 
-    @Override
     public void postImage() {
         Intent intent = new Intent(context, PostImageActivity.class);
         ((Activity) context).startActivityForResult(intent, START_POST_IMAGE_ACTIVITY_REQUEST_CODE);

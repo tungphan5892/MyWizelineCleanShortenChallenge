@@ -41,10 +41,6 @@ public class PostImageActivityViewModel extends RootViewModel implements IRootVi
         this.postImageActivityBinding = postImageActivityBinding;
     }
 
-    public IRootViewListener getIRootViewModelListener() {
-        return this;
-    }
-
     @Override
     public void onCreate() {
         activity.getLoaderManager().initLoader(LoaderConstant.EXTERNAL_IMAGES_LOADER_ID, null, this);

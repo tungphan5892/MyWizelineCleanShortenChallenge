@@ -17,7 +17,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.NewTweetA
 public class NewTweetActivity extends BaseActivity {
     private NewTweetActivityBinding newTweetActivityBinding;
     private NewTweetActivityViewModel newTweetViewModel;
-    private IRootViewListener iActivityListener;
+    private IRootViewListener iRootViewListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +33,19 @@ public class NewTweetActivity extends BaseActivity {
                 , R.layout.new_tweet_activity, baseActivityBinding.appBarBase.contentLayout, true);
         newTweetViewModel = new NewTweetActivityViewModel(this, newTweetActivityBinding);
         newTweetActivityBinding.setViewModel(newTweetViewModel);
-        iActivityListener = newTweetViewModel.getIActitivyListener();
-        iActivityListener.onCreate();
+        iRootViewListener = newTweetViewModel.getIRootViewListener();
+        iRootViewListener.onCreate();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iActivityListener.onDestroy();
+        iRootViewListener.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        iActivityListener.onResume();
+        iRootViewListener.onResume();
     }
 }

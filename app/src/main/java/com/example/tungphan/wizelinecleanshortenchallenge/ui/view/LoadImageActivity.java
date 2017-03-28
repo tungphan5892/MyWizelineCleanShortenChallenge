@@ -8,8 +8,6 @@ import android.view.MenuItem;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.LoadImageActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ILoadingImageActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.LoadingImageActivityViewModel;
 
@@ -21,8 +19,6 @@ public class LoadImageActivity extends BaseActivity {
     private LoadImageActivityBinding loadImageActivityBinding;
     private LoadingImageActivityViewModel loadingImageActivityViewModel;
     private IRootViewListener iRootViewListener;
-    private ILoadingImageActivityListener iLoadingImageActivityListener;
-    private IActivityStartStopListener iActivityStartStopListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +34,8 @@ public class LoadImageActivity extends BaseActivity {
                 , R.layout.load_image_activity, baseActivityBinding.appBarBase.contentLayout, true);
         loadingImageActivityViewModel = new LoadingImageActivityViewModel(this, loadImageActivityBinding);
         loadImageActivityBinding.setViewModel(loadingImageActivityViewModel);
-        iRootViewListener = loadingImageActivityViewModel.getIRootViewModelListener();
+        iRootViewListener = loadingImageActivityViewModel.getIRootViewListener();
         iRootViewListener.onCreate();
-        iActivityStartStopListener = loadingImageActivityViewModel.getIActivityStartStopListener();
-        iLoadingImageActivityListener = loadingImageActivityViewModel.getLoadingImageActivityListener();
     }
 
     @Override
@@ -68,7 +62,7 @@ public class LoadImageActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        iActivityStartStopListener.onStart();
+        iRootViewListener.onStart();
     }
 
     @Override

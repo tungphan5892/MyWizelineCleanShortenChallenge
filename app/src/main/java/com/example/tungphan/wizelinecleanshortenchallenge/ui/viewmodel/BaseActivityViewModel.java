@@ -38,6 +38,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.databinding.BaseActivi
 import com.example.tungphan.wizelinecleanshortenchallenge.model.FinishLoadingUserInfoEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IBaseActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.ImageDetailActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.LoadImageActivity;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.view.NewTweetActivity;
@@ -59,7 +60,7 @@ import static com.example.tungphan.wizelinecleanshortenchallenge.constant.PrefCo
  * Created by tungphan on 3/17/17.
  */
 
-public class BaseActivityViewModel extends RootViewModel implements IBaseActivityListener,
+public class BaseActivityViewModel extends RootViewModel implements IRootViewListener,IBaseActivityListener,
         NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = BaseActivityViewModel.class.getSimpleName();
     private final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
@@ -111,6 +112,10 @@ public class BaseActivityViewModel extends RootViewModel implements IBaseActivit
     };
 
     public IBaseActivityListener getIBaseActivityListener() {
+        return this;
+    }
+
+    public IRootViewListener getIRootViewListener() {
         return this;
     }
 
@@ -289,9 +294,24 @@ public class BaseActivityViewModel extends RootViewModel implements IBaseActivit
     }
 
     @Override
+    public void onResume() {
+
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         savePrefs();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
     }
 
     @Override

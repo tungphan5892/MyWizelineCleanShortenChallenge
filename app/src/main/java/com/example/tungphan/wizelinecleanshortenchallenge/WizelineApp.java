@@ -6,26 +6,14 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.security.keystore.KeyProperties;
-import android.security.keystore.KeyProtection;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
-import com.example.tungphan.wizelinecleanshortenchallenge.common.Utils;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.component.DaggerAppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.module.EventBusModule;
 import com.example.tungphan.wizelinecleanshortenchallenge.di.module.NetworkModule;
 import com.example.tungphan.wizelinecleanshortenchallenge.distractrabit.Crypto;
-import com.example.tungphan.wizelinecleanshortenchallenge.model.PostImageEvent;
 
-import java.io.IOException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableEntryException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
 import java.util.concurrent.Callable;
 
 import javax.crypto.SecretKey;

@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 
 public interface IBaseActivityListener {
 
-    void onCreate();
-
     void onPrepareOptionsMenu();
 
     void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.NavHeaderBaseBinding;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.TimelineActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.MyNavViewHeaderViewModel;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.TimelineActivityViewModel;
@@ -22,7 +21,6 @@ public class TimelineActivity extends BaseActivity {
     private TimelineActivityViewModel timelineActivityViewModel;
     private IRootViewListener iTimelineActivityListener;
     private IRootViewListener iNavViewHeaderListener;
-    private IActivityStartStopListener iActivityStartStopListener;
     private MyNavViewHeaderViewModel myNavViewHeaderViewModel;
     private NavHeaderBaseBinding myNavHeaderBaseBinding;
 
@@ -43,7 +41,6 @@ public class TimelineActivity extends BaseActivity {
         timelineActivityViewModel = new TimelineActivityViewModel(this, timelineActivityBinding);
         timelineActivityBinding.setViewModel(timelineActivityViewModel);
         iTimelineActivityListener = timelineActivityViewModel.getIRootViewListener();
-        iActivityStartStopListener = timelineActivityViewModel.getIActivityStartStopListener();
     }
 
     private void initHeaderViews() {
@@ -63,7 +60,7 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        iActivityStartStopListener.onStart();
+        iTimelineActivityListener.onStart();
     }
 
     @Override
@@ -74,7 +71,7 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        iActivityStartStopListener.onStop();
+        iTimelineActivityListener.onStop();
     }
 
     @Override

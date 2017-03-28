@@ -2,11 +2,10 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.Menu;
 
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SearchActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISearchActivityListener;
+import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IRootViewListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.SearchActivityViewModel;
 
 
@@ -17,7 +16,7 @@ import com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel.SearchAct
 public class SearchActivity extends BaseActivity {
     private SearchActivityBinding searchActivityBinding;
     private SearchActivityViewModel searchActivityViewModel;
-    private ISearchActivityListener iSearchActivityListener;
+    private IRootViewListener iRootViewListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +32,12 @@ public class SearchActivity extends BaseActivity {
                 , R.layout.search_activity, baseActivityBinding.appBarBase.contentLayout, true);
         searchActivityViewModel = new SearchActivityViewModel(this, searchActivityBinding);
         searchActivityBinding.setViewModel(searchActivityViewModel);
-        iSearchActivityListener = searchActivityViewModel.getISearchTweetViewModel();
+        iRootViewListener = searchActivityViewModel.getIRootViewListener();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        iSearchActivityListener.onDestroy();
+        iRootViewListener.onDestroy();
     }
 }

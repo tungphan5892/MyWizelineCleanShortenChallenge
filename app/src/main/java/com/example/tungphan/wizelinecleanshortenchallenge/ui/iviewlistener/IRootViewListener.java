@@ -10,7 +10,11 @@ public interface IRootViewListener {
 
     void onCreate();
 
+    void onStart();
+
     void onResume();
+
+    void onStop();
 
     void onActivityResult(int requestCode, int resultCode, Intent data);
 

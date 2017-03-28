@@ -56,10 +56,6 @@ public class NewTweetActivityViewModel extends RootViewModel implements IRootVie
         this.newTweetActivityBinding = newTweetActivityBinding;
     }
 
-    public IRootViewListener getIActitivyListener() {
-        return this;
-    }
-
     public void setTweetCount(int tweetCount) {
         newTweetActivityModel.setTweetCount(tweetCount);
         notifyPropertyChanged(BR.tweetCount);

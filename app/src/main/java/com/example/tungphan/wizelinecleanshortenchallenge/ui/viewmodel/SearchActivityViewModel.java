@@ -2,7 +2,6 @@ package com.example.tungphan.wizelinecleanshortenchallenge.ui.viewmodel;
 
 
 import android.content.Context;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,28 +11,20 @@ import com.example.tungphan.wizelinecleanshortenchallenge.BR;
 import com.example.tungphan.wizelinecleanshortenchallenge.R;
 import com.example.tungphan.wizelinecleanshortenchallenge.WizelineApp;
 import com.example.tungphan.wizelinecleanshortenchallenge.databinding.SearchActivityBinding;
-import com.example.tungphan.wizelinecleanshortenchallenge.di.component.AppComponent;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.SearchTweet;
 import com.example.tungphan.wizelinecleanshortenchallenge.model.StartSearchTweetEvent;
-import com.example.tungphan.wizelinecleanshortenchallenge.network.Service;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.adapters.SearchTweetRecyclerAdapter;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.IActivityStartStopListener;
-import com.example.tungphan.wizelinecleanshortenchallenge.ui.iviewlistener.ISearchActivityListener;
 import com.example.tungphan.wizelinecleanshortenchallenge.ui.model.SearchActivityModel;
 
 
-import javax.inject.Inject;
-
 import rx.Subscriber;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 
 /**
  * Created by tungphan on 3/9/17.
  */
 
-public class SearchActivityViewModel extends RootViewModel implements ISearchActivityListener {
+public class SearchActivityViewModel extends RootViewModel {
 
     private Context context;
     private SearchActivityBinding searchActivityBinding;
@@ -46,10 +37,6 @@ public class SearchActivityViewModel extends RootViewModel implements ISearchAct
         injectDagger(WizelineApp.getInstance().getAppComponent());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         searchActivityBinding.searchTweetRecyclerView.setLayoutManager(mLayoutManager);
-    }
-
-    public ISearchActivityListener getISearchTweetViewModel() {
-        return this;
     }
 
     @Override
